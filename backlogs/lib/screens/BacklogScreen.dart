@@ -29,9 +29,7 @@ class _BacklogScreenState extends State<BacklogScreen> {
             sliver: SliverList(
               delegate: SliverChildBuilderDelegate(
                 (context, index) {
-                  for (var item in items) {
-                    _buildTaskRow(item);
-                  }
+                  return _buildTaskRow(items[index]);
                 },
                 childCount: items.length,
               ),
