@@ -8,11 +8,14 @@ class BacklogScreen extends StatefulWidget {
 }
 
 class _BacklogScreenState extends State<BacklogScreen> {
-  var items = <Item>[
-    Item('first item', true),
-    Item('second item', true),
-    Item('third item', true),
-  ];
+  var items = <Item>[];
+  final _controller = TextEditingController();
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,17 +73,67 @@ class _BacklogScreenState extends State<BacklogScreen> {
     showModalBottomSheet(
       context: context,
       builder: (context) {
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            ListTile(
-              title: Text('Test tile'),
-              onTap: () {
-                _createTask("createTaskMock");
-                Navigator.pop(context);
-              },
-            ),
-          ],
+        return SizedBox(
+          height: 256.0,
+          child: Column(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      child: Text(
+                        'New task',
+                        style: TextStyle(
+                          fontSize: 22.0,
+                        ),
+                      ),
+                      margin: const EdgeInsets.only(
+                        top: 8.0,
+                        bottom: 8.0,
+                      ),
+                    ),
+                    TextField(
+                      decoration: InputDecoration(
+                        hintText: 'What are you planning?',
+                        border: InputBorder.none,
+                      ),
+                      controller: _controller,
+                      maxLines: 2,
+                    ),
+                    Divider(),
+                    Row(
+                      children: <Widget>[
+                        Icon(Icons.timer),
+                        Text('May 29, 14:00'),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                width: double.infinity,
+                height: 48.0,
+                child: FlatButton(
+                  color: ColorsLibrary.primaryColor,
+                  textColor: Colors.white,
+                  disabledColor: Colors.grey,
+                  disabledTextColor: Colors.black,
+                  child: Text(
+                    'Create task',
+                    style: TextStyle(
+                      fontSize: 18.0,
+                    ),
+                  ),
+                  onPressed: () {
+                    _createTask(_controller.text);
+                    _controller.clear();
+                    Navigator.pop(context);
+                  },
+                ),
+              )
+            ],
+          ),
         );
       },
     );
@@ -88,7 +141,9 @@ class _BacklogScreenState extends State<BacklogScreen> {
 
   void _createTask(String text) {
     setState(() {
-      items.add(Item(text, false));
+      items.add(
+        Item(text, false),
+      );
     });
   }
 }
