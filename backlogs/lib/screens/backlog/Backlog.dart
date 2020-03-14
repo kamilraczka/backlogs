@@ -1,13 +1,14 @@
-import 'package:backlogs/models/Item.dart';
+import 'package:backlogs/screens/backlog/widgets/Task.dart';
 import 'package:backlogs/utilities/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:backlogs/models/Item.dart';
 
-class BacklogScreen extends StatefulWidget {
+class Backlog extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => _BacklogScreenState();
+  State<StatefulWidget> createState() => _BacklogState();
 }
 
-class _BacklogScreenState extends State<BacklogScreen> {
+class _BacklogState extends State<Backlog> {
   var items = <Item>[];
   final _controller = TextEditingController();
 
@@ -32,7 +33,10 @@ class _BacklogScreenState extends State<BacklogScreen> {
             sliver: SliverList(
               delegate: SliverChildBuilderDelegate(
                 (context, index) {
-                  return _buildTaskRow(items[index]);
+                  return Task(
+                    holdedItem: items[index],
+                    onCheckboxChanged: null,
+                  );
                 },
                 childCount: items.length,
               ),
@@ -41,30 +45,11 @@ class _BacklogScreenState extends State<BacklogScreen> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => _onFabPressed(),
+        onPressed: _onFabPressed,
         backgroundColor: ColorsLibrary.primaryColor,
         child: Icon(
           Icons.add,
         ),
-      ),
-    );
-  }
-
-  Widget _buildTaskRow(Item item) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Row(
-        children: <Widget>[
-          Expanded(
-            child: Text(
-              item.description,
-            ),
-          ),
-          Checkbox(
-            value: item.isDone,
-            onChanged: null,
-          )
-        ],
       ),
     );
   }

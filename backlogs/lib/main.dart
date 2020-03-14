@@ -1,4 +1,4 @@
-import 'package:backlogs/screens/BacklogScreen.dart';
+import 'package:backlogs/screens/backlog/Backlog.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
@@ -8,7 +8,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Backlogs Application',
-      home: BacklogScreen(),
+      home: Backlog(),
     );
   }
 }
