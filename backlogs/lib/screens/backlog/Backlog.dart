@@ -1,4 +1,5 @@
 import 'package:backlogs/screens/backlog/widgets/Task.dart';
+import 'package:backlogs/screens/creation/Creation.dart';
 import 'package:backlogs/utilities/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:backlogs/models/Item.dart';
@@ -9,14 +10,7 @@ class Backlog extends StatefulWidget {
 }
 
 class _BacklogState extends State<Backlog> {
-  var items = <Item>[];
-  final _controller = TextEditingController();
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
+  List<Item> _items = <Item>[];
 
   @override
   Widget build(BuildContext context) {
@@ -34,11 +28,11 @@ class _BacklogState extends State<Backlog> {
               delegate: SliverChildBuilderDelegate(
                 (context, index) {
                   return Task(
-                    holdedItem: items[index],
+                    holdedItem: _items[index],
                     onCheckboxChanged: null,
                   );
                 },
-                childCount: items.length,
+                childCount: _items.length,
               ),
             ),
           ),
@@ -55,78 +49,22 @@ class _BacklogState extends State<Backlog> {
   }
 
   void _onFabPressed() {
-    showModalBottomSheet(
-      context: context,
-      builder: (context) {
-        return SizedBox(
-          height: 256.0,
-          child: Column(
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      child: Text(
-                        'New task',
-                        style: TextStyle(
-                          fontSize: 22.0,
-                        ),
-                      ),
-                      margin: const EdgeInsets.only(
-                        top: 8.0,
-                        bottom: 8.0,
-                      ),
-                    ),
-                    TextField(
-                      decoration: InputDecoration(
-                        hintText: 'What are you planning?',
-                        border: InputBorder.none,
-                      ),
-                      controller: _controller,
-                      maxLines: 2,
-                    ),
-                    Divider(),
-                    Row(
-                      children: <Widget>[
-                        Icon(Icons.timer),
-                        Text('May 29, 14:00'),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                width: double.infinity,
-                height: 48.0,
-                child: FlatButton(
-                  color: ColorsLibrary.primaryColor,
-                  textColor: Colors.white,
-                  disabledColor: Colors.grey,
-                  disabledTextColor: Colors.black,
-                  child: Text(
-                    'Create task',
-                    style: TextStyle(
-                      fontSize: 18.0,
-                    ),
-                  ),
-                  onPressed: () {
-                    _createTask(_controller.text);
-                    _controller.clear();
-                    Navigator.pop(context);
-                  },
-                ),
-              )
-            ],
-          ),
-        );
-      },
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (BuildContext context) {
+          return Creation(
+            onCreatePressed: _createTask,
+          );
+        },
+        fullscreenDialog: true,
+      ),
     );
   }
 
   void _createTask(String text) {
     setState(() {
-      items.add(
+      _items.add(
         Item(text, false),
       );
     });
