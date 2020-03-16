@@ -1,6 +1,7 @@
 import 'package:backlogs/screens/backlog/widgets/Task.dart';
 import 'package:backlogs/screens/creation/Creation.dart';
-import 'package:backlogs/utilities/colors.dart';
+import 'package:backlogs/utilities/ColorsLibrary.dart';
+import 'package:backlogs/utilities/ScreenArguments.dart';
 import 'package:flutter/material.dart';
 import 'package:backlogs/models/Item.dart';
 
@@ -49,16 +50,10 @@ class _BacklogState extends State<Backlog> {
   }
 
   void _onFabPressed() {
-    Navigator.push(
+    Navigator.pushNamed(
       context,
-      MaterialPageRoute(
-        builder: (BuildContext context) {
-          return Creation(
-            onCreatePressed: _createTask,
-          );
-        },
-        fullscreenDialog: true,
-      ),
+      '/creation',
+      arguments: ScreenArguemnts(_createTask),
     );
   }
 

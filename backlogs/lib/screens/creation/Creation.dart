@@ -1,4 +1,4 @@
-import 'package:backlogs/utilities/colors.dart';
+import 'package:backlogs/utilities/ColorsLibrary.dart';
 import 'package:flutter/material.dart';
 
 class Creation extends StatelessWidget {
@@ -39,7 +39,7 @@ class Creation extends StatelessWidget {
                       border: InputBorder.none,
                     ),
                     controller: controller,
-                    maxLines: 2,
+                    maxLines: 3,
                   ),
                   Divider(),
                   Row(
