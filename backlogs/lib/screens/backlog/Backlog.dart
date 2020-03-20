@@ -1,8 +1,10 @@
+import 'package:backlogs/blocs/items_bloc.dart';
 import 'package:backlogs/screens/backlog/widgets/task.dart';
 import 'package:backlogs/utilities/colors_library.dart';
 import 'package:backlogs/utilities/screen_arguments.dart';
 import 'package:flutter/material.dart';
 import 'package:backlogs/models/item.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class BacklogScreen extends StatefulWidget {
   @override
@@ -10,33 +12,37 @@ class BacklogScreen extends StatefulWidget {
 }
 
 class _BacklogScreenState extends State<BacklogScreen> {
-  List<Item> _items = <Item>[];
-
   @override
   Widget build(BuildContext context) {
+    final ItemsBloc itemsBloc = BlocProvider.of<ItemsBloc>(context);
+
     return Scaffold(
-      body: CustomScrollView(
-        slivers: <Widget>[
-          SliverAppBar(
-            expandedHeight: 196.0,
-            title: Text('All tasks'),
-            backgroundColor: ColorsLibrary.primaryColor,
-          ),
-          SliverPadding(
-            padding: const EdgeInsets.all(24.0),
-            sliver: SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (context, index) {
-                  return Task(
-                    holdedItem: _items[index],
-                    onCheckboxChanged: null,
-                  );
-                },
-                childCount: _items.length,
+      body: BlocBuilder<ItemsBloc, ItemsState>(
+        builder: (context, state) {
+          return CustomScrollView(
+            slivers: <Widget>[
+              SliverAppBar(
+                expandedHeight: 196.0,
+                title: Text('All tasks'),
+                backgroundColor: ColorsLibrary.primaryColor,
               ),
-            ),
-          ),
-        ],
+              SliverPadding(
+                padding: const EdgeInsets.all(24.0),
+                sliver: SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (context, index) {
+                      return Task(
+                        holdedItem: _items[index],
+                        onCheckboxChanged: null,
+                      );
+                    },
+                    childCount: _items.length,
+                  ),
+                ),
+              ),
+            ],
+          );
+        },
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _onFabPressed,
@@ -58,9 +64,10 @@ class _BacklogScreenState extends State<BacklogScreen> {
 
   void _createTask(String text) {
     setState(() {
-      _items.add(
-        Item(text, false),
-      );
+      _items.add(Item(
+        id: 0,
+        description: text,
+      ));
     });
   }
 }
