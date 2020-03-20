@@ -4,6 +4,10 @@ abstract class ItemsState {
   const ItemsState();
 }
 
+class ItemsInitial extends ItemsState {
+  const ItemsInitial();
+}
+
 class ItemsReceived extends ItemsState {
   final List<Item> items;
 

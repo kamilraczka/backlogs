@@ -9,7 +9,7 @@ class ItemsBloc extends Bloc<ItemsEvent, ItemsState> {
   ItemsBloc(this.repository);
 
   @override
-  ItemsState get initialState => null;
+  ItemsState get initialState => ItemsInitial();
 
   @override
   Stream<ItemsState> mapEventToState(ItemsEvent event) async* {

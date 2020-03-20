@@ -8,6 +8,6 @@ class Item {
   Item({
     @required this.id,
     @required this.description,
-    this.isDone,
+    this.isDone = false,
   });
 }
