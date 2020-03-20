@@ -1,16 +1,15 @@
-import 'package:backlogs/screens/backlog/widgets/Task.dart';
-import 'package:backlogs/screens/creation/Creation.dart';
-import 'package:backlogs/utilities/ColorsLibrary.dart';
-import 'package:backlogs/utilities/ScreenArguments.dart';
+import 'package:backlogs/screens/backlog/widgets/task.dart';
+import 'package:backlogs/utilities/colors_library.dart';
+import 'package:backlogs/utilities/screen_arguments.dart';
 import 'package:flutter/material.dart';
-import 'package:backlogs/models/Item.dart';
+import 'package:backlogs/models/item.dart';
 
-class Backlog extends StatefulWidget {
+class BacklogScreen extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => _BacklogState();
+  State<StatefulWidget> createState() => _BacklogScreenState();
 }
 
-class _BacklogState extends State<Backlog> {
+class _BacklogScreenState extends State<BacklogScreen> {
   List<Item> _items = <Item>[];
 
   @override

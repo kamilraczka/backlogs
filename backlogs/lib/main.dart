@@ -1,6 +1,6 @@
-import 'package:backlogs/screens/backlog/Backlog.dart';
-import 'package:backlogs/utilities/ScreenArguments.dart';
-import 'package:backlogs/screens/creation/Creation.dart';
+import 'package:backlogs/screens/backlog/backlog.dart';
+import 'package:backlogs/screens/creation/creation.dart';
+import 'package:backlogs/utilities/screen_arguments.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
 
           return MaterialPageRoute(
             builder: (context) {
-              return Creation(
+              return CreationScreen(
                 onCreatePressed: args.function,
               );
             },
@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
       },
       initialRoute: '/',
       routes: {
-        '/': (context) => Backlog(),
+        '/': (context) => BacklogScreen(),
       },
     );
   }

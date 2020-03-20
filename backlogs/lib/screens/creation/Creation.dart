@@ -1,8 +1,8 @@
-import 'package:backlogs/utilities/ColorsLibrary.dart';
+import 'package:backlogs/utilities/colors_library.dart';
 import 'package:flutter/material.dart';
 
-class Creation extends StatelessWidget {
-  Creation({@required this.onCreatePressed});
+class CreationScreen extends StatelessWidget {
+  CreationScreen({@required this.onCreatePressed});
 
   final controller = TextEditingController();
   final Function(String description) onCreatePressed;

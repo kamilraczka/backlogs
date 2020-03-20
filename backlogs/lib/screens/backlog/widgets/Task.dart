@@ -1,4 +1,4 @@
-import 'package:backlogs/models/Item.dart';
+import 'package:backlogs/models/item.dart';
 import 'package:flutter/material.dart';
 
 class Task extends StatelessWidget {
