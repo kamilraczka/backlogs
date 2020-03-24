@@ -9,12 +9,16 @@ class ItemsBloc extends Bloc<ItemsEvent, ItemsState> {
   ItemsBloc(this.repository);
 
   @override
-  ItemsState get initialState => ItemsInitial();
+  ItemsState get initialState => ItemsLoading();
 
   @override
   Stream<ItemsState> mapEventToState(ItemsEvent event) async* {
     if (event is ItemsGetAll) {
       final items = await repository.fetchItems(event.backlogId);
+      yield ItemsReceived(items);
+    } else if (event is ItemsAddItem) {
+      repository.addItem(event.item);
+      final items = await repository.fetchItems(1);
       yield ItemsReceived(items);
     }
   }

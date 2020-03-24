@@ -4,8 +4,8 @@ abstract class ItemsState {
   const ItemsState();
 }
 
-class ItemsInitial extends ItemsState {
-  const ItemsInitial();
+class ItemsLoading extends ItemsState {
+  const ItemsLoading();
 }
 
 class ItemsReceived extends ItemsState {
