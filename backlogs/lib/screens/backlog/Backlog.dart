@@ -26,7 +26,7 @@ class _BacklogScreenState extends State<BacklogScreen> {
       body: BlocBuilder<TaskBloc, TaskState>(
         builder: (context, state) {
           if (state is TaskReceivedAll) {
-            return _buildList(state.tasks);
+            return _buildList(state.tasks, state.tasks.length.toString());
           } else {
             return _buildLoading();
           }
@@ -48,12 +48,39 @@ class _BacklogScreenState extends State<BacklogScreen> {
     );
   }
 
-  CustomScrollView _buildList(List<Task> tasks) {
+  CustomScrollView _buildList(List<Task> tasks, String amount) {
     return CustomScrollView(
       slivers: <Widget>[
         SliverAppBar(
           expandedHeight: 196.0,
-          title: Text('All tasks'),
+          flexibleSpace: FlexibleSpaceBar(
+            centerTitle: false,
+            title: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Icon(
+                  Icons.event_note,
+                  color: Colors.white,
+                ),
+                SizedBox(
+                  height: 4.0,
+                ),
+                Text(
+                  'All',
+                  style: TextStyle(fontSize: 22.0),
+                ),
+                Text(
+                  '$amount tasks',
+                  style: TextStyle(
+                    color: Colors.white70,
+                    fontSize: 14.0,
+                  ),
+                ),
+              ],
+            ),
+          ),
           backgroundColor: ColorsLibrary.primaryColor,
         ),
         SliverPadding(
