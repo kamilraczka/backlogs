@@ -1,11 +1,10 @@
-import 'package:backlogs/models/item.dart';
+import 'package:backlogs/models/task.dart';
 import 'package:flutter/material.dart';
 
-class Task extends StatelessWidget {
-  Task({this.holdedItem, this.onCheckboxChanged})
-      : super(key: ObjectKey(holdedItem));
+class BacklogRow extends StatelessWidget {
+  BacklogRow({this.task, this.onCheckboxChanged}) : super(key: ObjectKey(task));
 
-  final Item holdedItem;
+  final Task task;
   final Function(bool) onCheckboxChanged;
 
   @override
@@ -16,11 +15,11 @@ class Task extends StatelessWidget {
         children: <Widget>[
           Expanded(
             child: Text(
-              holdedItem.description,
+              task.description,
             ),
           ),
           Checkbox(
-            value: holdedItem.isDone,
+            value: task.isDone,
             onChanged: onCheckboxChanged,
           )
         ],

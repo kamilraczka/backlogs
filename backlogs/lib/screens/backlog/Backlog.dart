@@ -1,8 +1,8 @@
-import 'package:backlogs/blocs/items_bloc.dart';
-import 'package:backlogs/blocs/items_event.dart';
-import 'package:backlogs/blocs/items_state.dart';
-import 'package:backlogs/models/item.dart';
-import 'package:backlogs/screens/backlog/widgets/task.dart';
+import 'package:backlogs/blocs/task/task_bloc.dart';
+import 'package:backlogs/blocs/task/task_event.dart';
+import 'package:backlogs/blocs/task/task_state.dart';
+import 'package:backlogs/models/task.dart';
+import 'package:backlogs/screens/backlog/widgets/backlog_row.dart';
 import 'package:backlogs/screens/creation/creation_edit.dart';
 import 'package:backlogs/utilities/colors_library.dart';
 import 'package:flutter/material.dart';
@@ -17,16 +17,16 @@ class _BacklogScreenState extends State<BacklogScreen> {
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<ItemsBloc>(context).add(ItemsGetAll(backlogId: 1));
+    BlocProvider.of<TaskBloc>(context).add(TaskGetAll(backlogId: 1));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocBuilder<ItemsBloc, ItemsState>(
+      body: BlocBuilder<TaskBloc, TaskState>(
         builder: (context, state) {
-          if (state is ItemsReceived) {
-            return _buildList(state.items);
+          if (state is TaskReceivedAll) {
+            return _buildList(state.tasks);
           } else {
             return _buildLoading();
           }
@@ -48,7 +48,7 @@ class _BacklogScreenState extends State<BacklogScreen> {
     );
   }
 
-  CustomScrollView _buildList(List<Item> items) {
+  CustomScrollView _buildList(List<Task> tasks) {
     return CustomScrollView(
       slivers: <Widget>[
         SliverAppBar(
@@ -61,12 +61,12 @@ class _BacklogScreenState extends State<BacklogScreen> {
           sliver: SliverList(
             delegate: SliverChildBuilderDelegate(
               (context, index) {
-                return Task(
-                  holdedItem: items[index],
+                return BacklogRow(
+                  task: tasks[index],
                   onCheckboxChanged: null,
                 );
               },
-              childCount: items.length,
+              childCount: tasks.length,
             ),
           ),
         ),
@@ -89,8 +89,7 @@ class _BacklogScreenState extends State<BacklogScreen> {
   }
 
   void _createTask(String text) {
-    final itemsBloc = BlocProvider.of<ItemsBloc>(context);
-    final item = Item(id: 0, description: text);
-    itemsBloc.add(ItemsAddItem(item: item));
+    final task = Task(id: 0, backlogId: 1, description: text);
+    BlocProvider.of<TaskBloc>(context).add(TaskAddOne(task: task));
   }
 }

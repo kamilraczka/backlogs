@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 
-class Item {
+class Task {
   int id;
+  int backlogId;
   String description;
   bool isDone;
 
-  Item({
+  Task({
     @required this.id,
+    @required this.backlogId,
     @required this.description,
     this.isDone = false,
   });
