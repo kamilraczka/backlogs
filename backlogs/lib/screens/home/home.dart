@@ -1,4 +1,6 @@
+import 'package:backlogs/models/backlog.dart';
 import 'package:backlogs/routes.dart';
+import 'package:backlogs/screens/home/widgets/tile.dart';
 import 'package:backlogs/utilities/colors_library.dart';
 import 'package:flutter/material.dart';
 import 'package:backlogs/extensions/routes_extension.dart';
@@ -35,28 +37,24 @@ class HomeScreenState extends State<HomeScreen> {
       ),
       body: GridView.count(
         crossAxisCount: 2,
-        crossAxisSpacing: 10,
-        mainAxisSpacing: 10,
+        crossAxisSpacing: 16,
+        mainAxisSpacing: 16,
+        padding: const EdgeInsets.all(16),
         children: <Widget>[
-          Container(
-            padding: const EdgeInsets.all(8),
-            child: const Text('Mocked data'),
-            color: Colors.teal[50],
+          Tile(
+            backlog: Backlog(id: 0, icon: Icons.wallpaper, title: 'All'),
           ),
-          Container(
-            padding: const EdgeInsets.all(8),
-            child: const Text('Mocked data'),
-            color: Colors.teal[100],
+          Tile(
+            backlog: Backlog(id: 0, icon: Icons.wallpaper, title: 'All'),
           ),
-          Container(
-            padding: const EdgeInsets.all(8),
-            child: const Text('Mocked data'),
-            color: Colors.teal[200],
+          Tile(
+            backlog: Backlog(id: 0, icon: Icons.wallpaper, title: 'All'),
           ),
-          Container(
-            padding: const EdgeInsets.all(8),
-            child: const Text('Mocked data'),
-            color: Colors.teal[300],
+          Tile(
+            backlog: Backlog(id: 0, icon: Icons.wallpaper, title: 'All'),
+          ),
+          Tile(
+            backlog: Backlog(id: 0, icon: Icons.wallpaper, title: 'All'),
           ),
         ],
       ),
