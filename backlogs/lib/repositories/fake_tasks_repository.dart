@@ -1,8 +1,13 @@
 import 'package:backlogs/models/task.dart';
-import 'package:backlogs/repositories/tasks_repository.dart';
+import 'contracts/tasks_repository.dart';
 
 class FakeTasksRepository implements TasksRepository {
-  var _tasks = List<Task>();
+  FakeTasksRepository() {
+    _tasks = List<Task>();
+  }
+
+  List<Task> _tasks;
+
   @override
   Future<List<Task>> fetchItems(int backlogId) {
     return Future.delayed(
