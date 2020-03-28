@@ -35,7 +35,7 @@ class Tile extends StatelessWidget {
           Text(
             '23 Tasks',
             style: TextStyle(
-              color: ColorsLibrary.textColorMedium,
+              color: ColorsLibrary.textColorLight,
               fontSize: 18.0,
             ),
           ),
@@ -46,7 +46,7 @@ class Tile extends StatelessWidget {
         boxShadow: <BoxShadow>[
           BoxShadow(
             color: ColorsLibrary.shadowColors,
-            blurRadius: 16.0,
+            blurRadius: 12.0,
             spreadRadius: 4.0,
           )
         ],

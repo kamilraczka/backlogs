@@ -34,7 +34,7 @@ class _BacklogScreenState extends State<BacklogScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _onFabPressed,
-        backgroundColor: ColorsLibrary.primaryColor,
+        backgroundColor: ColorsLibrary.accentColor0,
         child: Icon(
           Icons.add,
         ),
@@ -81,7 +81,7 @@ class _BacklogScreenState extends State<BacklogScreen> {
               ],
             ),
           ),
-          backgroundColor: ColorsLibrary.primaryColor,
+          backgroundColor: ColorsLibrary.accentColor0,
         ),
         SliverPadding(
           padding: const EdgeInsets.all(24.0),

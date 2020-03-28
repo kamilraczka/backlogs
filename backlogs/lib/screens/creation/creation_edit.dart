@@ -55,7 +55,7 @@ class CreationEditScreen extends StatelessWidget {
               width: double.infinity,
               height: 48.0,
               child: FlatButton(
-                color: ColorsLibrary.primaryColor,
+                color: ColorsLibrary.accentColor0,
                 textColor: Colors.white,
                 disabledColor: Colors.grey,
                 disabledTextColor: Colors.black,
