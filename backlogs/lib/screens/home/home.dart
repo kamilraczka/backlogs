@@ -42,19 +42,24 @@ class HomeScreenState extends State<HomeScreen> {
         padding: const EdgeInsets.all(16),
         children: <Widget>[
           Tile(
-            backlog: Backlog(id: 0, icon: Icons.wallpaper, title: 'All'),
+            backlog: Backlog(id: 1, icon: Icons.wallpaper, title: 'All'),
+            colorId: 1,
           ),
           Tile(
-            backlog: Backlog(id: 0, icon: Icons.wallpaper, title: 'All'),
+            backlog: Backlog(id: 2, icon: Icons.wallpaper, title: 'All'),
+            colorId: 2,
           ),
           Tile(
-            backlog: Backlog(id: 0, icon: Icons.wallpaper, title: 'All'),
+            backlog: Backlog(id: 3, icon: Icons.wallpaper, title: 'All'),
+            colorId: 3,
           ),
           Tile(
-            backlog: Backlog(id: 0, icon: Icons.wallpaper, title: 'All'),
+            backlog: Backlog(id: 4, icon: Icons.wallpaper, title: 'All'),
+            colorId: 4,
           ),
           Tile(
-            backlog: Backlog(id: 0, icon: Icons.wallpaper, title: 'All'),
+            backlog: Backlog(id: 5, icon: Icons.wallpaper, title: 'All'),
+            colorId: 5,
           ),
         ],
       ),
