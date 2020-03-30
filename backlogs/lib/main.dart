@@ -16,22 +16,24 @@ void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) =>
-          BacklogBloc(FakeBacklogsRepository())..add(BacklogGetAll()),
-      child: MaterialApp(
-        title: 'Backlogs Application',
-        initialRoute: ApplicationRoutes.home.value,
-        routes: {
-          ApplicationRoutes.home.value: (context) => HomeScreen(),
-          ApplicationRoutes.backlog.value: (context) {
-            return BlocProvider(
-              create: (context) => TaskBloc(FakeTasksRepository()),
-              child: BacklogScreen(),
-            );
-          },
+    return MaterialApp(
+      title: 'Backlogs Application',
+      initialRoute: ApplicationRoutes.home.value,
+      routes: {
+        ApplicationRoutes.home.value: (context) {
+          return BlocProvider(
+            create: (context) =>
+                BacklogBloc(FakeBacklogsRepository())..add(BacklogGetAll()),
+            child: HomeScreen(),
+          );
         },
-      ),
+        ApplicationRoutes.backlog.value: (context) {
+          return BlocProvider(
+            create: (context) => TaskBloc(FakeTasksRepository()),
+            child: BacklogScreen(),
+          );
+        },
+      },
     );
   }
 }

@@ -33,7 +33,7 @@ class Tile extends StatelessWidget {
             ),
           ),
           Text(
-            '23 Tasks',
+            '${backlog.tasks.length} Tasks',
             style: TextStyle(
               color: ColorsLibrary.textColorLight,
               fontSize: 18.0,
