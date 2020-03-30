@@ -6,6 +6,10 @@ class FakeBacklogsRepository implements BacklogsRepository {
   FakeBacklogsRepository() {
     _backlogs = <Backlog>[
       Backlog(icon: Icons.event_note, title: 'All', id: 0),
+      Backlog(icon: Icons.wallpaper, title: 'Views', id: 0),
+      Backlog(icon: Icons.school, title: 'School', id: 0),
+      Backlog(icon: Icons.work, title: 'Work', id: 0),
+      Backlog(icon: Icons.home, title: 'Home', id: 0),
     ];
   }
 

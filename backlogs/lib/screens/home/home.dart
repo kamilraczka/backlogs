@@ -78,20 +78,19 @@ class HomeScreenState extends State<HomeScreen> {
       itemCount: backlogs.length,
       itemBuilder: (context, index) {
         return GestureDetector(
-          onTap: _onTileTap,
+          onTap: () {
+            Navigator.pushNamed(
+              context,
+              ApplicationRoutes.backlog.value,
+              arguments: backlogs[index].id,
+            );
+          },
           child: Tile(
             backlog: backlogs[index],
             colorId: index,
           ),
         );
       },
-    );
-  }
-
-  void _onTileTap() {
-    Navigator.pushNamed(
-      context,
-      ApplicationRoutes.backlog.value,
     );
   }
 }
