@@ -1,9 +1,12 @@
 import 'package:backlogs/models/backlog.dart';
+import 'package:flutter/material.dart';
 import 'contracts/backlogs_repository.dart';
 
 class FakeBacklogsRepository implements BacklogsRepository {
   FakeBacklogsRepository() {
-    _backlogs = List<Backlog>();
+    _backlogs = <Backlog>[
+      Backlog(icon: Icons.wallpaper, title: 'All', id: 0),
+    ];
   }
 
   List<Backlog> _backlogs;

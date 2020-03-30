@@ -1,9 +1,12 @@
+import 'package:backlogs/blocs/backlog/backlog_bloc.dart';
+import 'package:backlogs/blocs/backlog/backlog_state.dart';
 import 'package:backlogs/models/backlog.dart';
 import 'package:backlogs/routes.dart';
 import 'package:backlogs/screens/home/widgets/tile.dart';
 import 'package:backlogs/utilities/colors_library.dart';
 import 'package:flutter/material.dart';
 import 'package:backlogs/extensions/routes_extension.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -40,57 +43,55 @@ class HomeScreenState extends State<HomeScreen> {
       ),
       body: Container(
         color: ColorsLibrary.backgroundColor,
-        child: GridView.count(
-          crossAxisCount: 2,
-          crossAxisSpacing: 16,
-          mainAxisSpacing: 16,
-          padding: const EdgeInsets.all(16),
-          children: <Widget>[
-            Tile(
-              backlog: Backlog(id: 1, icon: Icons.wallpaper, title: 'All'),
-              colorId: 0,
-            ),
-            Tile(
-              backlog: Backlog(id: 2, icon: Icons.wallpaper, title: 'All'),
-              colorId: 1,
-            ),
-            Tile(
-              backlog: Backlog(id: 2, icon: Icons.wallpaper, title: 'All'),
-              colorId: 2,
-            ),
-            Tile(
-              backlog: Backlog(id: 2, icon: Icons.wallpaper, title: 'All'),
-              colorId: 3,
-            ),
-            Tile(
-              backlog: Backlog(id: 2, icon: Icons.wallpaper, title: 'All'),
-              colorId: 4,
-            ),
-            Tile(
-              backlog: Backlog(id: 3, icon: Icons.wallpaper, title: 'All'),
-              colorId: 5,
-            ),
-            Tile(
-              backlog: Backlog(id: 4, icon: Icons.wallpaper, title: 'All'),
-              colorId: 6,
-            ),
-            Tile(
-              backlog: Backlog(id: 5, icon: Icons.wallpaper, title: 'All'),
-              colorId: 7,
-            ),
-          ],
+        child: BlocBuilder<BacklogBloc, BacklogState>(
+          builder: (context, state) {
+            if (state is BacklogReceivedAll) {
+              return _buildGrid(state.backlogs);
+            } else if (state is BacklogLoadingList) {
+              return _buildLoading();
+            }
+          },
         ),
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-        onPressed: () {
-          Navigator.pushNamed(
-            context,
-            ApplicationRoutes.backlog.value,
-          );
-        },
+        onPressed: null,
         backgroundColor: ColorsLibrary.accentColor0,
       ),
+    );
+  }
+
+  Center _buildLoading() {
+    return Center(
+      child: CircularProgressIndicator(),
+    );
+  }
+
+  GridView _buildGrid(List<Backlog> backlogs) {
+    return GridView.builder(
+      padding: const EdgeInsets.all(16.0),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        crossAxisSpacing: 16,
+        mainAxisSpacing: 16,
+      ),
+      itemCount: backlogs.length,
+      itemBuilder: (context, index) {
+        return GestureDetector(
+          onTap: _onTileTap,
+          child: Tile(
+            backlog: backlogs[index],
+            colorId: index,
+          ),
+        );
+      },
+    );
+  }
+
+  void _onTileTap() {
+    Navigator.pushNamed(
+      context,
+      ApplicationRoutes.backlog.value,
     );
   }
 }
