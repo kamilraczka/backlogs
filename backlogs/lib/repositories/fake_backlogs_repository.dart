@@ -5,7 +5,7 @@ import 'contracts/backlogs_repository.dart';
 class FakeBacklogsRepository implements BacklogsRepository {
   FakeBacklogsRepository() {
     _backlogs = <Backlog>[
-      Backlog(icon: Icons.wallpaper, title: 'All', id: 0),
+      Backlog(icon: Icons.event_note, title: 'All', id: 0),
     ];
   }
 

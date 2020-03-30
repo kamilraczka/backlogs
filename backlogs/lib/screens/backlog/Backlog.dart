@@ -15,18 +15,12 @@ class BacklogScreen extends StatefulWidget {
 
 class _BacklogScreenState extends State<BacklogScreen> {
   @override
-  void initState() {
-    super.initState();
-    BlocProvider.of<TaskBloc>(context).add(TaskGetAll(backlogId: 1));
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocBuilder<TaskBloc, TaskState>(
         builder: (context, state) {
           if (state is TaskReceivedAll) {
-            return _buildList(state.tasks, state.tasks.length.toString());
+            return _buildList(state.tasks);
           } else {
             return _buildLoading();
           }
@@ -48,7 +42,7 @@ class _BacklogScreenState extends State<BacklogScreen> {
     );
   }
 
-  CustomScrollView _buildList(List<Task> tasks, String amount) {
+  CustomScrollView _buildList(List<Task> tasks) {
     return CustomScrollView(
       slivers: <Widget>[
         SliverAppBar(
@@ -72,7 +66,7 @@ class _BacklogScreenState extends State<BacklogScreen> {
                   style: TextStyle(fontSize: 22.0),
                 ),
                 Text(
-                  '$amount tasks',
+                  '${tasks.length} tasks',
                   style: TextStyle(
                     color: Colors.white70,
                     fontSize: 14.0,
