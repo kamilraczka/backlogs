@@ -1,13 +1,11 @@
 import 'package:backlogs/blocs/backlog/backlog_bloc.dart';
 import 'package:backlogs/blocs/backlog/backlog_state.dart';
-import 'package:backlogs/blocs/task/task_bloc.dart';
-import 'package:backlogs/blocs/task/task_event.dart';
 import 'package:backlogs/models/backlog.dart';
-import 'package:backlogs/repositories/fake_tasks_repository.dart';
-import 'package:backlogs/screens/backlog/Backlog.dart';
+import 'package:backlogs/routes.dart';
 import 'package:backlogs/screens/home/widgets/tile.dart';
 import 'package:backlogs/utilities/colors_library.dart';
 import 'package:flutter/material.dart';
+import 'package:backlogs/extensions/routes_extension.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -80,26 +78,20 @@ class HomeScreenState extends State<HomeScreen> {
       itemCount: backlogs.length,
       itemBuilder: (context, index) {
         return GestureDetector(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) {
-                  return BlocProvider(
-                    create: (context) => TaskBloc(FakeTasksRepository())
-                      ..add(TaskGetAll(backlogId: backlogs[index].id)),
-                    child: BacklogScreen(),
-                  );
-                },
-              ),
-            );
-          },
+          onTap: _onTileTap,
           child: Tile(
             backlog: backlogs[index],
             colorId: index,
           ),
         );
       },
+    );
+  }
+
+  void _onTileTap() {
+    Navigator.pushNamed(
+      context,
+      ApplicationRoutes.backlog.value,
     );
   }
 }
