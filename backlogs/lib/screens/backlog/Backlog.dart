@@ -15,9 +15,11 @@ class BacklogScreen extends StatefulWidget {
 
 class _BacklogScreenState extends State<BacklogScreen> {
   @override
-  void initState() {
-    super.initState();
-    BlocProvider.of<TaskBloc>(context).add(TaskGetAll(backlogId: 1));
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    final int _id = ModalRoute.of(context).settings.arguments;
+    BlocProvider.of<TaskBloc>(context).add(TaskGetAll(backlogId: _id));
   }
 
   @override
@@ -26,7 +28,7 @@ class _BacklogScreenState extends State<BacklogScreen> {
       body: BlocBuilder<TaskBloc, TaskState>(
         builder: (context, state) {
           if (state is TaskReceivedAll) {
-            return _buildList(state.tasks, state.tasks.length.toString());
+            return _buildList(state.tasks);
           } else {
             return _buildLoading();
           }
@@ -34,7 +36,7 @@ class _BacklogScreenState extends State<BacklogScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _onFabPressed,
-        backgroundColor: ColorsLibrary.primaryColor,
+        backgroundColor: ColorsLibrary.accentColor0,
         child: Icon(
           Icons.add,
         ),
@@ -48,7 +50,7 @@ class _BacklogScreenState extends State<BacklogScreen> {
     );
   }
 
-  CustomScrollView _buildList(List<Task> tasks, String amount) {
+  CustomScrollView _buildList(List<Task> tasks) {
     return CustomScrollView(
       slivers: <Widget>[
         SliverAppBar(
@@ -72,7 +74,7 @@ class _BacklogScreenState extends State<BacklogScreen> {
                   style: TextStyle(fontSize: 22.0),
                 ),
                 Text(
-                  '$amount tasks',
+                  '${tasks.length} tasks',
                   style: TextStyle(
                     color: Colors.white70,
                     fontSize: 14.0,
@@ -81,7 +83,7 @@ class _BacklogScreenState extends State<BacklogScreen> {
               ],
             ),
           ),
-          backgroundColor: ColorsLibrary.primaryColor,
+          backgroundColor: ColorsLibrary.accentColor0,
         ),
         SliverPadding(
           padding: const EdgeInsets.all(24.0),
