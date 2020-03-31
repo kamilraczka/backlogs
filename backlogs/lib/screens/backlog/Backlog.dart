@@ -15,10 +15,15 @@ class BacklogScreen extends StatefulWidget {
 
 class _BacklogScreenState extends State<BacklogScreen> {
   @override
-  Widget build(BuildContext context) {
-    final int id = ModalRoute.of(context).settings.arguments;
-    BlocProvider.of<TaskBloc>(context).add(TaskGetAll(backlogId: id));
+  void didChangeDependencies() {
+    super.didChangeDependencies();
 
+    final int _id = ModalRoute.of(context).settings.arguments;
+    BlocProvider.of<TaskBloc>(context).add(TaskGetAll(backlogId: _id));
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       body: BlocBuilder<TaskBloc, TaskState>(
         builder: (context, state) {
