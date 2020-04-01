@@ -14,12 +14,14 @@ class BacklogScreen extends StatefulWidget {
 }
 
 class _BacklogScreenState extends State<BacklogScreen> {
+  int _backlogId;
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    final int _id = ModalRoute.of(context).settings.arguments;
-    BlocProvider.of<TaskBloc>(context).add(TaskGetAll(backlogId: _id));
+    _backlogId = ModalRoute.of(context).settings.arguments;
+    BlocProvider.of<TaskBloc>(context).add(TaskGetAll(backlogId: _backlogId));
   }
 
   @override
@@ -118,7 +120,7 @@ class _BacklogScreenState extends State<BacklogScreen> {
   }
 
   void _createTask(String text) {
-    final task = Task(id: 0, backlogId: 0, description: text);
+    final task = Task(id: 0, backlogId: _backlogId, description: text);
     BlocProvider.of<TaskBloc>(context).add(TaskAddOne(task: task));
   }
 }
