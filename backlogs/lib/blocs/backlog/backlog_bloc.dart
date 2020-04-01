@@ -1,12 +1,12 @@
 import 'package:backlogs/blocs/backlog/backlog_event.dart';
 import 'package:backlogs/blocs/backlog/backlog_state.dart';
-import 'package:backlogs/repositories/contracts/backlogs_repository.dart';
+import 'package:backlogs/repositories/backlogs_repository.dart';
 import 'package:bloc/bloc.dart';
 
 class BacklogBloc extends Bloc<BacklogEvent, BacklogState> {
   final BacklogsRepository repository;
 
-  BacklogBloc(this.repository);
+  BacklogBloc(this.repository) : assert(repository != null);
 
   @override
   BacklogState get initialState => BacklogLoadingList();

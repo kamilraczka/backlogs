@@ -1,12 +1,12 @@
 import 'package:backlogs/blocs/task/task_event.dart';
 import 'package:backlogs/blocs/task/task_state.dart';
-import 'package:backlogs/repositories/contracts/tasks_repository.dart';
+import 'package:backlogs/repositories/tasks_repository.dart';
 import 'package:bloc/bloc.dart';
 
 class TaskBloc extends Bloc<TaskEvent, TaskState> {
   final TasksRepository repository;
 
-  TaskBloc(this.repository);
+  TaskBloc(this.repository) : assert(repository != null);
 
   @override
   TaskState get initialState => TaskLoadingList();

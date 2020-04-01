@@ -118,7 +118,7 @@ class _BacklogScreenState extends State<BacklogScreen> {
   }
 
   void _createTask(String text) {
-    final task = Task(id: 0, backlogId: 1, description: text);
+    final task = Task(id: 0, backlogId: 0, description: text);
     BlocProvider.of<TaskBloc>(context).add(TaskAddOne(task: task));
   }
 }
