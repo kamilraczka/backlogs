@@ -1,7 +1,10 @@
-import 'package:backlogs/blocs/task/task_event.dart';
-import 'package:backlogs/blocs/task/task_state.dart';
+import 'package:backlogs/models/task.dart';
 import 'package:backlogs/repositories/tasks_repository.dart';
 import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
+
+part 'task_event.dart';
+part 'task_state.dart';
 
 class TaskBloc extends Bloc<TaskEvent, TaskState> {
   final TasksRepository repository;
@@ -9,25 +12,25 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
   TaskBloc(this.repository) : assert(repository != null);
 
   @override
-  TaskState get initialState => TaskLoadingList();
+  TaskState get initialState => TaskLoadInProgress();
 
   @override
   Stream<TaskState> mapEventToState(TaskEvent event) async* {
-    yield TaskLoadingList();
-    if (event is TaskGetAll) {
+    yield TaskLoadInProgress();
+    if (event is TaskLoadedAll) {
       yield* _mapGetAllToState(event);
-    } else if (event is TaskAddOne) {
+    } else if (event is TaskAdded) {
       yield* _mapAddItemToState(event);
     }
   }
 
-  Stream<TaskState> _mapGetAllToState(TaskGetAll event) async* {
+  Stream<TaskState> _mapGetAllToState(TaskLoadedAll event) async* {
     final tasks = await repository.fetchItems(event.backlogId);
-    yield TaskReceivedAll(tasks);
+    yield TaskLoadSuccess(tasks);
   }
 
-  Stream<TaskState> _mapAddItemToState(TaskAddOne event) async* {
+  Stream<TaskState> _mapAddItemToState(TaskAdded event) async* {
     repository.addSingleItem(event.task);
-    add(TaskGetAll(backlogId: event.task.backlogId));
+    add(TaskLoadedAll(backlogId: event.task.backlogId));
   }
 }

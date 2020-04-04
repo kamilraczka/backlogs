@@ -1,5 +1,4 @@
-import 'package:backlogs/blocs/backlog/backlog_bloc.dart';
-import 'package:backlogs/blocs/backlog/backlog_state.dart';
+import 'package:backlogs/blocs/backlog_bloc.dart';
 import 'package:backlogs/models/backlog.dart';
 import 'package:backlogs/routes.dart';
 import 'package:backlogs/screens/home/widgets/tile.dart';
@@ -45,9 +44,9 @@ class HomeScreenState extends State<HomeScreen> {
         color: ColorsLibrary.backgroundColor,
         child: BlocBuilder<BacklogBloc, BacklogState>(
           builder: (context, state) {
-            if (state is BacklogReceivedAll) {
+            if (state is BacklogLoadSuccess) {
               return _buildGrid(state.backlogs);
-            } else if (state is BacklogLoadingList) {
+            } else if (state is BacklogLoadInProgress) {
               return _buildLoading();
             }
           },

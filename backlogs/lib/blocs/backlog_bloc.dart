@@ -1,7 +1,10 @@
-import 'package:backlogs/blocs/backlog/backlog_event.dart';
-import 'package:backlogs/blocs/backlog/backlog_state.dart';
+import 'package:backlogs/models/backlog.dart';
 import 'package:backlogs/repositories/backlogs_repository.dart';
 import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
+
+part 'backlog_event.dart';
+part 'backlog_state.dart';
 
 class BacklogBloc extends Bloc<BacklogEvent, BacklogState> {
   final BacklogsRepository repository;
@@ -9,18 +12,18 @@ class BacklogBloc extends Bloc<BacklogEvent, BacklogState> {
   BacklogBloc(this.repository) : assert(repository != null);
 
   @override
-  BacklogState get initialState => BacklogLoadingList();
+  BacklogState get initialState => BacklogLoadInProgress();
 
   @override
   Stream<BacklogState> mapEventToState(BacklogEvent event) async* {
-    yield BacklogLoadingList();
-    if (event is BacklogGetAll) {
+    yield BacklogLoadInProgress();
+    if (event is BacklogLoadedAll) {
       yield* _mapGetAllToState();
     }
   }
 
   Stream<BacklogState> _mapGetAllToState() async* {
     final backlogs = await repository.fetchItems();
-    yield BacklogReceivedAll(backlogs);
+    yield BacklogLoadSuccess(backlogs);
   }
 }

@@ -1,6 +1,4 @@
-import 'package:backlogs/blocs/task/task_bloc.dart';
-import 'package:backlogs/blocs/task/task_event.dart';
-import 'package:backlogs/blocs/task/task_state.dart';
+import 'package:backlogs/blocs/task_bloc.dart';
 import 'package:backlogs/models/task.dart';
 import 'package:backlogs/screens/backlog/widgets/backlog_row.dart';
 import 'package:backlogs/screens/creation/creation_edit.dart';
@@ -21,7 +19,8 @@ class _BacklogScreenState extends State<BacklogScreen> {
     super.didChangeDependencies();
 
     _backlogId = ModalRoute.of(context).settings.arguments;
-    BlocProvider.of<TaskBloc>(context).add(TaskGetAll(backlogId: _backlogId));
+    BlocProvider.of<TaskBloc>(context)
+        .add(TaskLoadedAll(backlogId: _backlogId));
   }
 
   @override
@@ -29,7 +28,7 @@ class _BacklogScreenState extends State<BacklogScreen> {
     return Scaffold(
       body: BlocBuilder<TaskBloc, TaskState>(
         builder: (context, state) {
-          if (state is TaskReceivedAll) {
+          if (state is TaskLoadSuccess) {
             return _buildList(state.tasks);
           } else {
             return _buildLoading();
@@ -121,6 +120,6 @@ class _BacklogScreenState extends State<BacklogScreen> {
 
   void _createTask(String text) {
     final task = Task(id: 0, backlogId: _backlogId, description: text);
-    BlocProvider.of<TaskBloc>(context).add(TaskAddOne(task: task));
+    BlocProvider.of<TaskBloc>(context).add(TaskAdded(task));
   }
 }
