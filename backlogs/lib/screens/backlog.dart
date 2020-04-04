@@ -1,10 +1,11 @@
 import 'package:backlogs/blocs/task_bloc.dart';
 import 'package:backlogs/models/task.dart';
-import 'package:backlogs/screens/backlog/widgets/backlog_row.dart';
-import 'package:backlogs/screens/creation/creation_edit.dart';
 import 'package:backlogs/utilities/colors_library.dart';
+import 'package:backlogs/widgets/backlog_row.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'creation_edit.dart';
 
 class BacklogScreen extends StatefulWidget {
   @override

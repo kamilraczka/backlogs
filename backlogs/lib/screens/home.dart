@@ -1,8 +1,8 @@
 import 'package:backlogs/blocs/backlog_bloc.dart';
 import 'package:backlogs/models/backlog.dart';
 import 'package:backlogs/routes.dart';
-import 'package:backlogs/screens/home/widgets/tile.dart';
 import 'package:backlogs/utilities/colors_library.dart';
+import 'package:backlogs/widgets/tile.dart';
 import 'package:flutter/material.dart';
 import 'package:backlogs/extensions/routes_extension.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
