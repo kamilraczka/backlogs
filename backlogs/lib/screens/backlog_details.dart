@@ -1,27 +1,27 @@
 import 'package:backlogs/blocs/task_bloc.dart';
 import 'package:backlogs/models/task.dart';
+import 'package:backlogs/screens/add_edit_task.dart';
 import 'package:backlogs/utilities/colors_library.dart';
 import 'package:backlogs/widgets/backlog_row.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'creation_edit.dart';
+class BacklogDetailsScreen extends StatefulWidget {
+  final int parentBacklogId;
 
-class BacklogScreen extends StatefulWidget {
+  const BacklogDetailsScreen({@required this.parentBacklogId})
+      : assert(parentBacklogId != null);
+
   @override
-  State<StatefulWidget> createState() => _BacklogScreenState();
+  State<StatefulWidget> createState() => _BacklogDetailsScreenState();
 }
 
-class _BacklogScreenState extends State<BacklogScreen> {
-  int _backlogId;
-
+class _BacklogDetailsScreenState extends State<BacklogDetailsScreen> {
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-
-    _backlogId = ModalRoute.of(context).settings.arguments;
+  void initState() {
+    super.initState();
     BlocProvider.of<TaskBloc>(context)
-        .add(TaskLoadedAll(backlogId: _backlogId));
+        .add(TaskLoadedAll(backlogId: widget.parentBacklogId));
   }
 
   @override
@@ -110,7 +110,7 @@ class _BacklogScreenState extends State<BacklogScreen> {
       context,
       MaterialPageRoute(
         builder: (context) {
-          return CreationEditScreen(
+          return AddEditTaskScreen(
             onCreatePressed: _createTask,
           );
         },
@@ -120,7 +120,8 @@ class _BacklogScreenState extends State<BacklogScreen> {
   }
 
   void _createTask(String text) {
-    final task = Task(id: 0, backlogId: _backlogId, description: text);
+    final task =
+        Task(id: 0, backlogId: widget.parentBacklogId, description: text);
     BlocProvider.of<TaskBloc>(context).add(TaskAdded(task));
   }
 }

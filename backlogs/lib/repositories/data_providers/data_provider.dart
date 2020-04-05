@@ -1,5 +1,4 @@
 import 'package:backlogs/models/backlog.dart';
-import 'package:backlogs/models/task.dart';
 import 'package:flutter/material.dart';
 
 class DataProvider {
@@ -10,38 +9,18 @@ class DataProvider {
   }
 
   Future<List<Backlog>> readBacklogs() {
+    // It could be generic but casing during return ("return _backlogs as List<T>") doesn't work
     return Future.delayed(Duration(seconds: 1), () {
       return _backlogs;
     });
   }
 
-  Future<List<Task>> readTasks({int backlogId}) {
+  Future updateData<T>(T data) {
     return Future.delayed(Duration(seconds: 1), () {
-      return _backlogs
-          .where((backlog) {
-            return backlog.id == backlogId;
-          })
-          .first
-          .tasks;
-    });
-  }
-
-  Future createData<T>(T data, [Object argument]) {
-    return Future.delayed(Duration(seconds: 1), () {
-      if (data is Backlog) {
-        _backlogs.add(data);
-      } else if (data is Task) {
-        int backlogId = argument;
-        var backlog = _backlogs.where((backlog) {
-          return backlog.id == backlogId;
-        }).first;
-        backlog.tasks.add(data);
+      if (T is List<Backlog>) {
+        _backlogs = data as List<Backlog>;
       }
     });
-  }
-
-  Future updateData<T>(T data) {
-    return Future.delayed(Duration(seconds: 1), () {});
   }
 
   Future deleteData<T>(T data) {

@@ -1,1 +1,1 @@
-enum ApplicationRoutes { home, backlog, creationEdit }
+enum ApplicationRoutes { backlogs, backlogDetails, addEditTask }

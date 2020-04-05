@@ -7,12 +7,12 @@ import 'package:flutter/material.dart';
 import 'package:backlogs/extensions/routes_extension.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class HomeScreen extends StatefulWidget {
+class BacklogsScreen extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => HomeScreenState();
+  State<StatefulWidget> createState() => BacklogsScreenState();
 }
 
-class HomeScreenState extends State<HomeScreen> {
+class BacklogsScreenState extends State<BacklogsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -80,7 +80,7 @@ class HomeScreenState extends State<HomeScreen> {
           onTap: () {
             Navigator.pushNamed(
               context,
-              ApplicationRoutes.backlog.value,
+              ApplicationRoutes.backlogDetails.value,
               arguments: backlogs[index].id,
             );
           },

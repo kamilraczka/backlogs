@@ -1,5 +1,5 @@
 import 'package:backlogs/models/task.dart';
-import 'package:backlogs/repositories/tasks_repository.dart';
+import 'package:backlogs/repositories/data_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 
@@ -7,7 +7,7 @@ part 'task_event.dart';
 part 'task_state.dart';
 
 class TaskBloc extends Bloc<TaskEvent, TaskState> {
-  final TasksRepository repository;
+  final DataRepository repository;
 
   TaskBloc(this.repository) : assert(repository != null);
 
@@ -16,7 +16,6 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
 
   @override
   Stream<TaskState> mapEventToState(TaskEvent event) async* {
-    yield TaskLoadInProgress();
     if (event is TaskLoadedAll) {
       yield* _mapGetAllToState(event);
     } else if (event is TaskAdded) {
@@ -25,12 +24,12 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
   }
 
   Stream<TaskState> _mapGetAllToState(TaskLoadedAll event) async* {
-    final tasks = await repository.fetchItems(event.backlogId);
+    final tasks = await repository.fetchTasks(event.backlogId);
     yield TaskLoadSuccess(tasks);
   }
 
   Stream<TaskState> _mapAddItemToState(TaskAdded event) async* {
-    repository.addSingleItem(event.task);
+    repository.addTaskToBacklog(event.task);
     add(TaskLoadedAll(backlogId: event.task.backlogId));
   }
 }

@@ -1,8 +1,8 @@
 import 'package:backlogs/utilities/colors_library.dart';
 import 'package:flutter/material.dart';
 
-class CreationEditScreen extends StatelessWidget {
-  CreationEditScreen({@required this.onCreatePressed});
+class AddEditTaskScreen extends StatelessWidget {
+  AddEditTaskScreen({@required this.onCreatePressed});
 
   final controller = TextEditingController();
   final Function(String description) onCreatePressed;
