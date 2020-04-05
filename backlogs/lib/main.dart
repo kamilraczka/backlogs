@@ -10,6 +10,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'blocs/backlog_bloc.dart';
 import 'blocs/task_bloc.dart';
+import 'blocs/transition_bloc_delegate.dart';
 
 void main() => runApp(MyApp());
 
@@ -17,25 +18,33 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dataProvider = DataProvider();
+    BlocSupervisor.delegate = TransitionBlocDelegate();
 
-    return MaterialApp(
-      title: 'Backlogs Application',
-      initialRoute: ApplicationRoutes.home.value,
-      routes: {
-        ApplicationRoutes.home.value: (context) {
-          return BlocProvider(
-            create: (context) => BacklogBloc(BacklogsRepository(dataProvider))
-              ..add(BacklogLoadedAll()),
-            child: HomeScreen(),
-          );
+    return BlocProvider(
+      create: (context) => TaskBloc(TasksRepository(dataProvider)),
+      child: MaterialApp(
+        title: 'Backlogs Application',
+        initialRoute: ApplicationRoutes.home.value,
+        onGenerateRoute: (RouteSettings settings) {
+          if (settings.name == ApplicationRoutes.backlog.value) {
+            final int backlogId = settings.arguments;
+            return MaterialPageRoute(
+              builder: (context) => BacklogScreen(parentBacklogId: backlogId),
+            );
+          }
         },
-        ApplicationRoutes.backlog.value: (context) {
-          return BlocProvider(
-            create: (context) => TaskBloc(TasksRepository(dataProvider)),
-            child: BacklogScreen(),
-          );
+        routes: {
+          ApplicationRoutes.home.value: (context) {
+            return BlocProvider(
+              create: (context) => BacklogBloc(
+                BacklogsRepository(dataProvider),
+                BlocProvider.of<TaskBloc>(context),
+              )..add(BacklogLoadedAll()),
+              child: HomeScreen(),
+            );
+          },
         },
-      },
+      ),
     );
   }
 }

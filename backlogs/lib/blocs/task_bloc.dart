@@ -16,7 +16,6 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
 
   @override
   Stream<TaskState> mapEventToState(TaskEvent event) async* {
-    yield TaskLoadInProgress();
     if (event is TaskLoadedAll) {
       yield* _mapGetAllToState(event);
     } else if (event is TaskAdded) {

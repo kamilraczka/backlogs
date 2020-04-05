@@ -8,20 +8,21 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'creation_edit.dart';
 
 class BacklogScreen extends StatefulWidget {
+  final int parentBacklogId;
+
+  const BacklogScreen({@required this.parentBacklogId})
+      : assert(parentBacklogId != null);
+
   @override
   State<StatefulWidget> createState() => _BacklogScreenState();
 }
 
 class _BacklogScreenState extends State<BacklogScreen> {
-  int _backlogId;
-
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-
-    _backlogId = ModalRoute.of(context).settings.arguments;
+  void initState() {
+    super.initState();
     BlocProvider.of<TaskBloc>(context)
-        .add(TaskLoadedAll(backlogId: _backlogId));
+        .add(TaskLoadedAll(backlogId: widget.parentBacklogId));
   }
 
   @override
@@ -120,7 +121,8 @@ class _BacklogScreenState extends State<BacklogScreen> {
   }
 
   void _createTask(String text) {
-    final task = Task(id: 0, backlogId: _backlogId, description: text);
+    final task =
+        Task(id: 0, backlogId: widget.parentBacklogId, description: text);
     BlocProvider.of<TaskBloc>(context).add(TaskAdded(task));
   }
 }

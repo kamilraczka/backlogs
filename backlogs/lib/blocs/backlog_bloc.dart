@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:backlogs/blocs/task_bloc.dart';
 import 'package:backlogs/models/backlog.dart';
 import 'package:backlogs/repositories/backlogs_repository.dart';
 import 'package:bloc/bloc.dart';
@@ -8,8 +11,9 @@ part 'backlog_state.dart';
 
 class BacklogBloc extends Bloc<BacklogEvent, BacklogState> {
   final BacklogsRepository repository;
+  final TaskBloc taskBloc;
 
-  BacklogBloc(this.repository) : assert(repository != null);
+  BacklogBloc(this.repository, this.taskBloc) : assert(repository != null);
 
   @override
   BacklogState get initialState => BacklogLoadInProgress();
@@ -18,11 +22,11 @@ class BacklogBloc extends Bloc<BacklogEvent, BacklogState> {
   Stream<BacklogState> mapEventToState(BacklogEvent event) async* {
     yield BacklogLoadInProgress();
     if (event is BacklogLoadedAll) {
-      yield* _mapGetAllToState();
+      yield* _mapLoadedAllToState();
     }
   }
 
-  Stream<BacklogState> _mapGetAllToState() async* {
+  Stream<BacklogState> _mapLoadedAllToState() async* {
     final backlogs = await repository.fetchItems();
     yield BacklogLoadSuccess(backlogs);
   }
