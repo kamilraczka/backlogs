@@ -1,10 +1,9 @@
-import 'package:backlogs/repositories/backlogs_repository.dart';
+import 'package:backlogs/repositories/data_repository.dart';
 import 'package:backlogs/repositories/data_providers/data_provider.dart';
-import 'package:backlogs/repositories/tasks_repository.dart';
 import 'package:backlogs/routes.dart';
 import 'package:backlogs/extensions/routes_extension.dart';
-import 'package:backlogs/screens/backlog.dart';
-import 'package:backlogs/screens/home.dart';
+import 'package:backlogs/screens/backlog_details.dart';
+import 'package:backlogs/screens/backlogs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -18,33 +17,32 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dataProvider = DataProvider();
+    final repository = DataRepository(dataProvider);
     BlocSupervisor.delegate = TransitionBlocDelegate();
 
-    return BlocProvider(
-      create: (context) => TaskBloc(TasksRepository(dataProvider)),
-      child: MaterialApp(
-        title: 'Backlogs Application',
-        initialRoute: ApplicationRoutes.home.value,
-        onGenerateRoute: (RouteSettings settings) {
-          if (settings.name == ApplicationRoutes.backlog.value) {
-            final int backlogId = settings.arguments;
-            return MaterialPageRoute(
-              builder: (context) => BacklogScreen(parentBacklogId: backlogId),
-            );
-          }
+    return MaterialApp(
+      title: 'Backlogs Application',
+      initialRoute: ApplicationRoutes.backlogs.value,
+      onGenerateRoute: (RouteSettings settings) {
+        if (settings.name == ApplicationRoutes.backlogDetails.value) {
+          final int backlogId = settings.arguments;
+          return MaterialPageRoute(
+            builder: (context) => BlocProvider(
+              create: (context) => TaskBloc(repository),
+              child: BacklogDetailsScreen(parentBacklogId: backlogId),
+            ),
+          );
+        }
+      },
+      routes: {
+        ApplicationRoutes.backlogs.value: (context) {
+          return BlocProvider(
+            create: (context) =>
+                BacklogBloc(repository)..add(BacklogLoadedAll()),
+            child: BacklogsScreen(),
+          );
         },
-        routes: {
-          ApplicationRoutes.home.value: (context) {
-            return BlocProvider(
-              create: (context) => BacklogBloc(
-                BacklogsRepository(dataProvider),
-                BlocProvider.of<TaskBloc>(context),
-              )..add(BacklogLoadedAll()),
-              child: HomeScreen(),
-            );
-          },
-        },
-      ),
+      },
     );
   }
 }

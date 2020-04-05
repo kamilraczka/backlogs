@@ -1,23 +1,22 @@
 import 'package:backlogs/blocs/task_bloc.dart';
 import 'package:backlogs/models/task.dart';
+import 'package:backlogs/screens/add_edit_task.dart';
 import 'package:backlogs/utilities/colors_library.dart';
 import 'package:backlogs/widgets/backlog_row.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'creation_edit.dart';
-
-class BacklogScreen extends StatefulWidget {
+class BacklogDetailsScreen extends StatefulWidget {
   final int parentBacklogId;
 
-  const BacklogScreen({@required this.parentBacklogId})
+  const BacklogDetailsScreen({@required this.parentBacklogId})
       : assert(parentBacklogId != null);
 
   @override
-  State<StatefulWidget> createState() => _BacklogScreenState();
+  State<StatefulWidget> createState() => _BacklogDetailsScreenState();
 }
 
-class _BacklogScreenState extends State<BacklogScreen> {
+class _BacklogDetailsScreenState extends State<BacklogDetailsScreen> {
   @override
   void initState() {
     super.initState();
@@ -111,7 +110,7 @@ class _BacklogScreenState extends State<BacklogScreen> {
       context,
       MaterialPageRoute(
         builder: (context) {
-          return CreationEditScreen(
+          return AddEditTaskScreen(
             onCreatePressed: _createTask,
           );
         },

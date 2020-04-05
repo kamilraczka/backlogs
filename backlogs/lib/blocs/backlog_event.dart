@@ -9,10 +9,6 @@ class BacklogLoadedAll extends BacklogEvent {
   const BacklogLoadedAll();
 }
 
-class BacklogOpened extends BacklogEvent {
-  const BacklogOpened();
-}
-
 class BacklogAdded extends BacklogEvent {
   final Backlog backlog;
 
