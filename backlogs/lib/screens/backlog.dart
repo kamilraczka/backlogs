@@ -1,12 +1,11 @@
-import 'package:backlogs/blocs/task/task_bloc.dart';
-import 'package:backlogs/blocs/task/task_event.dart';
-import 'package:backlogs/blocs/task/task_state.dart';
+import 'package:backlogs/blocs/task_bloc.dart';
 import 'package:backlogs/models/task.dart';
-import 'package:backlogs/screens/backlog/widgets/backlog_row.dart';
-import 'package:backlogs/screens/creation/creation_edit.dart';
 import 'package:backlogs/utilities/colors_library.dart';
+import 'package:backlogs/widgets/backlog_row.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'creation_edit.dart';
 
 class BacklogScreen extends StatefulWidget {
   @override
@@ -14,12 +13,15 @@ class BacklogScreen extends StatefulWidget {
 }
 
 class _BacklogScreenState extends State<BacklogScreen> {
+  int _backlogId;
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    final int _id = ModalRoute.of(context).settings.arguments;
-    BlocProvider.of<TaskBloc>(context).add(TaskGetAll(backlogId: _id));
+    _backlogId = ModalRoute.of(context).settings.arguments;
+    BlocProvider.of<TaskBloc>(context)
+        .add(TaskLoadedAll(backlogId: _backlogId));
   }
 
   @override
@@ -27,7 +29,7 @@ class _BacklogScreenState extends State<BacklogScreen> {
     return Scaffold(
       body: BlocBuilder<TaskBloc, TaskState>(
         builder: (context, state) {
-          if (state is TaskReceivedAll) {
+          if (state is TaskLoadSuccess) {
             return _buildList(state.tasks);
           } else {
             return _buildLoading();
@@ -118,7 +120,7 @@ class _BacklogScreenState extends State<BacklogScreen> {
   }
 
   void _createTask(String text) {
-    final task = Task(id: 0, backlogId: 1, description: text);
-    BlocProvider.of<TaskBloc>(context).add(TaskAddOne(task: task));
+    final task = Task(id: 0, backlogId: _backlogId, description: text);
+    BlocProvider.of<TaskBloc>(context).add(TaskAdded(task));
   }
 }
