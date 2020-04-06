@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
       initialRoute: ApplicationRoutes.backlogs.value,
       onGenerateRoute: (RouteSettings settings) {
         if (settings.name == ApplicationRoutes.backlogDetails.value) {
-          final int backlogId = settings.arguments;
+          final String backlogId = settings.arguments;
           return MaterialPageRoute(
             builder: (context) => BlocProvider(
               create: (context) => TaskBloc(repository),

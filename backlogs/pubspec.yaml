@@ -26,6 +26,7 @@ dependencies:
   tinycolor: ^1.0.2
   bloc: ^3.0.0
   flutter_bloc: ^3.2.0
+  uuid: 2.0.4
 
 
 dev_dependencies:

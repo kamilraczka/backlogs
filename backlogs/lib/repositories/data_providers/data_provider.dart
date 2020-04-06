@@ -5,7 +5,9 @@ class DataProvider {
   List<Backlog> _backlogs;
 
   DataProvider() {
-    _backlogs = <Backlog>[Backlog(id: 0, icon: Icons.adb, title: 'Apps')];
+    _backlogs = <Backlog>[
+      Backlog(color: Colors.cyan, icon: Icons.adb, title: 'Apps')
+    ];
   }
 
   Future<List<Backlog>> readBacklogs() {

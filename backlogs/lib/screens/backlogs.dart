@@ -54,7 +54,16 @@ class BacklogsScreenState extends State<BacklogsScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-        onPressed: null,
+        onPressed: () {
+          showBottomSheet(
+              context: context,
+              builder: (context) {
+                return Container(
+                  color: Colors.green,
+                  height: 250,
+                );
+              });
+        },
         backgroundColor: ColorsLibrary.accentColor0,
       ),
     );

@@ -1,17 +1,20 @@
 import 'package:backlogs/models/task.dart';
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 
 class Backlog {
-  int id;
+  String id;
   String title;
-  List<Task> tasks;
   IconData icon;
+  Color color;
+  List<Task> tasks;
 
   Backlog({
-    @required this.id,
     @required this.title,
-    @required this.icon,
+    this.icon,
+    this.color,
   }) {
+    this.id = Uuid().v4();
     this.tasks = List<Task>();
   }
 }
