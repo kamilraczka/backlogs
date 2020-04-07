@@ -29,7 +29,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
   }
 
   Stream<TaskState> _mapAddItemToState(TaskAdded event) async* {
-    repository.addTaskToBacklog(event.task);
+    await repository.addTaskToBacklog(event.task);
     add(TaskLoadedAll(backlogId: event.task.backlogId));
   }
 }

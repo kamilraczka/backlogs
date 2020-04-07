@@ -21,11 +21,18 @@ class BacklogBloc extends Bloc<BacklogEvent, BacklogState> {
     yield BacklogLoadInProgress();
     if (event is BacklogLoadedAll) {
       yield* _mapLoadedAllToState();
+    } else if (event is BacklogAdded) {
+      yield* _mapAddedToState(event.backlog);
     }
   }
 
   Stream<BacklogState> _mapLoadedAllToState() async* {
     final backlogs = await repository.fetchBacklogs();
     yield BacklogLoadSuccess(backlogs);
+  }
+
+  Stream<BacklogState> _mapAddedToState(Backlog backlog) async* {
+    await repository.addBacklog(backlog);
+    add(BacklogLoadedAll());
   }
 }

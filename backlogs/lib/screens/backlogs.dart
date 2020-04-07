@@ -1,6 +1,7 @@
 import 'package:backlogs/blocs/backlog_bloc.dart';
 import 'package:backlogs/models/backlog.dart';
 import 'package:backlogs/routes.dart';
+import 'package:backlogs/screens/add_edit_backlog.dart';
 import 'package:backlogs/utilities/colors_library.dart';
 import 'package:backlogs/widgets/tile.dart';
 import 'package:flutter/material.dart';
@@ -54,19 +55,27 @@ class BacklogsScreenState extends State<BacklogsScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-        onPressed: () {
-          showBottomSheet(
-              context: context,
-              builder: (context) {
-                return Container(
-                  color: Colors.green,
-                  height: 250,
-                );
-              });
-        },
+        onPressed: _onFabPressed,
         backgroundColor: ColorsLibrary.accentColor0,
       ),
     );
+  }
+
+  void _onFabPressed() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) {
+          return AddEditBacklogScreen(
+              createAndAddBacklog: _createAndAddBacklog);
+        },
+        fullscreenDialog: true,
+      ),
+    );
+  }
+
+  void _createAndAddBacklog(Backlog newBacklog) {
+    BlocProvider.of<BacklogBloc>(context).add(BacklogAdded(newBacklog));
   }
 
   Center _buildLoading() {
