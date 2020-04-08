@@ -2,6 +2,7 @@ import 'package:backlogs/models/backlog.dart';
 import 'package:backlogs/utilities/colors_library.dart';
 import 'package:backlogs/utilities/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_iconpicker/flutter_iconpicker.dart';
 
 class AddEditBacklogScreen extends StatefulWidget {
   final Function(Backlog backlog) createBacklogAction;
@@ -17,6 +18,7 @@ class AddEditBacklogScreenState extends State<AddEditBacklogScreen> {
   final FocusNode focusNode = FocusNode();
   String hintText = Constants.backlogCreationHint;
   bool isEnabled = false;
+  Icon pickedIcon = Constants.defaultIcon;
 
   @override
   void initState() {
@@ -83,9 +85,15 @@ class AddEditBacklogScreenState extends State<AddEditBacklogScreen> {
                 Divider(),
                 GestureDetector(
                   child: Row(
-                    children: <Widget>[Icon(Icons.adb), Text('Pick icon')],
+                    children: <Widget>[
+                      AnimatedSwitcher(
+                        duration: Duration(microseconds: 2000),
+                        child: pickedIcon,
+                      ),
+                      Text('Pick backlog\'s icon')
+                    ],
                   ),
-                  onTap: null,
+                  onTap: _pickIcon,
                 ),
               ],
             ),
@@ -120,5 +128,11 @@ class AddEditBacklogScreenState extends State<AddEditBacklogScreen> {
     );
     widget.createBacklogAction(backlog);
     Navigator.pop(context);
+  }
+
+  void _pickIcon() async {
+    IconData iconData = await FlutterIconPicker.showIconPicker(context);
+    pickedIcon = iconData != null ? Icon(iconData) : Constants.defaultIcon;
+    setState(() {});
   }
 }

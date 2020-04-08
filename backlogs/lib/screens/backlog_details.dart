@@ -111,15 +111,16 @@ class _BacklogDetailsScreenState extends State<BacklogDetailsScreen> {
       MaterialPageRoute(
         builder: (context) {
           return AddEditTaskScreen(
-            createTaskAction: (String text) {
-              final task =
-                  Task(backlogId: widget.parentBacklogId, description: text);
-              BlocProvider.of<TaskBloc>(context).add(TaskAdded(task));
-            },
+            createTaskAction: _createTask,
           );
         },
         fullscreenDialog: true,
       ),
     );
+  }
+
+  void _createTask(String text) {
+    final task = Task(backlogId: widget.parentBacklogId, description: text);
+    BlocProvider.of<TaskBloc>(context).add(TaskAdded(task));
   }
 }

@@ -99,12 +99,14 @@ class BacklogsScreenState extends State<BacklogsScreen> {
       context,
       MaterialPageRoute(
         builder: (context) {
-          return AddEditBacklogScreen(createBacklogAction: (Backlog backlog) {
-            BlocProvider.of<BacklogBloc>(context).add(BacklogAdded(backlog));
-          });
+          return AddEditBacklogScreen(createBacklogAction: _createBacklog);
         },
         fullscreenDialog: true,
       ),
     );
+  }
+
+  void _createBacklog(Backlog backlog) {
+    BlocProvider.of<BacklogBloc>(context).add(BacklogAdded(backlog));
   }
 }
