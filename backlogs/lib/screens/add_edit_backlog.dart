@@ -124,7 +124,7 @@ class AddEditBacklogScreenState extends State<AddEditBacklogScreen> {
     var backlog = Backlog(
       title: controller.text,
       color: Colors.red,
-      icon: Icons.cloud_done,
+      icon: pickedIcon.icon,
     );
     widget.createBacklogAction(backlog);
     Navigator.pop(context);
