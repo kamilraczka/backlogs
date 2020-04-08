@@ -4,9 +4,9 @@ import 'package:backlogs/utilities/constants.dart';
 import 'package:flutter/material.dart';
 
 class AddEditBacklogScreen extends StatefulWidget {
-  final Function(Backlog backlog) createAndAddBacklog;
+  final Function(Backlog backlog) createBacklogAction;
 
-  const AddEditBacklogScreen({@required this.createAndAddBacklog});
+  const AddEditBacklogScreen({@required this.createBacklogAction});
 
   @override
   State<StatefulWidget> createState() => AddEditBacklogScreenState();
@@ -42,6 +42,13 @@ class AddEditBacklogScreenState extends State<AddEditBacklogScreen> {
   }
 
   @override
+  void dispose() {
+    controller.dispose();
+    focusNode.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -59,29 +66,30 @@ class AddEditBacklogScreenState extends State<AddEditBacklogScreen> {
       body: Column(
         children: <Widget>[
           Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                children: <Widget>[
-                  TextField(
-                    controller: controller,
-                    maxLines: 1,
-                    style: TextStyle(fontSize: 22.0),
-                    textAlign: TextAlign.center,
-                    focusNode: focusNode,
-                    decoration: InputDecoration(
-                      hintText: hintText,
-                      border: InputBorder.none,
-                    ),
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: <Widget>[
+                TextField(
+                  controller: controller,
+                  maxLines: 1,
+                  style: TextStyle(fontSize: 22.0),
+                  textAlign: TextAlign.center,
+                  focusNode: focusNode,
+                  decoration: InputDecoration(
+                    hintText: hintText,
+                    border: InputBorder.none,
                   ),
-                  Divider(),
-                  GestureDetector(
-                    child: Row(
-                      children: <Widget>[Icon(Icons.adb), Text('Pick icon')],
-                    ),
-                    onTap: null,
+                ),
+                Divider(),
+                GestureDetector(
+                  child: Row(
+                    children: <Widget>[Icon(Icons.adb), Text('Pick icon')],
                   ),
-                ],
-              )),
+                  onTap: null,
+                ),
+              ],
+            ),
+          ),
           SizedBox(
             width: double.infinity,
             height: 48.0,
@@ -96,7 +104,7 @@ class AddEditBacklogScreenState extends State<AddEditBacklogScreen> {
                   fontSize: 18.0,
                 ),
               ),
-              onPressed: isEnabled ? _onCreatePressed : null,
+              onPressed: isEnabled ? _createBacklog : null,
             ),
           )
         ],
@@ -104,20 +112,13 @@ class AddEditBacklogScreenState extends State<AddEditBacklogScreen> {
     );
   }
 
-  @override
-  void dispose() {
-    controller.dispose();
-    focusNode.dispose();
-    super.dispose();
-  }
-
-  void _onCreatePressed() {
+  void _createBacklog() {
     var backlog = Backlog(
       title: controller.text,
       color: Colors.red,
       icon: Icons.cloud_done,
     );
-    widget.createAndAddBacklog(backlog);
+    widget.createBacklogAction(backlog);
     Navigator.pop(context);
   }
 }

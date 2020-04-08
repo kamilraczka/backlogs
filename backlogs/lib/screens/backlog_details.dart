@@ -37,7 +37,7 @@ class _BacklogDetailsScreenState extends State<BacklogDetailsScreen> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _onFabPressed,
+        onPressed: _goToAddEditTaskScreen,
         backgroundColor: ColorsLibrary.accentColor0,
         child: Icon(
           Icons.add,
@@ -105,22 +105,21 @@ class _BacklogDetailsScreenState extends State<BacklogDetailsScreen> {
     );
   }
 
-  void _onFabPressed() {
+  void _goToAddEditTaskScreen() {
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) {
           return AddEditTaskScreen(
-            onCreatePressed: _createTask,
+            createTaskAction: (String text) {
+              final task =
+                  Task(backlogId: widget.parentBacklogId, description: text);
+              BlocProvider.of<TaskBloc>(context).add(TaskAdded(task));
+            },
           );
         },
         fullscreenDialog: true,
       ),
     );
-  }
-
-  void _createTask(String text) {
-    final task = Task(backlogId: widget.parentBacklogId, description: text);
-    BlocProvider.of<TaskBloc>(context).add(TaskAdded(task));
   }
 }

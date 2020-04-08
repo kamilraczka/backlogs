@@ -2,10 +2,10 @@ import 'package:backlogs/utilities/colors_library.dart';
 import 'package:flutter/material.dart';
 
 class AddEditTaskScreen extends StatelessWidget {
-  AddEditTaskScreen({@required this.onCreatePressed});
+  AddEditTaskScreen({@required this.createTaskAction});
 
   final controller = TextEditingController();
-  final Function(String description) onCreatePressed;
+  final Function(String description) createTaskAction;
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +66,7 @@ class AddEditTaskScreen extends StatelessWidget {
                   ),
                 ),
                 onPressed: () {
-                  onCreatePressed(controller.text);
+                  createTaskAction(controller.text);
                   controller.clear();
                   Navigator.pop(context);
                 },

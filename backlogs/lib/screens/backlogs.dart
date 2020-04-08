@@ -55,27 +55,10 @@ class BacklogsScreenState extends State<BacklogsScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-        onPressed: _onFabPressed,
+        onPressed: _goToAddEditBacklogScreen,
         backgroundColor: ColorsLibrary.accentColor0,
       ),
     );
-  }
-
-  void _onFabPressed() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) {
-          return AddEditBacklogScreen(
-              createAndAddBacklog: _createAndAddBacklog);
-        },
-        fullscreenDialog: true,
-      ),
-    );
-  }
-
-  void _createAndAddBacklog(Backlog newBacklog) {
-    BlocProvider.of<BacklogBloc>(context).add(BacklogAdded(newBacklog));
   }
 
   Center _buildLoading() {
@@ -108,6 +91,20 @@ class BacklogsScreenState extends State<BacklogsScreen> {
           ),
         );
       },
+    );
+  }
+
+  void _goToAddEditBacklogScreen() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) {
+          return AddEditBacklogScreen(createBacklogAction: (Backlog backlog) {
+            BlocProvider.of<BacklogBloc>(context).add(BacklogAdded(backlog));
+          });
+        },
+        fullscreenDialog: true,
+      ),
     );
   }
 }
