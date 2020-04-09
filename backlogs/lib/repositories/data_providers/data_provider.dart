@@ -6,7 +6,7 @@ class DataProvider {
 
   DataProvider() {
     _backlogs = <Backlog>[
-      Backlog(color: Colors.cyan, icon: Icons.adb, title: 'Apps')
+      Backlog(color: Colors.cyan, iconData: Icons.adb, title: 'Apps')
     ];
   }
 

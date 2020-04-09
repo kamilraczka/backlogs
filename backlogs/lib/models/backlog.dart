@@ -5,13 +5,13 @@ import 'package:uuid/uuid.dart';
 class Backlog {
   String id;
   String title;
-  IconData icon;
+  IconData iconData;
   Color color;
   List<Task> tasks;
 
   Backlog({
     @required this.title,
-    this.icon,
+    this.iconData,
     this.color,
   }) {
     this.id = Uuid().v4();
