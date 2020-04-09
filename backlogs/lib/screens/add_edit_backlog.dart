@@ -52,23 +52,15 @@ class AddEditBacklogScreenState extends State<AddEditBacklogScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Text('New backlog'),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.clear),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          )
-        ],
-      ),
-      body: Column(
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(16.0),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: AnimatedPadding(
+            duration: Duration(milliseconds: 200),
+            padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom),
             child: Column(
               children: <Widget>[
                 TextField(
@@ -98,25 +90,25 @@ class AddEditBacklogScreenState extends State<AddEditBacklogScreen> {
               ],
             ),
           ),
-          SizedBox(
-            width: double.infinity,
-            height: 48.0,
-            child: FlatButton(
-              color: ColorsLibrary.accentColor0,
-              textColor: Colors.white,
-              disabledColor: ColorsLibrary.accentColor0Disabled,
-              disabledTextColor: Colors.white54,
-              child: Text(
-                'Create backlog',
-                style: TextStyle(
-                  fontSize: 18.0,
-                ),
+        ),
+        SizedBox(
+          width: double.infinity,
+          height: 48.0,
+          child: FlatButton(
+            color: ColorsLibrary.accentColor0,
+            textColor: Colors.white,
+            disabledColor: ColorsLibrary.accentColor0Disabled,
+            disabledTextColor: Colors.white54,
+            child: Text(
+              'Create backlog',
+              style: TextStyle(
+                fontSize: 18.0,
               ),
-              onPressed: isEnabled ? _createBacklog : null,
             ),
-          )
-        ],
-      ),
+            onPressed: isEnabled ? _createBacklog : null,
+          ),
+        )
+      ],
     );
   }
 

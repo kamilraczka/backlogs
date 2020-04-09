@@ -95,14 +95,16 @@ class BacklogsScreenState extends State<BacklogsScreen> {
   }
 
   void _goToAddEditBacklogScreen() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) {
-          return AddEditBacklogScreen(createBacklogAction: _createBacklog);
-        },
-        fullscreenDialog: true,
-      ),
+    showModalBottomSheet(
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20.0))),
+      context: context,
+      isScrollControlled: true,
+      builder: (context) {
+        return AddEditBacklogScreen(
+          createBacklogAction: _createBacklog,
+        );
+      },
     );
   }
 
