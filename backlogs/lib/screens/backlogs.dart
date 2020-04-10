@@ -1,7 +1,7 @@
 import 'package:backlogs/blocs/backlog_bloc.dart';
 import 'package:backlogs/models/backlog.dart';
 import 'package:backlogs/routes.dart';
-import 'package:backlogs/screens/add_edit_backlog.dart';
+import 'package:backlogs/widgets/add_edit_backlog.dart';
 import 'package:backlogs/utilities/colors_library.dart';
 import 'package:backlogs/widgets/tile.dart';
 import 'package:flutter/material.dart';
@@ -101,7 +101,7 @@ class BacklogsScreenState extends State<BacklogsScreen> {
       context: context,
       isScrollControlled: true,
       builder: (context) {
-        return AddEditBacklogScreen(
+        return AddEditBacklog(
           createBacklogAction: _createBacklog,
         );
       },
