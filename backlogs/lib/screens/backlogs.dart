@@ -97,7 +97,8 @@ class BacklogsScreenState extends State<BacklogsScreen> {
   void _goToAddEditBacklogScreen() {
     showModalBottomSheet(
       shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(20.0))),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
+      ),
       context: context,
       isScrollControlled: true,
       builder: (context) {

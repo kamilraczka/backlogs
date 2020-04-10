@@ -50,7 +50,7 @@ class Tile extends StatelessWidget {
             spreadRadius: 4.0,
           )
         ],
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(20),
       ),
     );
   }

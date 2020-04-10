@@ -18,7 +18,7 @@ class AddEditBacklogState extends State<AddEditBacklog> {
   final FocusNode focusNode = FocusNode();
   String hintText = Constants.backlogCreationHint;
   bool isEnabled = false;
-  Icon pickedIcon = Constants.defaultIcon;
+  IconData pickedIconData = Constants.defaultIconData;
 
   @override
   void initState() {
@@ -62,29 +62,38 @@ class AddEditBacklogState extends State<AddEditBacklog> {
           child: Column(
             children: <Widget>[
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 44.0),
-                      child: Text(
-                        'New backlog',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: ColorsLibrary.textColorBold,
-                          fontSize: 20.0,
-                        ),
-                      ),
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Container(
+                      width: 24,
                     ),
                   ),
-                  IconButton(
-                    icon: Icon(
-                      Icons.clear,
+                  Text(
+                    'New backlog',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
                       color: ColorsLibrary.textColorBold,
-                      size: 24.0,
+                      fontSize: 20.0,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: GestureDetector(
+                      child: Icon(
+                        Icons.clear,
+                        color: ColorsLibrary.textColorBold,
+                        size: 24.0,
+                      ),
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
                     ),
                   ),
                 ],
               ),
+              Divider(),
               TextField(
                 controller: controller,
                 maxLines: 1,
@@ -93,37 +102,54 @@ class AddEditBacklogState extends State<AddEditBacklog> {
                 focusNode: focusNode,
                 decoration: InputDecoration(
                   hintText: hintText,
+                  hintStyle: TextStyle(color: ColorsLibrary.textColorLight),
                   border: InputBorder.none,
                 ),
               ),
               Divider(),
               GestureDetector(
                 child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    AnimatedSwitcher(
-                      duration: Duration(microseconds: 2000),
-                      child: pickedIcon,
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: AnimatedSwitcher(
+                        duration: Duration(microseconds: 2000),
+                        child: Icon(
+                          pickedIconData,
+                          color: ColorsLibrary.textColorBold,
+                          size: 28.0,
+                        ),
+                      ),
                     ),
-                    Text('Pick backlog\'s icon')
+                    Text(
+                      'Pick icon',
+                      style: TextStyle(
+                        color: ColorsLibrary.textColorBold,
+                        fontSize: 18.0,
+                      ),
+                    )
                   ],
                 ),
                 onTap: _pickIcon,
               ),
-              SizedBox(
-                width: double.infinity,
-                height: 48.0,
-                child: FlatButton(
-                  color: ColorsLibrary.accentColor0,
-                  textColor: Colors.white,
-                  disabledColor: ColorsLibrary.accentColor0Disabled,
-                  disabledTextColor: Colors.white54,
-                  child: Text(
-                    'Create backlog',
-                    style: TextStyle(
-                      fontSize: 18.0,
+              SafeArea(
+                child: SizedBox(
+                  width: double.infinity,
+                  height: 48.0,
+                  child: FlatButton(
+                    color: ColorsLibrary.accentColor0,
+                    textColor: Colors.white,
+                    disabledColor: ColorsLibrary.accentColor0Disabled,
+                    disabledTextColor: Colors.white54,
+                    child: Text(
+                      'Create backlog',
+                      style: TextStyle(
+                        fontSize: 18.0,
+                      ),
                     ),
+                    onPressed: isEnabled ? _createBacklog : null,
                   ),
-                  onPressed: isEnabled ? _createBacklog : null,
                 ),
               ),
             ],
@@ -137,15 +163,20 @@ class AddEditBacklogState extends State<AddEditBacklog> {
     var backlog = Backlog(
       title: controller.text,
       color: Colors.red,
-      iconData: pickedIcon.icon,
+      iconData: pickedIconData,
     );
     widget.createBacklogAction(backlog);
     Navigator.pop(context);
   }
 
   void _pickIcon() async {
-    IconData iconData = await FlutterIconPicker.showIconPicker(context);
-    pickedIcon = iconData != null ? Icon(iconData) : Constants.defaultIcon;
+    IconData iconData = await FlutterIconPicker.showIconPicker(
+      context,
+      iconPickerShape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(20.0)),
+      ),
+    );
+    pickedIconData = iconData != null ? iconData : Constants.defaultIconData;
     setState(() {});
   }
 }
