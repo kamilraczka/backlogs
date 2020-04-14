@@ -97,7 +97,7 @@ class AddEditBacklogState extends State<AddEditBacklog> {
               TextField(
                 controller: controller,
                 maxLines: 1,
-                style: TextStyle(fontSize: 22.0),
+                style: TextStyle(fontSize: 24.0),
                 textAlign: TextAlign.center,
                 focusNode: focusNode,
                 decoration: InputDecoration(
@@ -113,13 +113,10 @@ class AddEditBacklogState extends State<AddEditBacklog> {
                   children: <Widget>[
                     Padding(
                       padding: const EdgeInsets.all(16.0),
-                      child: AnimatedSwitcher(
-                        duration: Duration(microseconds: 2000),
-                        child: Icon(
-                          pickedIconData,
-                          color: ColorsLibrary.textColorBold,
-                          size: 28.0,
-                        ),
+                      child: Icon(
+                        pickedIconData,
+                        color: ColorsLibrary.accentColor0,
+                        size: 28.0,
                       ),
                     ),
                     Text(
