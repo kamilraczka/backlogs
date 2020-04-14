@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 
 class Task {
-  int id;
-  int backlogId;
+  String id;
+  String backlogId;
   String description;
   bool isDone;
 
   Task({
-    @required this.id,
     @required this.backlogId,
     @required this.description,
     this.isDone = false,
-  });
+  }) {
+    this.id = Uuid().v4();
+  }
 }

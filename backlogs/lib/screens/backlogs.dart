@@ -1,6 +1,7 @@
 import 'package:backlogs/blocs/backlog_bloc.dart';
 import 'package:backlogs/models/backlog.dart';
 import 'package:backlogs/routes.dart';
+import 'package:backlogs/widgets/add_edit_backlog.dart';
 import 'package:backlogs/utilities/colors_library.dart';
 import 'package:backlogs/widgets/tile.dart';
 import 'package:flutter/material.dart';
@@ -54,7 +55,7 @@ class BacklogsScreenState extends State<BacklogsScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-        onPressed: null,
+        onPressed: _goToAddEditBacklogScreen,
         backgroundColor: ColorsLibrary.accentColor0,
       ),
     );
@@ -91,5 +92,24 @@ class BacklogsScreenState extends State<BacklogsScreen> {
         );
       },
     );
+  }
+
+  void _goToAddEditBacklogScreen() {
+    showModalBottomSheet(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
+      ),
+      context: context,
+      isScrollControlled: true,
+      builder: (context) {
+        return AddEditBacklog(
+          createBacklogAction: _createBacklog,
+        );
+      },
+    );
+  }
+
+  void _createBacklog(Backlog backlog) {
+    BlocProvider.of<BacklogBloc>(context).add(BacklogAdded(backlog));
   }
 }

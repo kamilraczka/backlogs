@@ -15,7 +15,7 @@ class DataRepository {
     return _backlogs;
   }
 
-  Future<List<Task>> fetchTasks(int backlogId) async {
+  Future<List<Task>> fetchTasks(String backlogId) async {
     if (_backlogs == null) {
       _backlogs = await _dataProvider.readBacklogs();
     }
@@ -32,6 +32,11 @@ class DataRepository {
       return backlog.id == task.backlogId;
     }).first;
     backlog.tasks.add(task);
+    return _dataProvider.updateData(_backlogs);
+  }
+
+  Future addBacklog(Backlog backlog) {
+    _backlogs.add(backlog);
     return _dataProvider.updateData(_backlogs);
   }
 }

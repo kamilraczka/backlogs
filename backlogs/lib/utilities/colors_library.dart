@@ -16,6 +16,7 @@ class ColorsLibrary {
   static Color accentColor5 = TinyColor.fromString('#EA614F').color;
   static Color accentColor6 = TinyColor.fromString('#B858C9').color;
   static Color accentColor7 = TinyColor.fromString('#00B5C2').color;
+  static Color accentColor0Disabled = TinyColor.fromString('#7993FF').color;
 
   static Color idToColorConverter(int id) {
     final accents = {

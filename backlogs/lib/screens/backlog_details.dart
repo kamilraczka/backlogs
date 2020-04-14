@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class BacklogDetailsScreen extends StatefulWidget {
-  final int parentBacklogId;
+  final String parentBacklogId;
 
   const BacklogDetailsScreen({@required this.parentBacklogId})
       : assert(parentBacklogId != null);
@@ -37,7 +37,7 @@ class _BacklogDetailsScreenState extends State<BacklogDetailsScreen> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _onFabPressed,
+        onPressed: _goToAddEditTaskScreen,
         backgroundColor: ColorsLibrary.accentColor0,
         child: Icon(
           Icons.add,
@@ -105,13 +105,13 @@ class _BacklogDetailsScreenState extends State<BacklogDetailsScreen> {
     );
   }
 
-  void _onFabPressed() {
+  void _goToAddEditTaskScreen() {
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) {
           return AddEditTaskScreen(
-            onCreatePressed: _createTask,
+            createTaskAction: _createTask,
           );
         },
         fullscreenDialog: true,
@@ -120,8 +120,7 @@ class _BacklogDetailsScreenState extends State<BacklogDetailsScreen> {
   }
 
   void _createTask(String text) {
-    final task =
-        Task(id: 0, backlogId: widget.parentBacklogId, description: text);
+    final task = Task(backlogId: widget.parentBacklogId, description: text);
     BlocProvider.of<TaskBloc>(context).add(TaskAdded(task));
   }
 }

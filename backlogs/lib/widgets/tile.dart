@@ -17,7 +17,7 @@ class Tile extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Icon(
-            backlog.icon,
+            backlog.iconData,
             color: ColorsLibrary.idToColorConverter(colorId),
             size: 40.0,
           ),
@@ -50,7 +50,7 @@ class Tile extends StatelessWidget {
             spreadRadius: 4.0,
           )
         ],
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(20),
       ),
     );
   }
