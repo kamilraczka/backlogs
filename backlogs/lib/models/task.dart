@@ -11,7 +11,5 @@ class Task {
     @required this.backlogId,
     @required this.description,
     this.isDone = false,
-  }) {
-    this.id = Uuid().v4();
-  }
+  }) : this.id = Uuid().v4();
 }

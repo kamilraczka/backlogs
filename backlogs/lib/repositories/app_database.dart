@@ -9,7 +9,6 @@ class AppDatabase {
   static AppDatabase get instance => _singleton;
 
   Completer<Database> _dbOpenCompleter;
-  Database _database;
 
   AppDatabase._();
 
