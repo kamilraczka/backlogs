@@ -6,7 +6,7 @@ abstract class TaskEvent {
 }
 
 class TaskLoadedAll extends TaskEvent {
-  final String backlogId;
+  final int backlogId;
 
   const TaskLoadedAll({@required this.backlogId});
 }

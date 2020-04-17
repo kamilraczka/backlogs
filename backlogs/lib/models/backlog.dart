@@ -19,21 +19,28 @@ class Backlog {
     }
   }
 
-  Map<String, dynamic> toEntity() {
-    return {
-      'title': title,
-      'iconData': iconData,
-      'color': color,
-      'tasks': tasks,
-    };
-  }
+  Map<String, dynamic> toMap() => {
+        'title': title,
+        'iconCodePoint': iconData.codePoint,
+        'iconFontFamily': iconData.fontFamily,
+        'iconFontPackage': iconData.fontPackage,
+        'colorValue': color.value,
+        'tasks': tasks.map((element) => element.toMap()).toList(),
+      };
 
-  static Backlog fromEntity(Map<String, dynamic> entity) {
+  static Backlog fromMap(Map<String, dynamic> entity) {
+    final rawListOfTasks = entity['tasks'] as List;
+    final tasks =
+        rawListOfTasks.map((element) => Task.fromMap(element)).toList();
     return Backlog(
       title: entity['title'],
-      iconData: entity['iconData'],
-      color: entity['color'],
-      tasks: entity['tasks'],
+      iconData: IconData(
+        entity['iconCodePoint'],
+        fontFamily: entity['iconFontFamily'],
+        fontPackage: entity['iconFontPackage'],
+      ),
+      color: Color(entity['colorValue']),
+      tasks: tasks,
     );
   }
 }

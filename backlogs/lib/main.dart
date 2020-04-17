@@ -1,5 +1,5 @@
+import 'package:backlogs/repositories/backlogs_dao.dart';
 import 'package:backlogs/repositories/data_repository.dart';
-import 'package:backlogs/repositories/data_providers/data_provider.dart';
 import 'package:backlogs/routes.dart';
 import 'package:backlogs/extensions/routes_extension.dart';
 import 'package:backlogs/screens/backlog_details.dart';
@@ -16,8 +16,8 @@ void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final dataProvider = DataProvider();
-    final repository = DataRepository(dataProvider);
+    final backlogsDao = BacklogsDao();
+    final repository = DataRepository(backlogsDao);
     BlocSupervisor.delegate = TransitionBlocDelegate();
 
     return MaterialApp(
@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
       initialRoute: ApplicationRoutes.backlogs.value,
       onGenerateRoute: (RouteSettings settings) {
         if (settings.name == ApplicationRoutes.backlogDetails.value) {
-          final String backlogId = settings.arguments;
+          final int backlogId = settings.arguments;
           return MaterialPageRoute(
             builder: (context) => BlocProvider(
               create: (context) => TaskBloc(repository),
