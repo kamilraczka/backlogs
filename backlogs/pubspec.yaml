@@ -28,7 +28,8 @@ dependencies:
   flutter_bloc: ^3.2.0
   uuid: 2.0.4
   flutter_iconpicker: ^1.1.1
-
+  sembast: ^2.4.2
+  path_provider: ^1.6.5
 
 dev_dependencies:
   flutter_test:

@@ -1,5 +1,5 @@
 import 'package:backlogs/models/task.dart';
-import 'package:backlogs/repositories/data_repository.dart';
+import 'package:backlogs/data/backlogs_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 
@@ -7,7 +7,7 @@ part 'task_event.dart';
 part 'task_state.dart';
 
 class TaskBloc extends Bloc<TaskEvent, TaskState> {
-  final DataRepository repository;
+  final BacklogsRepository repository;
 
   TaskBloc(this.repository) : assert(repository != null);
 

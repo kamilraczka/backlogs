@@ -1,23 +1,23 @@
 import 'package:backlogs/models/backlog.dart';
 import 'package:backlogs/models/task.dart';
-import 'package:backlogs/repositories/data_providers/data_provider.dart';
+import 'package:backlogs/data/backlogs_dao.dart';
 
-class DataRepository {
-  final DataProvider _dataProvider;
+class BacklogsRepository {
+  final BacklogsDao _backlogsDao;
   List<Backlog> _backlogs;
 
-  DataRepository(this._dataProvider) : assert(_dataProvider != null);
+  BacklogsRepository(this._backlogsDao) : assert(_backlogsDao != null);
 
   Future<List<Backlog>> fetchBacklogs() async {
     if (_backlogs == null) {
-      _backlogs = await _dataProvider.readBacklogs();
+      _backlogs = await _backlogsDao.readAllByTitle();
     }
     return _backlogs;
   }
 
-  Future<List<Task>> fetchTasks(String backlogId) async {
+  Future<List<Task>> fetchTasks(int backlogId) async {
     if (_backlogs == null) {
-      _backlogs = await _dataProvider.readBacklogs();
+      _backlogs = await _backlogsDao.readAllByTitle();
     }
     return _backlogs
         .where((backlog) {
@@ -32,11 +32,12 @@ class DataRepository {
       return backlog.id == task.backlogId;
     }).first;
     backlog.tasks.add(task);
-    return _dataProvider.updateData(_backlogs);
+    return _backlogsDao.update(backlog);
   }
 
-  Future addBacklog(Backlog backlog) {
+  Future addBacklog(Backlog backlog) async {
+    final snapshotKey = await _backlogsDao.insert(backlog);
+    backlog.id = snapshotKey;
     _backlogs.add(backlog);
-    return _dataProvider.updateData(_backlogs);
   }
 }

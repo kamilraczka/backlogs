@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class BacklogDetailsScreen extends StatefulWidget {
-  final String parentBacklogId;
+  final int parentBacklogId;
 
   const BacklogDetailsScreen({@required this.parentBacklogId})
       : assert(parentBacklogId != null);

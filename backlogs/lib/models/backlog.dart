@@ -1,9 +1,8 @@
 import 'package:backlogs/models/task.dart';
 import 'package:flutter/material.dart';
-import 'package:uuid/uuid.dart';
 
 class Backlog {
-  String id;
+  int id;
   String title;
   IconData iconData;
   Color color;
@@ -11,10 +10,37 @@ class Backlog {
 
   Backlog({
     @required this.title,
-    this.iconData,
-    this.color,
+    @required this.iconData,
+    @required this.color,
+    this.tasks,
+    this.id,
   }) {
-    this.id = Uuid().v4();
-    this.tasks = List<Task>();
+    if (tasks == null) {
+      this.tasks = List<Task>();
+    }
+  }
+
+  Map<String, dynamic> toMap() => {
+        'id': id,
+        'title': title,
+        'iconCodePoint': iconData.codePoint,
+        'iconFontFamily': iconData.fontFamily,
+        'iconFontPackage': iconData.fontPackage,
+        'colorValue': color.value,
+        'tasks': tasks.map((element) => element.toMap()).toList(),
+      };
+
+  static Backlog fromMap(Map<String, dynamic> entity) {
+    final rawListOfTasks = entity['tasks'] as List;
+    return Backlog(
+      title: entity['title'],
+      iconData: IconData(
+        entity['iconCodePoint'],
+        fontFamily: entity['iconFontFamily'],
+        fontPackage: entity['iconFontPackage'],
+      ),
+      color: Color(entity['colorValue']),
+      tasks: rawListOfTasks.map((element) => Task.fromMap(element)).toList(),
+    );
   }
 }
