@@ -1,12 +1,12 @@
 import 'package:backlogs/models/backlog.dart';
 import 'package:backlogs/models/task.dart';
-import 'package:backlogs/repositories/backlogs_dao.dart';
+import 'package:backlogs/data/backlogs_dao.dart';
 
-class DataRepository {
+class BacklogsRepository {
   final BacklogsDao _backlogsDao;
   List<Backlog> _backlogs;
 
-  DataRepository(this._backlogsDao) : assert(_backlogsDao != null);
+  BacklogsRepository(this._backlogsDao) : assert(_backlogsDao != null);
 
   Future<List<Backlog>> fetchBacklogs() async {
     if (_backlogs == null) {
@@ -35,8 +35,9 @@ class DataRepository {
     return _backlogsDao.update(backlog);
   }
 
-  Future addBacklog(Backlog backlog) {
+  Future addBacklog(Backlog backlog) async {
+    final snapshotKey = await _backlogsDao.insert(backlog);
+    backlog.id = snapshotKey;
     _backlogs.add(backlog);
-    return _backlogsDao.insert(backlog);
   }
 }

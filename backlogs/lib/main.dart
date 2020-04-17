@@ -1,5 +1,5 @@
-import 'package:backlogs/repositories/backlogs_dao.dart';
-import 'package:backlogs/repositories/data_repository.dart';
+import 'package:backlogs/data/backlogs_dao.dart';
+import 'package:backlogs/data/backlogs_repository.dart';
 import 'package:backlogs/routes.dart';
 import 'package:backlogs/extensions/routes_extension.dart';
 import 'package:backlogs/screens/backlog_details.dart';
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final backlogsDao = BacklogsDao();
-    final repository = DataRepository(backlogsDao);
+    final repository = BacklogsRepository(backlogsDao);
     BlocSupervisor.delegate = TransitionBlocDelegate();
 
     return MaterialApp(

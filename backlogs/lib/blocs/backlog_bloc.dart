@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:backlogs/models/backlog.dart';
-import 'package:backlogs/repositories/data_repository.dart';
+import 'package:backlogs/data/backlogs_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 
@@ -9,7 +9,7 @@ part 'backlog_event.dart';
 part 'backlog_state.dart';
 
 class BacklogBloc extends Bloc<BacklogEvent, BacklogState> {
-  final DataRepository repository;
+  final BacklogsRepository repository;
 
   BacklogBloc(this.repository) : assert(repository != null);
 

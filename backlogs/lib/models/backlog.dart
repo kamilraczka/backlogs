@@ -13,6 +13,7 @@ class Backlog {
     @required this.iconData,
     @required this.color,
     this.tasks,
+    this.id,
   }) {
     if (tasks == null) {
       this.tasks = List<Task>();
@@ -20,6 +21,7 @@ class Backlog {
   }
 
   Map<String, dynamic> toMap() => {
+        'id': id,
         'title': title,
         'iconCodePoint': iconData.codePoint,
         'iconFontFamily': iconData.fontFamily,
@@ -30,8 +32,6 @@ class Backlog {
 
   static Backlog fromMap(Map<String, dynamic> entity) {
     final rawListOfTasks = entity['tasks'] as List;
-    final tasks =
-        rawListOfTasks.map((element) => Task.fromMap(element)).toList();
     return Backlog(
       title: entity['title'],
       iconData: IconData(
@@ -40,7 +40,7 @@ class Backlog {
         fontPackage: entity['iconFontPackage'],
       ),
       color: Color(entity['colorValue']),
-      tasks: tasks,
+      tasks: rawListOfTasks.map((element) => Task.fromMap(element)).toList(),
     );
   }
 }

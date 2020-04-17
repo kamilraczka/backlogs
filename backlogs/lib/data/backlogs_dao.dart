@@ -1,6 +1,6 @@
 import 'package:sembast/sembast.dart';
 import 'package:backlogs/models/backlog.dart';
-import 'package:backlogs/repositories/app_database.dart';
+import 'package:backlogs/data/app_database.dart';
 
 class BacklogsDao {
   static const String backlogStoreName = 'backlogs';
@@ -8,8 +8,8 @@ class BacklogsDao {
 
   Future<Database> get _db async => await AppDatabase.instance.database;
 
-  Future insert(Backlog backlog) async {
-    await _backlogsStore.add(await _db, backlog.toMap());
+  Future<int> insert(Backlog backlog) async {
+    return await _backlogsStore.add(await _db, backlog.toMap());
   }
 
   Future update(Backlog backlog) async {
