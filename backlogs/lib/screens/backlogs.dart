@@ -1,6 +1,7 @@
 import 'package:backlogs/blocs/backlog_bloc.dart';
 import 'package:backlogs/models/backlog.dart';
 import 'package:backlogs/routes.dart';
+import 'package:backlogs/screens/api_requests.dart';
 import 'package:backlogs/widgets/add_edit_backlog.dart';
 import 'package:backlogs/utilities/colors_library.dart';
 import 'package:backlogs/widgets/tile.dart';
@@ -53,10 +54,28 @@ class BacklogsScreenState extends State<BacklogsScreen> {
           },
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: _goToAddEditBacklogScreen,
-        backgroundColor: ColorsLibrary.accentColor0,
+      floatingActionButton: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: FloatingActionButton(
+              heroTag: "fab_1",
+              child: Icon(Icons.send),
+              onPressed: _goToApiRequestsScreen,
+              backgroundColor: ColorsLibrary.accentColor0,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: FloatingActionButton(
+              heroTag: "fab_2",
+              child: Icon(Icons.add),
+              onPressed: _goToAddEditBacklogScreen,
+              backgroundColor: ColorsLibrary.accentColor0,
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -91,6 +110,13 @@ class BacklogsScreenState extends State<BacklogsScreen> {
           ),
         );
       },
+    );
+  }
+
+  void _goToApiRequestsScreen() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => ApiRequestsScreen()),
     );
   }
 
