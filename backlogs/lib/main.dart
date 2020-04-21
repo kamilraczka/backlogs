@@ -10,6 +10,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'blocs/backlog_bloc.dart';
 import 'blocs/task_bloc.dart';
 import 'blocs/transition_bloc_delegate.dart';
+import 'models/backlog.dart';
 
 void main() => runApp(MyApp());
 
@@ -25,11 +26,11 @@ class MyApp extends StatelessWidget {
       initialRoute: ApplicationRoutes.backlogs.value,
       onGenerateRoute: (RouteSettings settings) {
         if (settings.name == ApplicationRoutes.backlogDetails.value) {
-          final int backlogId = settings.arguments;
+          final Backlog backlog = settings.arguments;
           return MaterialPageRoute(
             builder: (context) => BlocProvider(
               create: (context) => TaskBloc(repository),
-              child: BacklogDetailsScreen(parentBacklogId: backlogId),
+              child: BacklogDetailsScreen(parentBacklog: backlog),
             ),
           );
         }

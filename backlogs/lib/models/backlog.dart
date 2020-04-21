@@ -5,13 +5,11 @@ class Backlog {
   int id;
   String title;
   IconData iconData;
-  Color color;
   List<Task> tasks;
 
   Backlog({
     @required this.title,
     @required this.iconData,
-    @required this.color,
     this.tasks,
     this.id,
   }) {
@@ -26,7 +24,6 @@ class Backlog {
         'iconCodePoint': iconData.codePoint,
         'iconFontFamily': iconData.fontFamily,
         'iconFontPackage': iconData.fontPackage,
-        'colorValue': color.value,
         'tasks': tasks.map((element) => element.toMap()).toList(),
       };
 
@@ -39,7 +36,6 @@ class Backlog {
         fontFamily: entity['iconFontFamily'],
         fontPackage: entity['iconFontPackage'],
       ),
-      color: Color(entity['colorValue']),
       tasks: rawListOfTasks.map((element) => Task.fromMap(element)).toList(),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:backlogs/blocs/task_bloc.dart';
+import 'package:backlogs/models/backlog.dart';
 import 'package:backlogs/models/task.dart';
 import 'package:backlogs/screens/add_edit_task.dart';
 import 'package:backlogs/utilities/colors_library.dart';
@@ -7,10 +8,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class BacklogDetailsScreen extends StatefulWidget {
-  final int parentBacklogId;
+  final Backlog parentBacklog;
 
-  const BacklogDetailsScreen({@required this.parentBacklogId})
-      : assert(parentBacklogId != null);
+  const BacklogDetailsScreen({@required this.parentBacklog})
+      : assert(parentBacklog != null);
 
   @override
   State<StatefulWidget> createState() => _BacklogDetailsScreenState();
@@ -21,7 +22,7 @@ class _BacklogDetailsScreenState extends State<BacklogDetailsScreen> {
   void initState() {
     super.initState();
     BlocProvider.of<TaskBloc>(context)
-        .add(TaskLoadedAll(backlogId: widget.parentBacklogId));
+        .add(TaskLoadedAll(backlogId: widget.parentBacklog.id));
   }
 
   @override
@@ -38,7 +39,8 @@ class _BacklogDetailsScreenState extends State<BacklogDetailsScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _goToAddEditTaskScreen,
-        backgroundColor: ColorsLibrary.accentColor0,
+        backgroundColor:
+            ColorsLibrary.idToColorConverter(widget.parentBacklog.id),
         child: Icon(
           Icons.add,
         ),
@@ -65,14 +67,14 @@ class _BacklogDetailsScreenState extends State<BacklogDetailsScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Icon(
-                  Icons.event_note,
+                  widget.parentBacklog.iconData,
                   color: Colors.white,
                 ),
                 SizedBox(
                   height: 4.0,
                 ),
                 Text(
-                  'All',
+                  '${widget.parentBacklog.title}',
                   style: TextStyle(fontSize: 22.0),
                 ),
                 Text(
@@ -85,7 +87,8 @@ class _BacklogDetailsScreenState extends State<BacklogDetailsScreen> {
               ],
             ),
           ),
-          backgroundColor: ColorsLibrary.accentColor0,
+          backgroundColor:
+              ColorsLibrary.idToColorConverter(widget.parentBacklog.id),
         ),
         SliverPadding(
           padding: const EdgeInsets.all(24.0),
@@ -120,7 +123,7 @@ class _BacklogDetailsScreenState extends State<BacklogDetailsScreen> {
   }
 
   void _createTask(String text) {
-    final task = Task(backlogId: widget.parentBacklogId, description: text);
+    final task = Task(backlogId: widget.parentBacklog.id, description: text);
     BlocProvider.of<TaskBloc>(context).add(TaskAdded(task));
   }
 }
