@@ -22,10 +22,12 @@ class Tile extends StatelessWidget {
             size: 40.0,
           ),
           SizedBox(
-            height: 24.0,
+            height: 12.0,
           ),
           Text(
             backlog.title,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
             style: TextStyle(
               color: ColorsLibrary.textColorBold,
               fontSize: 24.0,

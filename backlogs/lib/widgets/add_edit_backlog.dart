@@ -159,7 +159,6 @@ class AddEditBacklogState extends State<AddEditBacklog> {
   void _createBacklog() {
     var backlog = Backlog(
       title: controller.text,
-      color: Colors.red,
       iconData: pickedIconData,
     );
     widget.createBacklogAction(backlog);

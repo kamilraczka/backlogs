@@ -82,12 +82,12 @@ class BacklogsScreenState extends State<BacklogsScreen> {
             Navigator.pushNamed(
               context,
               ApplicationRoutes.backlogDetails.value,
-              arguments: backlogs[index].id,
+              arguments: backlogs[index],
             );
           },
           child: Tile(
             backlog: backlogs[index],
-            colorId: index,
+            colorId: backlogs[index].id,
           ),
         );
       },
