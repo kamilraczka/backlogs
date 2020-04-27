@@ -120,6 +120,6 @@ class BacklogsScreenState extends State<BacklogsScreen> {
   }
 
   void _editBacklog(Backlog backlog) {
-    print(backlog.title);
+    BlocProvider.of<BacklogBloc>(context).add(BacklogEdited(backlog));
   }
 }
