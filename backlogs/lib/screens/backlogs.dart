@@ -108,7 +108,8 @@ class BacklogsScreenState extends State<BacklogsScreen> {
       isScrollControlled: true,
       builder: (context) {
         return AddEditBacklog(
-          action: backlog != null ? _editBacklog : _createBacklog,
+          finishAction: backlog != null ? _editBacklog : _createBacklog,
+          deleteAction: _deleteBacklog,
           editingBacklog: backlog,
         );
       },
@@ -121,5 +122,9 @@ class BacklogsScreenState extends State<BacklogsScreen> {
 
   void _editBacklog(Backlog backlog) {
     BlocProvider.of<BacklogBloc>(context).add(BacklogEdited(backlog));
+  }
+
+  void _deleteBacklog(int backlogId) {
+    BlocProvider.of<BacklogBloc>(context).add(BacklogDeleted(backlogId));
   }
 }

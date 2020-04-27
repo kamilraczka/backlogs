@@ -5,11 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_iconpicker/flutter_iconpicker.dart';
 
 class AddEditBacklog extends StatefulWidget {
-  final Function(Backlog backlog) action;
+  final Function(Backlog backlog) finishAction;
+  final Function(int backlogId) deleteAction;
   final Backlog editingBacklog;
   bool get isEditing => editingBacklog != null;
 
-  const AddEditBacklog({@required this.action, this.editingBacklog});
+  const AddEditBacklog(
+      {@required this.finishAction, this.editingBacklog, this.deleteAction});
 
   @override
   State<StatefulWidget> createState() => AddEditBacklogState();
@@ -70,12 +72,7 @@ class AddEditBacklogState extends State<AddEditBacklog> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Container(
-                      width: 24,
-                    ),
-                  ),
+                  widget.isEditing ? _showDeleteIcon() : _showEmptySpace(),
                   Text(
                     widget.isEditing ? 'Edit backlog' : 'New backlog',
                     textAlign: TextAlign.center,
@@ -166,16 +163,38 @@ class AddEditBacklogState extends State<AddEditBacklog> {
     if (widget.isEditing) {
       widget.editingBacklog.title = controller.text;
       widget.editingBacklog.iconData = pickedIconData;
-      widget.action(widget.editingBacklog);
+      widget.finishAction(widget.editingBacklog);
     } else {
       var backlog = Backlog(
         title: controller.text,
         iconData: pickedIconData,
       );
-      widget.action(backlog);
+      widget.finishAction(backlog);
     }
     Navigator.pop(context);
   }
+
+  Widget _showDeleteIcon() => Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: GestureDetector(
+          child: Icon(
+            Icons.delete,
+            color: ColorsLibrary.textColorBold,
+            size: 24.0,
+          ),
+          onTap: () {
+            widget.deleteAction(widget.editingBacklog.id);
+            Navigator.pop(context);
+          },
+        ),
+      );
+
+  Widget _showEmptySpace() => Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Container(
+          width: 24,
+        ),
+      );
 
   void _pickIcon() async {
     IconData iconData = await FlutterIconPicker.showIconPicker(

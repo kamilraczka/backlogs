@@ -48,4 +48,9 @@ class BacklogsRepository {
     oldBacklog.title = updatedBacklog.title;
     oldBacklog.iconData = updatedBacklog.iconData;
   }
+
+  Future deleteBacklog(int backlogId) async {
+    await _backlogsDao.delete(backlogId);
+    _backlogs.removeWhere((backlog) => backlog.id == backlogId);
+  }
 }

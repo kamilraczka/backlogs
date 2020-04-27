@@ -17,8 +17,8 @@ class BacklogsDao {
     await _backlogsStore.update(await _db, backlog.toMap(), finder: finder);
   }
 
-  Future delete(Backlog backlog) async {
-    final finder = Finder(filter: Filter.byKey(backlog.id));
+  Future delete(int backlogId) async {
+    final finder = Finder(filter: Filter.byKey(backlogId));
     await _backlogsStore.delete(await _db, finder: finder);
   }
 
