@@ -40,4 +40,12 @@ class BacklogsRepository {
     backlog.id = snapshotKey;
     _backlogs.add(backlog);
   }
+
+  Future updateBacklog(Backlog updatedBacklog) async {
+    await _backlogsDao.update(updatedBacklog);
+    var oldBacklog =
+        _backlogs.firstWhere((backlog) => backlog.id == updatedBacklog.id);
+    oldBacklog.title = updatedBacklog.title;
+    oldBacklog.iconData = updatedBacklog.iconData;
+  }
 }

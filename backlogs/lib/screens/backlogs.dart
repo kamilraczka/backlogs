@@ -55,7 +55,9 @@ class BacklogsScreenState extends State<BacklogsScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-        onPressed: _goToAddEditBacklogScreen,
+        onPressed: () {
+          _showAddEditBacklogWidget();
+        },
         backgroundColor: ColorsLibrary.accentColor0,
       ),
     );
@@ -85,6 +87,9 @@ class BacklogsScreenState extends State<BacklogsScreen> {
               arguments: backlogs[index],
             );
           },
+          onLongPress: () {
+            _showAddEditBacklogWidget(backlog: backlogs[index]);
+          },
           child: Tile(
             backlog: backlogs[index],
             colorId: backlogs[index].id,
@@ -94,7 +99,7 @@ class BacklogsScreenState extends State<BacklogsScreen> {
     );
   }
 
-  void _goToAddEditBacklogScreen() {
+  void _showAddEditBacklogWidget({Backlog backlog}) {
     showModalBottomSheet(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
@@ -103,7 +108,8 @@ class BacklogsScreenState extends State<BacklogsScreen> {
       isScrollControlled: true,
       builder: (context) {
         return AddEditBacklog(
-          createBacklogAction: _createBacklog,
+          action: backlog != null ? _editBacklog : _createBacklog,
+          editingBacklog: backlog,
         );
       },
     );
@@ -111,5 +117,9 @@ class BacklogsScreenState extends State<BacklogsScreen> {
 
   void _createBacklog(Backlog backlog) {
     BlocProvider.of<BacklogBloc>(context).add(BacklogAdded(backlog));
+  }
+
+  void _editBacklog(Backlog backlog) {
+    BlocProvider.of<BacklogBloc>(context).add(BacklogEdited(backlog));
   }
 }

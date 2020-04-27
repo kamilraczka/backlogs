@@ -5,9 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_iconpicker/flutter_iconpicker.dart';
 
 class AddEditBacklog extends StatefulWidget {
-  final Function(Backlog backlog) createBacklogAction;
+  final Function(Backlog backlog) action;
+  final Backlog editingBacklog;
+  bool get isEditing => editingBacklog != null;
 
-  const AddEditBacklog({@required this.createBacklogAction});
+  const AddEditBacklog({@required this.action, this.editingBacklog});
 
   @override
   State<StatefulWidget> createState() => AddEditBacklogState();
@@ -18,7 +20,7 @@ class AddEditBacklogState extends State<AddEditBacklog> {
   final FocusNode focusNode = FocusNode();
   String hintText = Constants.backlogCreationHint;
   bool isEnabled = false;
-  IconData pickedIconData = Constants.defaultIconData;
+  IconData pickedIconData;
 
   @override
   void initState() {
@@ -41,6 +43,10 @@ class AddEditBacklogState extends State<AddEditBacklog> {
       }
       setState(() {});
     });
+
+    controller.text = widget.editingBacklog?.title;
+    pickedIconData =
+        widget.editingBacklog?.iconData ?? Constants.defaultIconData;
   }
 
   @override
@@ -71,7 +77,7 @@ class AddEditBacklogState extends State<AddEditBacklog> {
                     ),
                   ),
                   Text(
-                    'New backlog',
+                    widget.isEditing ? 'Edit backlog' : 'New backlog',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: ColorsLibrary.textColorBold,
@@ -140,12 +146,12 @@ class AddEditBacklogState extends State<AddEditBacklog> {
                     disabledColor: ColorsLibrary.accentColor0Disabled,
                     disabledTextColor: Colors.white54,
                     child: Text(
-                      'Create backlog',
+                      'Finish',
                       style: TextStyle(
                         fontSize: 18.0,
                       ),
                     ),
-                    onPressed: isEnabled ? _createBacklog : null,
+                    onPressed: isEnabled ? _finishWidgetAction : null,
                   ),
                 ),
               ),
@@ -156,12 +162,18 @@ class AddEditBacklogState extends State<AddEditBacklog> {
     );
   }
 
-  void _createBacklog() {
-    var backlog = Backlog(
-      title: controller.text,
-      iconData: pickedIconData,
-    );
-    widget.createBacklogAction(backlog);
+  void _finishWidgetAction() {
+    if (widget.isEditing) {
+      widget.editingBacklog.title = controller.text;
+      widget.editingBacklog.iconData = pickedIconData;
+      widget.action(widget.editingBacklog);
+    } else {
+      var backlog = Backlog(
+        title: controller.text,
+        iconData: pickedIconData,
+      );
+      widget.action(backlog);
+    }
     Navigator.pop(context);
   }
 

@@ -18,11 +18,12 @@ class BacklogBloc extends Bloc<BacklogEvent, BacklogState> {
 
   @override
   Stream<BacklogState> mapEventToState(BacklogEvent event) async* {
-    yield BacklogLoadInProgress();
     if (event is BacklogLoadedAll) {
       yield* _mapLoadedAllToState();
     } else if (event is BacklogAdded) {
       yield* _mapAddedToState(event.backlog);
+    } else if (event is BacklogEdited) {
+      yield* _mapEditedToState(event.backlog);
     }
   }
 
@@ -33,6 +34,11 @@ class BacklogBloc extends Bloc<BacklogEvent, BacklogState> {
 
   Stream<BacklogState> _mapAddedToState(Backlog backlog) async* {
     await repository.addBacklog(backlog);
+    add(BacklogLoadedAll());
+  }
+
+  Stream<BacklogState> _mapEditedToState(Backlog backlog) async* {
+    await repository.updateBacklog(backlog);
     add(BacklogLoadedAll());
   }
 }
