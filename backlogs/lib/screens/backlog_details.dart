@@ -39,8 +39,7 @@ class _BacklogDetailsScreenState extends State<BacklogDetailsScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _goToAddEditTaskScreen,
-        backgroundColor:
-            ColorsLibrary.idToColorConverter(widget.parentBacklog.id),
+        backgroundColor: ColorsLibrary.accentColor0,
         child: Icon(
           Icons.add,
         ),

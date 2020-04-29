@@ -3,13 +3,17 @@ import 'package:backlogs/utilities/colors_library.dart';
 import 'package:backlogs/utilities/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconpicker/flutter_iconpicker.dart';
+import 'package:backlogs/extensions/routes_extension.dart';
+import '../routes.dart';
 
 class AddEditBacklog extends StatefulWidget {
-  final Function(Backlog backlog) action;
+  final Function(Backlog backlog) finishAction;
+  final Function(int backlogId) deleteAction;
   final Backlog editingBacklog;
   bool get isEditing => editingBacklog != null;
 
-  const AddEditBacklog({@required this.action, this.editingBacklog});
+  const AddEditBacklog(
+      {@required this.finishAction, this.editingBacklog, this.deleteAction});
 
   @override
   State<StatefulWidget> createState() => AddEditBacklogState();
@@ -70,12 +74,9 @@ class AddEditBacklogState extends State<AddEditBacklog> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Container(
-                      width: 24,
-                    ),
-                  ),
+                  widget.isEditing
+                      ? _fillSpaceWithDeleteIcon()
+                      : _fillSpaceWithNoting(),
                   Text(
                     widget.isEditing ? 'Edit backlog' : 'New backlog',
                     textAlign: TextAlign.center,
@@ -121,7 +122,7 @@ class AddEditBacklogState extends State<AddEditBacklog> {
                       padding: const EdgeInsets.all(16.0),
                       child: Icon(
                         pickedIconData,
-                        color: ColorsLibrary.accentColor0,
+                        color: ColorsLibrary.textColorBold,
                         size: 28.0,
                       ),
                     ),
@@ -129,7 +130,7 @@ class AddEditBacklogState extends State<AddEditBacklog> {
                       'Pick icon',
                       style: TextStyle(
                         color: ColorsLibrary.textColorBold,
-                        fontSize: 18.0,
+                        fontSize: 16.0,
                       ),
                     )
                   ],
@@ -148,7 +149,7 @@ class AddEditBacklogState extends State<AddEditBacklog> {
                     child: Text(
                       'Finish',
                       style: TextStyle(
-                        fontSize: 18.0,
+                        fontSize: 16.0,
                       ),
                     ),
                     onPressed: isEnabled ? _finishWidgetAction : null,
@@ -163,18 +164,79 @@ class AddEditBacklogState extends State<AddEditBacklog> {
   }
 
   void _finishWidgetAction() {
+    Backlog newBacklog;
     if (widget.isEditing) {
-      widget.editingBacklog.title = controller.text;
-      widget.editingBacklog.iconData = pickedIconData;
-      widget.action(widget.editingBacklog);
+      newBacklog = widget.editingBacklog;
+      newBacklog.title = controller.text;
+      newBacklog.iconData = pickedIconData;
     } else {
-      var backlog = Backlog(
+      newBacklog = Backlog(
         title: controller.text,
         iconData: pickedIconData,
       );
-      widget.action(backlog);
     }
+    widget.finishAction(newBacklog);
     Navigator.pop(context);
+  }
+
+  Widget _fillSpaceWithDeleteIcon() => Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: GestureDetector(
+          child: Icon(
+            Icons.delete,
+            color: ColorsLibrary.textColorBold,
+            size: 24.0,
+          ),
+          onTap: () {
+            _showErrorDialog();
+          },
+        ),
+      );
+
+  Widget _fillSpaceWithNoting() => Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Container(
+          width: 24,
+        ),
+      );
+
+  Future _showErrorDialog() {
+    return showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Delete backlog'),
+          content: Text('Are you sure you want to delete this backlog?'),
+          actions: <Widget>[
+            FlatButton(
+              child: Text(
+                'No',
+                style: TextStyle(color: ColorsLibrary.textColorBold),
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+            FlatButton(
+              child: Text(
+                'Yes',
+                style: TextStyle(color: Colors.red),
+              ),
+              onPressed: () {
+                widget.deleteAction(widget.editingBacklog.id);
+                Navigator.popUntil(context,
+                    ModalRoute.withName(ApplicationRoutes.backlogs.value));
+              },
+            ),
+          ],
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(
+                top: Radius.circular(20.0), bottom: Radius.circular(20.0)),
+          ),
+        );
+      },
+    );
   }
 
   void _pickIcon() async {

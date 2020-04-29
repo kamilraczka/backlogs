@@ -22,7 +22,7 @@ class BacklogEdited extends BacklogEvent {
 }
 
 class BacklogDeleted extends BacklogEvent {
-  final Backlog backlog;
+  final int backlogId;
 
-  const BacklogDeleted(this.backlog);
+  const BacklogDeleted(this.backlogId);
 }

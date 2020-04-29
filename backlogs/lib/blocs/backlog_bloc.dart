@@ -24,6 +24,8 @@ class BacklogBloc extends Bloc<BacklogEvent, BacklogState> {
       yield* _mapAddedToState(event.backlog);
     } else if (event is BacklogEdited) {
       yield* _mapEditedToState(event.backlog);
+    } else if (event is BacklogDeleted) {
+      yield* _mapDeletedToState(event.backlogId);
     }
   }
 
@@ -39,6 +41,11 @@ class BacklogBloc extends Bloc<BacklogEvent, BacklogState> {
 
   Stream<BacklogState> _mapEditedToState(Backlog backlog) async* {
     await repository.updateBacklog(backlog);
+    add(BacklogLoadedAll());
+  }
+
+  Stream<BacklogState> _mapDeletedToState(int backlogId) async* {
+    await repository.deleteBacklog(backlogId);
     add(BacklogLoadedAll());
   }
 }
