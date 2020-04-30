@@ -7,6 +7,7 @@ import 'package:backlogs/widgets/simple_sliver_persistent_header.dart';
 import 'package:backlogs/widgets/tile.dart';
 import 'package:flutter/material.dart';
 import 'package:backlogs/extensions/routes_extension.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class BacklogsScreen extends StatefulWidget {
@@ -18,17 +19,20 @@ class BacklogsScreenState extends State<BacklogsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Container(
-          color: ColorsLibrary.backgroundColor,
-          child: BlocBuilder<BacklogBloc, BacklogState>(
-            builder: (context, state) {
-              if (state is BacklogLoadSuccess) {
-                return _buildScrollViewWithGrid(state.backlogs);
-              } else if (state is BacklogLoadInProgress) {
-                return _buildLoading();
-              }
-            },
+      body: AnnotatedRegion<SystemUiOverlayStyle>(
+        value: SystemUiOverlayStyle.dark,
+        child: SafeArea(
+          child: Container(
+            color: ColorsLibrary.backgroundColor,
+            child: BlocBuilder<BacklogBloc, BacklogState>(
+              builder: (context, state) {
+                if (state is BacklogLoadSuccess) {
+                  return _buildScrollViewWithGrid(state.backlogs);
+                } else if (state is BacklogLoadInProgress) {
+                  return _buildLoading();
+                }
+              },
+            ),
           ),
         ),
       ),

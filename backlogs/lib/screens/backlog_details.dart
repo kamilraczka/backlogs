@@ -58,6 +58,7 @@ class _BacklogDetailsScreenState extends State<BacklogDetailsScreen> {
       slivers: <Widget>[
         SliverAppBar(
           expandedHeight: 196.0,
+          brightness: Brightness.dark,
           flexibleSpace: FlexibleSpaceBar(
             centerTitle: false,
             title: Column(
