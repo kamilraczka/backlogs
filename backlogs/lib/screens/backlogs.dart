@@ -3,6 +3,7 @@ import 'package:backlogs/models/backlog.dart';
 import 'package:backlogs/routes.dart';
 import 'package:backlogs/widgets/add_edit_backlog.dart';
 import 'package:backlogs/utilities/colors_library.dart';
+import 'package:backlogs/widgets/simple_sliver_persistent_header.dart';
 import 'package:backlogs/widgets/tile.dart';
 import 'package:flutter/material.dart';
 import 'package:backlogs/extensions/routes_extension.dart';
@@ -17,48 +18,26 @@ class BacklogsScreenState extends State<BacklogsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(128.0),
-        child: AppBar(
-          backgroundColor: ColorsLibrary.backgroundColor,
-          elevation: 0.0,
-          flexibleSpace: FlexibleSpaceBar(
-            centerTitle: false,
-            title: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Text(
-                  'Lists',
-                  style: TextStyle(
-                    color: ColorsLibrary.textColorBold,
-                    fontSize: 32.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
+      body: SafeArea(
+        child: Container(
+          color: ColorsLibrary.backgroundColor,
+          child: BlocBuilder<BacklogBloc, BacklogState>(
+            builder: (context, state) {
+              if (state is BacklogLoadSuccess) {
+                return _buildScrollViewWithGrid(state.backlogs);
+              } else if (state is BacklogLoadInProgress) {
+                return _buildLoading();
+              }
+            },
           ),
         ),
       ),
-      body: Container(
-        color: ColorsLibrary.backgroundColor,
-        child: BlocBuilder<BacklogBloc, BacklogState>(
-          builder: (context, state) {
-            if (state is BacklogLoadSuccess) {
-              return _buildGrid(state.backlogs);
-            } else if (state is BacklogLoadInProgress) {
-              return _buildLoading();
-            }
-          },
-        ),
-      ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: ColorsLibrary.accentColor0,
         child: Icon(Icons.add),
         onPressed: () {
           _showAddEditBacklogWidget();
         },
-        backgroundColor: ColorsLibrary.accentColor0,
       ),
     );
   }
@@ -69,33 +48,64 @@ class BacklogsScreenState extends State<BacklogsScreen> {
     );
   }
 
-  GridView _buildGrid(List<Backlog> backlogs) {
-    return GridView.builder(
-      padding: const EdgeInsets.all(16.0),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        crossAxisSpacing: 16,
-        mainAxisSpacing: 16,
-      ),
-      itemCount: backlogs.length,
-      itemBuilder: (context, index) {
-        return GestureDetector(
-          onTap: () {
-            Navigator.pushNamed(
-              context,
-              ApplicationRoutes.backlogDetails.value,
-              arguments: backlogs[index],
-            );
-          },
-          onLongPress: () {
-            _showAddEditBacklogWidget(backlog: backlogs[index]);
-          },
-          child: Tile(
-            backlog: backlogs[index],
-            colorId: backlogs[index].id,
+  CustomScrollView _buildScrollViewWithGrid(List<Backlog> backlogs) {
+    return CustomScrollView(
+      slivers: <Widget>[
+        SliverPersistentHeader(
+          pinned: false,
+          floating: false,
+          delegate: SimpleSliverPersistentHeader(
+            content: PreferredSize(
+              preferredSize: Size.fromHeight(96.0),
+              child: Align(
+                alignment: Alignment.bottomLeft,
+                child: Container(
+                  margin: EdgeInsets.only(left: 40.0),
+                  child: Text(
+                    'Lists',
+                    style: TextStyle(
+                      color: ColorsLibrary.textColorBold,
+                      fontSize: 32.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+            ),
           ),
-        );
-      },
+        ),
+        SliverPadding(
+          padding: const EdgeInsets.all(16.0),
+          sliver: SliverGrid(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: 16,
+              mainAxisSpacing: 16,
+            ),
+            delegate: SliverChildBuilderDelegate(
+              (context, index) {
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(
+                      context,
+                      ApplicationRoutes.backlogDetails.value,
+                      arguments: backlogs[index],
+                    );
+                  },
+                  onLongPress: () {
+                    _showAddEditBacklogWidget(backlog: backlogs[index]);
+                  },
+                  child: Tile(
+                    backlog: backlogs[index],
+                    colorId: backlogs[index].id,
+                  ),
+                );
+              },
+              childCount: backlogs.length,
+            ),
+          ),
+        ),
+      ],
     );
   }
 
