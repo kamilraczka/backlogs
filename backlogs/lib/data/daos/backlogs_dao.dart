@@ -1,6 +1,6 @@
 import 'package:sembast/sembast.dart';
 import 'package:backlogs/models/backlog.dart';
-import 'package:backlogs/data/app_database.dart';
+import 'package:backlogs/data/data_providers/app_database.dart';
 
 class BacklogsDao {
   static const String backlogStoreName = 'backlogs';

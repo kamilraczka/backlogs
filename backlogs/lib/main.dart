@@ -1,16 +1,11 @@
-import 'package:backlogs/data/backlogs_dao.dart';
-import 'package:backlogs/data/backlogs_repository.dart';
-import 'package:backlogs/routes.dart';
-import 'package:backlogs/extensions/routes_extension.dart';
-import 'package:backlogs/screens/backlog_details.dart';
-import 'package:backlogs/screens/backlogs.dart';
+import 'package:backlogs/data/e_data.dart';
+import 'package:backlogs/screens/e_screens.dart';
+import 'package:backlogs/extensions/e_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'blocs/backlog_bloc.dart';
-import 'blocs/task_bloc.dart';
-import 'blocs/transition_bloc_delegate.dart';
-import 'models/backlog.dart';
+import 'blocs/e_blocs.dart';
+import 'models/e_models.dart';
 
 void main() => runApp(MyApp());
 

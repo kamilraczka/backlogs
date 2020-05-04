@@ -1,6 +1,5 @@
-import 'package:backlogs/models/backlog.dart';
-import 'package:backlogs/models/task.dart';
-import 'package:backlogs/data/backlogs_dao.dart';
+import 'package:backlogs/models/e_models.dart';
+import 'package:backlogs/data/daos/backlogs_dao.dart';
 
 class BacklogsRepository {
   final BacklogsDao _backlogsDao;

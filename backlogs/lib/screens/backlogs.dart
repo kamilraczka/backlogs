@@ -1,12 +1,10 @@
-import 'package:backlogs/blocs/backlog_bloc.dart';
-import 'package:backlogs/models/backlog.dart';
-import 'package:backlogs/routes.dart';
-import 'package:backlogs/widgets/add_edit_backlog.dart';
-import 'package:backlogs/utilities/colors_library.dart';
-import 'package:backlogs/widgets/simple_sliver_persistent_header.dart';
-import 'package:backlogs/widgets/tile.dart';
+import 'package:backlogs/blocs/e_blocs.dart';
+import 'package:backlogs/models/e_models.dart';
+import 'package:backlogs/widgets/e_widgets.dart';
+import 'package:backlogs/extensions/e_extensions.dart';
+import 'package:backlogs/utils/e_utils.dart';
+
 import 'package:flutter/material.dart';
-import 'package:backlogs/extensions/routes_extension.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
