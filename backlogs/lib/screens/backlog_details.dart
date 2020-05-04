@@ -95,9 +95,14 @@ class _BacklogDetailsScreenState extends State<BacklogDetailsScreen> {
           sliver: SliverList(
             delegate: SliverChildBuilderDelegate(
               (context, index) {
-                return BacklogRow(
-                  task: tasks[index],
-                  onCheckboxChanged: null,
+                return GestureDetector(
+                  onTap: () {
+                    _goToAddEditTaskScreen(task: tasks[index]);
+                  },
+                  child: BacklogRow(
+                    task: tasks[index],
+                    onCheckboxChanged: null,
+                  ),
                 );
               },
               childCount: tasks.length,
@@ -108,13 +113,15 @@ class _BacklogDetailsScreenState extends State<BacklogDetailsScreen> {
     );
   }
 
-  void _goToAddEditTaskScreen() {
+  void _goToAddEditTaskScreen({Task task}) {
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) {
           return AddEditTaskScreen(
-            createTaskAction: _createTask,
+            finishAction: task != null ? null : _createTask,
+            deleteAction: null,
+            editingTask: task,
           );
         },
         fullscreenDialog: true,
