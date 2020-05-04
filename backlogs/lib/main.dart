@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final backlogsDao = BacklogsDao();
     final repository = BacklogsRepository(backlogsDao);
-    BlocSupervisor.delegate = TransitionBlocDelegate();
+    BlocSupervisor.delegate = ApplicationBlocDelegate();
 
     return MaterialApp(
       title: 'Backlogs Application',
