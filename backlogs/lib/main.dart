@@ -1,6 +1,6 @@
 import 'package:backlogs/data/data.dart';
 import 'package:backlogs/screens/screens.dart';
-import 'package:backlogs/extensions/extensions.dart';
+import 'package:backlogs/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -18,9 +18,9 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp(
       title: 'Backlogs Application',
-      initialRoute: ApplicationRoutes.backlogs.value,
+      initialRoute: ApplicationRoutes.backlogs,
       onGenerateRoute: (RouteSettings settings) {
-        if (settings.name == ApplicationRoutes.backlogDetails.value) {
+        if (settings.name == ApplicationRoutes.backlogDetails) {
           final Backlog backlog = settings.arguments;
           return MaterialPageRoute(
             builder: (context) => BlocProvider(
@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
         }
       },
       routes: {
-        ApplicationRoutes.backlogs.value: (context) {
+        ApplicationRoutes.backlogs: (context) {
           return BlocProvider(
             create: (context) =>
                 BacklogBloc(repository)..add(BacklogLoadedAll()),

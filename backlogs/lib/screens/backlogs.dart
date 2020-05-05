@@ -1,7 +1,6 @@
 import 'package:backlogs/blocs/blocs.dart';
 import 'package:backlogs/models/models.dart';
 import 'package:backlogs/widgets/widgets.dart';
-import 'package:backlogs/extensions/extensions.dart';
 import 'package:backlogs/utils/utils.dart';
 
 import 'package:flutter/material.dart';
@@ -90,7 +89,7 @@ class BacklogsScreenState extends State<BacklogsScreen> {
                   onTap: () {
                     Navigator.pushNamed(
                       context,
-                      ApplicationRoutes.backlogDetails.value,
+                      ApplicationRoutes.backlogDetails,
                       arguments: backlogs[index],
                     );
                   },
