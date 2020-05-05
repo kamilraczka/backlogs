@@ -1,11 +1,11 @@
-import 'package:backlogs/data/e_data.dart';
-import 'package:backlogs/screens/e_screens.dart';
-import 'package:backlogs/extensions/e_extensions.dart';
+import 'package:backlogs/data/data.dart';
+import 'package:backlogs/screens/screens.dart';
+import 'package:backlogs/extensions/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'blocs/e_blocs.dart';
-import 'models/e_models.dart';
+import 'blocs/blocs.dart';
+import 'models/models.dart';
 
 void main() => runApp(MyApp());
 

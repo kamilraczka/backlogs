@@ -1,8 +1,8 @@
-import 'package:backlogs/blocs/e_blocs.dart';
-import 'package:backlogs/models/e_models.dart';
-import 'package:backlogs/widgets/e_widgets.dart';
-import 'package:backlogs/extensions/e_extensions.dart';
-import 'package:backlogs/utils/e_utils.dart';
+import 'package:backlogs/blocs/blocs.dart';
+import 'package:backlogs/models/models.dart';
+import 'package:backlogs/widgets/widgets.dart';
+import 'package:backlogs/extensions/extensions.dart';
+import 'package:backlogs/utils/utils.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
