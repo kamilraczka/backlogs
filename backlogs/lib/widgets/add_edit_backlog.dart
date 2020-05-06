@@ -222,8 +222,7 @@ class AddEditBacklogState extends State<AddEditBacklog> {
               ),
               onPressed: () {
                 widget.deleteAction(widget.editingBacklog.id);
-                Navigator.popUntil(
-                    context, ModalRoute.withName(ApplicationRoutes.backlogs));
+                Navigator.popUntil(context, (route) => route.isFirst);
               },
             ),
           ],
