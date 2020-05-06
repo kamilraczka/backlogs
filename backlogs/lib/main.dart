@@ -5,15 +5,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'blocs/blocs.dart';
+import 'injection_container.dart' as di;
 import 'models/models.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  di.init();
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final backlogsDao = BacklogsDao();
-    final repository = BacklogsRepository(backlogsDao);
     BlocSupervisor.delegate = TransitionBlocDelegate();
 
     return MaterialApp(
@@ -24,7 +26,7 @@ class MyApp extends StatelessWidget {
           final Backlog backlog = settings.arguments;
           return MaterialPageRoute(
             builder: (context) => BlocProvider(
-              create: (context) => TaskBloc(repository),
+              create: (context) => di.sl<TaskBloc>(),
               child: BacklogDetailsScreen(parentBacklog: backlog),
             ),
           );
@@ -33,8 +35,7 @@ class MyApp extends StatelessWidget {
       routes: {
         ApplicationRoutes.backlogs: (context) {
           return BlocProvider(
-            create: (context) =>
-                BacklogBloc(repository)..add(BacklogLoadedAll()),
+            create: (context) => di.sl<BacklogBloc>()..add(BacklogLoadedAll()),
             child: BacklogsScreen(),
           );
         },
