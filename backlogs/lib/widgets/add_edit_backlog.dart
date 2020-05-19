@@ -1,5 +1,6 @@
 import 'package:backlogs/models/models.dart';
 import 'package:backlogs/utils/utils.dart';
+import 'package:backlogs/widgets/destruction_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconpicker/flutter_iconpicker.dart';
 
@@ -202,34 +203,16 @@ class AddEditBacklogState extends State<AddEditBacklog> {
       context: context,
       barrierDismissible: false,
       builder: (context) {
-        return AlertDialog(
-          title: Text('Delete backlog'),
-          content: Text('Are you sure you want to delete this backlog?'),
-          actions: <Widget>[
-            FlatButton(
-              child: Text(
-                'No',
-                style: TextStyle(color: ColorsLibrary.textColorBold),
-              ),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-            FlatButton(
-              child: Text(
-                'Yes',
-                style: TextStyle(color: Colors.red),
-              ),
-              onPressed: () {
-                widget.deleteAction(widget.editingBacklog.id);
-                Navigator.popUntil(context, (route) => route.isFirst);
-              },
-            ),
-          ],
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(
-                top: Radius.circular(20.0), bottom: Radius.circular(20.0)),
-          ),
+        return DestructionDialog(
+          title: 'Delete backlog',
+          content: 'Are you sure you want to delete this backlog?',
+          destructionAction: () {
+            widget.deleteAction(widget.editingBacklog.id);
+            Navigator.popUntil(context, (route) => route.isFirst);
+          },
+          resignAction: () {
+            Navigator.pop(context);
+          },
         );
       },
     );
