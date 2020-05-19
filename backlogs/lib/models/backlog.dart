@@ -1,6 +1,6 @@
 import 'package:backlogs/models/task.dart';
 import 'package:flutter/material.dart';
-import 'package:backlogs/extensions/e_extensions.dart';
+import 'package:backlogs/extensions/extensions.dart';
 
 class Backlog {
   int id;

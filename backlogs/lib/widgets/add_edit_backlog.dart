@@ -1,6 +1,5 @@
-import 'package:backlogs/models/e_models.dart';
-import 'package:backlogs/utils/e_utils.dart';
-import 'package:backlogs/extensions/e_extensions.dart';
+import 'package:backlogs/models/models.dart';
+import 'package:backlogs/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconpicker/flutter_iconpicker.dart';
 
@@ -223,8 +222,7 @@ class AddEditBacklogState extends State<AddEditBacklog> {
               ),
               onPressed: () {
                 widget.deleteAction(widget.editingBacklog.id);
-                Navigator.popUntil(context,
-                    ModalRoute.withName(ApplicationRoutes.backlogs.value));
+                Navigator.popUntil(context, (route) => route.isFirst);
               },
             ),
           ],

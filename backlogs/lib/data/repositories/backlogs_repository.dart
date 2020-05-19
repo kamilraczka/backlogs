@@ -1,4 +1,4 @@
-import 'package:backlogs/models/e_models.dart';
+import 'package:backlogs/models/models.dart';
 import 'package:backlogs/data/daos/backlogs_dao.dart';
 
 class BacklogsRepository {

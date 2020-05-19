@@ -1,5 +1,5 @@
-import 'package:backlogs/models/e_models.dart';
-import 'package:backlogs/utils/e_utils.dart';
+import 'package:backlogs/models/models.dart';
+import 'package:backlogs/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 class Tile extends StatelessWidget {

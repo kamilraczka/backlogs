@@ -30,6 +30,7 @@ dependencies:
   flutter_iconpicker: ^1.1.1
   sembast: ^2.4.2
   path_provider: ^1.6.5
+  get_it: ^4.0.2
 
 dev_dependencies:
   flutter_test:
