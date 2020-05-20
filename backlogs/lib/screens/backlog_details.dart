@@ -97,11 +97,10 @@ class _BacklogDetailsScreenState extends State<BacklogDetailsScreen> {
               (context, index) {
                 return GestureDetector(
                   onTap: () {
-                    _goToAddEditTaskScreen(task: tasks[index]);
+                    _goToAddEditTaskScreen(selectedTask: tasks[index]);
                   },
-                  child: BacklogRow(
+                  child: TaskRow(
                     task: tasks[index],
-                    onCheckboxChanged: null,
                   ),
                 );
               },
@@ -113,24 +112,16 @@ class _BacklogDetailsScreenState extends State<BacklogDetailsScreen> {
     );
   }
 
-  void _goToAddEditTaskScreen({Task task}) {
-    Navigator.push(
+  void _goToAddEditTaskScreen({Task selectedTask}) async {
+    final taskDescription = await Navigator.pushNamed(
       context,
-      MaterialPageRoute(
-        builder: (context) {
-          return AddEditTaskScreen(
-            finishAction: task != null ? null : _createTask,
-            deleteAction: null,
-            editingTask: task,
-          );
-        },
-        fullscreenDialog: true,
-      ),
+      ApplicationRoutes.addEditTask,
+      arguments: selectedTask,
     );
-  }
-
-  void _createTask(String text) {
-    final task = Task(backlogId: widget.parentBacklog.id, description: text);
-    BlocProvider.of<TaskBloc>(context).add(TaskAdded(task));
+    if (taskDescription != null) {
+      final task = Task(
+          backlogId: widget.parentBacklog.id, description: taskDescription);
+      BlocProvider.of<TaskBloc>(context).add(TaskAdded(task));
+    }
   }
 }

@@ -3,13 +3,12 @@ import 'package:backlogs/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 class AddEditTaskScreen extends StatefulWidget {
-  final Function(String task) finishAction;
-  final Function(int taskId) deleteAction;
   final Task editingTask;
   bool get isEditing => editingTask != null;
 
-  const AddEditTaskScreen(
-      {@required this.finishAction, this.editingTask, this.deleteAction});
+  const AddEditTaskScreen({
+    this.editingTask,
+  });
 
   @override
   State<StatefulWidget> createState() => AddEditTaskScreenState();
@@ -113,7 +112,6 @@ class AddEditTaskScreenState extends State<AddEditTaskScreen> {
   }
 
   void _finishWidgetAction() {
-    widget.finishAction(null);
-    Navigator.pop(context);
+    Navigator.pop(context, controller.text);
   }
 }

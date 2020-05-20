@@ -4,20 +4,23 @@ import 'package:backlogs/widgets/destruction_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconpicker/flutter_iconpicker.dart';
 
-class AddEditBacklog extends StatefulWidget {
+class AddEditBacklogBottomSheet extends StatefulWidget {
   final Function(Backlog backlog) finishAction;
   final Function(int backlogId) deleteAction;
   final Backlog editingBacklog;
   bool get isEditing => editingBacklog != null;
 
-  const AddEditBacklog(
-      {@required this.finishAction, this.editingBacklog, this.deleteAction});
+  const AddEditBacklogBottomSheet({
+    @required this.finishAction,
+    this.editingBacklog,
+    this.deleteAction,
+  });
 
   @override
-  State<StatefulWidget> createState() => AddEditBacklogState();
+  State<StatefulWidget> createState() => AddEditBacklogBottomSheetState();
 }
 
-class AddEditBacklogState extends State<AddEditBacklog> {
+class AddEditBacklogBottomSheetState extends State<AddEditBacklogBottomSheet> {
   final TextEditingController controller = TextEditingController();
   final FocusNode focusNode = FocusNode();
   String hintText = Constants.backlogCreationHint;

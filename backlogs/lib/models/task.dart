@@ -5,26 +5,26 @@ class Task {
   String id;
   int backlogId;
   String description;
-  bool isDone;
+  bool isArchived;
 
   Task({
     @required this.backlogId,
     @required this.description,
-    this.isDone = false,
+    this.isArchived = false,
   }) : this.id = Uuid().v4();
 
   Map<String, dynamic> toMap() => {
         'id': id,
         'backlogId': backlogId,
         'description': description,
-        'isDone': isDone,
+        'isArchived': isArchived,
       };
 
   static Task fromMap(Map<String, dynamic> map) {
     return Task(
       backlogId: map['backlogId'],
       description: map['description'],
-      isDone: map['isDone'],
+      isArchived: map['isArchived'],
     );
   }
 }

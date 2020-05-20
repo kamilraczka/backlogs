@@ -11,13 +11,9 @@ class Backlog {
   Backlog({
     @required this.title,
     @required this.iconData,
-    this.tasks,
+    List<Task> tasks,
     this.id,
-  }) {
-    if (tasks == null) {
-      this.tasks = List<Task>();
-    }
-  }
+  }) : this.tasks = tasks ?? List<Task>();
 
   Map<String, dynamic> toMap() => {
         'id': id,

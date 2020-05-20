@@ -32,6 +32,11 @@ class RouteGenerator {
           );
         }
         return throw UnimplementedError();
+      case ApplicationRoutes.addEditTask:
+        return MaterialPageRoute(
+            fullscreenDialog: true,
+            builder: (context) =>
+                AddEditTaskScreen(editingTask: args is Task ? args : null));
       default:
         return throw UnimplementedError();
     }

@@ -118,7 +118,7 @@ class BacklogsScreenState extends State<BacklogsScreen> {
       context: context,
       isScrollControlled: true,
       builder: (context) {
-        return AddEditBacklog(
+        return AddEditBacklogBottomSheet(
           finishAction: backlog != null ? _editBacklog : _createBacklog,
           deleteAction: _deleteBacklog,
           editingBacklog: backlog,
