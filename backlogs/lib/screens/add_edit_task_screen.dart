@@ -19,7 +19,7 @@ class AddEditTaskScreen extends StatefulWidget {
 class AddEditTaskScreenState extends State<AddEditTaskScreen> {
   final TextEditingController controller = TextEditingController();
   String hintText = Constants.backlogCreationHint;
-  bool canInvokeAction = false;
+  bool canInvokeOnPressed = false;
 
   @override
   void initState() {
@@ -27,9 +27,9 @@ class AddEditTaskScreenState extends State<AddEditTaskScreen> {
 
     controller.addListener(() {
       if (controller.text.isEmpty) {
-        canInvokeAction = false;
+        canInvokeOnPressed = false;
       } else {
-        canInvokeAction = true;
+        canInvokeOnPressed = true;
       }
       setState(() {});
     });
@@ -46,32 +46,39 @@ class AddEditTaskScreenState extends State<AddEditTaskScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0.0,
-        backgroundColor: ColorsLibrary.backgroundColor,
-        brightness: Brightness.light,
-        iconTheme: IconThemeData(color: ColorsLibrary.textColorBold),
-        title: Text(
-          widget.isEditing ? 'Edit task' : 'New Task',
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            color: ColorsLibrary.textColorBold,
-            fontSize: 20.0,
-          ),
-        ),
-      ),
-      body: BlocBuilder<TaskBloc, TaskState>(
-        builder: (context, state) {
-          if (state is TaskInitial) {
-            return _buildForm();
-          } else if (state is TaskLoadInProgress) {
-            return _buildLoading();
-          } else if (state is TaskSuccessfulChange) {
+      appBar: _buildAppBar(),
+      body: BlocListener<TaskBloc, TaskState>(
+        listener: (context, state) {
+          if (state is TaskSuccessfulChange) {
             Navigator.pop(context, true);
-
-            return _buildLoading();
           }
         },
+        child: BlocBuilder<TaskBloc, TaskState>(
+          builder: (context, state) {
+            if (state is TaskLoadInProgress) {
+              return _buildLoading();
+            } else {
+              return _buildForm();
+            }
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget _buildAppBar() {
+    return AppBar(
+      elevation: 0.0,
+      backgroundColor: ColorsLibrary.backgroundColor,
+      brightness: Brightness.light,
+      iconTheme: IconThemeData(color: ColorsLibrary.textColorBold),
+      title: Text(
+        widget.isEditing ? 'Edit task' : 'New Task',
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          color: ColorsLibrary.textColorBold,
+          fontSize: 20.0,
+        ),
       ),
     );
   }
@@ -127,9 +134,9 @@ class AddEditTaskScreenState extends State<AddEditTaskScreen> {
                   fontSize: 16.0,
                 ),
               ),
-              onPressed: canInvokeAction
+              onPressed: canInvokeOnPressed
                   ? () {
-                      _invokeAction(controller.text);
+                      _onPressedAction(controller.text);
                     }
                   : null,
             ),
@@ -139,7 +146,7 @@ class AddEditTaskScreenState extends State<AddEditTaskScreen> {
     );
   }
 
-  void _invokeAction(String description) {
+  void _onPressedAction(String description) {
     if (widget.isEditing) {
       widget.task.description = description;
       BlocProvider.of<TaskBloc>(context).add(TaskUpdated(widget.task));

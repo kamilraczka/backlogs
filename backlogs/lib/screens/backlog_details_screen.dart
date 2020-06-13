@@ -25,19 +25,25 @@ class _BacklogDetailsScreenState extends State<BacklogDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: BlocBuilder<BacklogBloc, BacklogState>(
-        builder: (context, state) {
-          if (state is BacklogLoadSuccess) {
-            return _buildList(state.backlogs.first);
-          } else if (state is BacklogLoadInProgress) {
-            return _buildLoading();
-          } else {
-            return _buildError();
-          }
-        },
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.pop(context, true);
+        return true;
+      },
+      child: Scaffold(
+        body: BlocBuilder<BacklogBloc, BacklogState>(
+          builder: (context, state) {
+            if (state is BacklogLoadSuccess) {
+              return _buildList(state.backlogs.first);
+            } else if (state is BacklogLoadInProgress) {
+              return _buildLoading();
+            } else {
+              return _buildError();
+            }
+          },
+        ),
+        floatingActionButton: _buildFab(),
       ),
-      floatingActionButton: _buildFab(),
     );
   }
 

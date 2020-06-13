@@ -110,12 +110,15 @@ class BacklogsScreenState extends State<BacklogsScreen> {
     );
   }
 
-  void _goToBacklogDetails(int backlogId) {
-    Navigator.pushNamed(
+  void _goToBacklogDetails(int backlogId) async {
+    final shouldRefresh = await Navigator.pushNamed(
       context,
       ApplicationRoutes.backlogDetails,
       arguments: ScreenArguments(mainArg: backlogId),
     );
+    if (shouldRefresh != null && shouldRefresh) {
+      BlocProvider.of<BacklogBloc>(context).add(BacklogListFetched());
+    }
   }
 
   void _showAddEditBacklogBottomSheet({Backlog backlog}) {

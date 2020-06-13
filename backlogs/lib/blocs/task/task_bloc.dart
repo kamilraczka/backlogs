@@ -1,4 +1,3 @@
-import 'package:backlogs/blocs/blocs.dart';
 import 'package:backlogs/models/task.dart';
 import 'package:backlogs/data/data.dart';
 import 'package:bloc/bloc.dart';
@@ -17,6 +16,8 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
 
   @override
   Stream<TaskState> mapEventToState(TaskEvent event) async* {
+    yield TaskLoadInProgress();
+
     if (event is TaskAdded) {
       yield* _mapAddedToState(event);
     } else if (event is TaskUpdated) {
@@ -25,13 +26,11 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
   }
 
   Stream<TaskState> _mapAddedToState(TaskAdded event) async* {
-    yield TaskLoadInProgress();
     await repository.addTask(event.task);
     yield TaskSuccessfulChange();
   }
 
   Stream<TaskState> _mapUpdatedToState(TaskUpdated event) async* {
-    yield TaskLoadInProgress();
     await repository.updateTask(event.task);
     yield TaskSuccessfulChange();
   }
