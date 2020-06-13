@@ -17,5 +17,7 @@ class TaskUpdated extends TaskEvent {
 
 class TaskDeleted extends TaskEvent {
   final String taskId;
-  const TaskDeleted(this.taskId);
+  final int backlogId;
+
+  const TaskDeleted(this.taskId, this.backlogId);
 }

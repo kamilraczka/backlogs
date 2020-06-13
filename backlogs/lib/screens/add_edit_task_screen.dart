@@ -83,7 +83,10 @@ class AddEditTaskScreenState extends State<AddEditTaskScreen> {
       leading: widget.isEditing
           ? IconButton(
               icon: Icon(Icons.delete),
-              onPressed: null,
+              onPressed: () {
+                BlocProvider.of<TaskBloc>(context)
+                    .add(TaskDeleted(widget.task.id, widget.task.backlogId));
+              },
             )
           : Container(),
       actions: <Widget>[

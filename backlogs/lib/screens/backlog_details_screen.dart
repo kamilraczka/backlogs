@@ -17,6 +17,8 @@ class BacklogDetailsScreen extends StatefulWidget {
 }
 
 class _BacklogDetailsScreenState extends State<BacklogDetailsScreen> {
+  bool shouldRefreshOnPop = false;
+
   @override
   void initState() {
     super.initState();
@@ -27,7 +29,7 @@ class _BacklogDetailsScreenState extends State<BacklogDetailsScreen> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        Navigator.pop(context, true);
+        Navigator.pop(context, shouldRefreshOnPop);
         return true;
       },
       child: Scaffold(
@@ -134,6 +136,8 @@ class _BacklogDetailsScreenState extends State<BacklogDetailsScreen> {
         additionalArg: task,
       ),
     );
+
+    shouldRefreshOnPop = shouldRefresh;
     if (shouldRefresh != null && shouldRefresh) {
       BlocProvider.of<BacklogBloc>(context)
           .add(BacklogFetched(widget.backlogId));
