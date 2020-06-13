@@ -1,7 +1,6 @@
+import 'package:backlogs/blocs/blocs.dart';
+import 'package:backlogs/data/data.dart';
 import 'package:get_it/get_it.dart';
-
-import 'blocs/blocs.dart';
-import 'data/data.dart';
 
 final sl = GetIt.instance;
 

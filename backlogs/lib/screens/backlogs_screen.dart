@@ -33,13 +33,17 @@ class BacklogsScreenState extends State<BacklogsScreen> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: ColorsLibrary.accentColor0,
-        child: Icon(Icons.add),
-        onPressed: () {
-          _showAddEditBacklogWidget();
-        },
-      ),
+      floatingActionButton: _buildFab(),
+    );
+  }
+
+  FloatingActionButton _buildFab() {
+    return FloatingActionButton(
+      backgroundColor: ColorsLibrary.accentColor0,
+      child: Icon(Icons.add),
+      onPressed: () {
+        _showAddEditBacklogBottomSheet();
+      },
     );
   }
 
@@ -87,14 +91,10 @@ class BacklogsScreenState extends State<BacklogsScreen> {
               (context, index) {
                 return GestureDetector(
                   onTap: () {
-                    Navigator.pushNamed(
-                      context,
-                      ApplicationRoutes.backlogDetails,
-                      arguments: backlogs[index],
-                    );
+                    _goToBacklogDetails(backlogs[index].id);
                   },
                   onLongPress: () {
-                    _showAddEditBacklogWidget(backlog: backlogs[index]);
+                    _showAddEditBacklogBottomSheet(backlog: backlogs[index]);
                   },
                   child: Tile(
                     backlog: backlogs[index],
@@ -110,13 +110,16 @@ class BacklogsScreenState extends State<BacklogsScreen> {
     );
   }
 
-  void _showAddEditBacklogWidget({Backlog backlog}) {
+  void _goToBacklogDetails(int backlogId) {
+    Navigator.pushNamed(
+      context,
+      ApplicationRoutes.backlogDetails,
+      arguments: ScreenArguments(mainArg: backlogId),
+    );
+  }
+
+  void _showAddEditBacklogBottomSheet({Backlog backlog}) {
     showModalBottomSheet(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
-      ),
-      context: context,
-      isScrollControlled: true,
       builder: (context) {
         return AddEditBacklogBottomSheet(
           finishAction: backlog != null ? _editBacklog : _createBacklog,
@@ -124,6 +127,11 @@ class BacklogsScreenState extends State<BacklogsScreen> {
           editingBacklog: backlog,
         );
       },
+      context: context,
+      isScrollControlled: true,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
+      ),
     );
   }
 

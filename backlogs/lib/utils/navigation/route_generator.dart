@@ -1,13 +1,9 @@
 import 'package:backlogs/blocs/blocs.dart';
-import 'package:backlogs/injection_container.dart';
 import 'package:backlogs/models/models.dart';
-import 'package:backlogs/screens/backlogs.dart';
 import 'package:backlogs/screens/screens.dart';
-
+import 'package:backlogs/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import 'application_routes.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(
@@ -19,24 +15,35 @@ class RouteGenerator {
         return MaterialPageRoute(
             builder: (context) => BlocProvider(
                   create: (context) =>
-                      sl<BacklogBloc>()..add(BacklogLoadedAll()),
+                      sl<BacklogBloc>()..add(BacklogListFetched()),
                   child: BacklogsScreen(),
                 ));
       case ApplicationRoutes.backlogDetails:
-        if (args is Backlog) {
+        if (args is ScreenArguments) {
           return MaterialPageRoute(
             builder: (context) => BlocProvider(
-              create: (context) => sl<TaskBloc>(),
-              child: BacklogDetailsScreen(parentBacklog: args),
+              create: (context) => sl<BacklogBloc>(),
+              child: BacklogDetailsScreen(
+                backlogId: args.mainArg as int,
+              ),
             ),
           );
         }
         return throw UnimplementedError();
       case ApplicationRoutes.addEditTask:
-        return MaterialPageRoute(
+        if (args is ScreenArguments) {
+          return MaterialPageRoute(
             fullscreenDialog: true,
-            builder: (context) =>
-                AddEditTaskScreen(editingTask: args is Task ? args : null));
+            builder: (context) => BlocProvider(
+              create: (context) => sl<TaskBloc>(),
+              child: AddEditTaskScreen(
+                parentBacklogId: args.mainArg as int,
+                task: args.additionalArg as Task ?? null,
+              ),
+            ),
+          );
+        }
+        return throw UnimplementedError();
       default:
         return throw UnimplementedError();
     }

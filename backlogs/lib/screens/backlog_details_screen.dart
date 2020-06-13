@@ -1,6 +1,5 @@
 import 'package:backlogs/blocs/blocs.dart';
 import 'package:backlogs/models/models.dart';
-import 'package:backlogs/screens/screens.dart';
 import 'package:backlogs/utils/utils.dart';
 import 'package:backlogs/widgets/widgets.dart';
 
@@ -8,10 +7,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class BacklogDetailsScreen extends StatefulWidget {
-  final Backlog parentBacklog;
+  final int backlogId;
 
-  const BacklogDetailsScreen({@required this.parentBacklog})
-      : assert(parentBacklog != null);
+  const BacklogDetailsScreen({@required this.backlogId})
+      : assert(backlogId != null);
 
   @override
   State<StatefulWidget> createState() => _BacklogDetailsScreenState();
@@ -21,30 +20,39 @@ class _BacklogDetailsScreenState extends State<BacklogDetailsScreen> {
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<TaskBloc>(context)
-        .add(TaskLoadedAll(backlogId: widget.parentBacklog.id));
+    BlocProvider.of<BacklogBloc>(context).add(BacklogFetched(widget.backlogId));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocBuilder<TaskBloc, TaskState>(
+      body: BlocBuilder<BacklogBloc, BacklogState>(
         builder: (context, state) {
-          if (state is TaskLoadSuccess) {
-            return _buildList(state.tasks);
-          } else {
+          if (state is BacklogLoadSuccess) {
+            return _buildList(state.backlogs.first);
+          } else if (state is BacklogLoadInProgress) {
             return _buildLoading();
+          } else {
+            return _buildError();
           }
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _goToAddEditTaskScreen,
-        backgroundColor: ColorsLibrary.accentColor0,
-        child: Icon(
-          Icons.add,
-        ),
+      floatingActionButton: _buildFab(),
+    );
+  }
+
+  FloatingActionButton _buildFab() {
+    return FloatingActionButton(
+      onPressed: _goToAddEditTaskScreen,
+      backgroundColor: ColorsLibrary.accentColor0,
+      child: Icon(
+        Icons.add,
       ),
     );
+  }
+
+  Widget _buildError() {
+    return ErrorInformation();
   }
 
   Center _buildLoading() {
@@ -53,12 +61,13 @@ class _BacklogDetailsScreenState extends State<BacklogDetailsScreen> {
     );
   }
 
-  CustomScrollView _buildList(List<Task> tasks) {
+  CustomScrollView _buildList(Backlog backlog) {
     return CustomScrollView(
       slivers: <Widget>[
         SliverAppBar(
           expandedHeight: 196.0,
           brightness: Brightness.dark,
+          backgroundColor: ColorsLibrary.idToColorConverter(widget.backlogId),
           flexibleSpace: FlexibleSpaceBar(
             centerTitle: false,
             title: Column(
@@ -67,18 +76,18 @@ class _BacklogDetailsScreenState extends State<BacklogDetailsScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Icon(
-                  widget.parentBacklog.iconData,
+                  backlog.iconData,
                   color: Colors.white,
                 ),
                 SizedBox(
                   height: 4.0,
                 ),
                 Text(
-                  '${widget.parentBacklog.title}',
+                  '${backlog.title}',
                   style: TextStyle(fontSize: 22.0),
                 ),
                 Text(
-                  '${tasks.length} tasks',
+                  '${backlog.tasks.length} tasks',
                   style: TextStyle(
                     color: Colors.white70,
                     fontSize: 14.0,
@@ -87,8 +96,6 @@ class _BacklogDetailsScreenState extends State<BacklogDetailsScreen> {
               ],
             ),
           ),
-          backgroundColor:
-              ColorsLibrary.idToColorConverter(widget.parentBacklog.id),
         ),
         SliverPadding(
           padding: const EdgeInsets.all(24.0),
@@ -97,14 +104,14 @@ class _BacklogDetailsScreenState extends State<BacklogDetailsScreen> {
               (context, index) {
                 return GestureDetector(
                   onTap: () {
-                    _goToAddEditTaskScreen(selectedTask: tasks[index]);
+                    _goToAddEditTaskScreen(task: backlog.tasks[index]);
                   },
                   child: TaskRow(
-                    task: tasks[index],
+                    task: backlog.tasks[index],
                   ),
                 );
               },
-              childCount: tasks.length,
+              childCount: backlog.tasks.length,
             ),
           ),
         ),
@@ -112,16 +119,18 @@ class _BacklogDetailsScreenState extends State<BacklogDetailsScreen> {
     );
   }
 
-  void _goToAddEditTaskScreen({Task selectedTask}) async {
-    final taskDescription = await Navigator.pushNamed(
+  void _goToAddEditTaskScreen({Task task}) async {
+    final shouldRefresh = await Navigator.pushNamed(
       context,
       ApplicationRoutes.addEditTask,
-      arguments: selectedTask,
+      arguments: ScreenArguments(
+        mainArg: widget.backlogId,
+        additionalArg: task,
+      ),
     );
-    if (taskDescription != null) {
-      final task = Task(
-          backlogId: widget.parentBacklog.id, description: taskDescription);
-      BlocProvider.of<TaskBloc>(context).add(TaskAdded(task));
+    if (shouldRefresh != null && shouldRefresh) {
+      BlocProvider.of<BacklogBloc>(context)
+          .add(BacklogFetched(widget.backlogId));
     }
   }
 }

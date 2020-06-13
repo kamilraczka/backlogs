@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:backlogs/blocs/blocs.dart';
 import 'package:backlogs/models/backlog.dart';
 import 'package:backlogs/data/data.dart';
 import 'package:bloc/bloc.dart';
@@ -18,8 +19,10 @@ class BacklogBloc extends Bloc<BacklogEvent, BacklogState> {
 
   @override
   Stream<BacklogState> mapEventToState(BacklogEvent event) async* {
-    if (event is BacklogLoadedAll) {
-      yield* _mapLoadedAllToState();
+    if (event is BacklogListFetched) {
+      yield* _mapListFetchedToState();
+    } else if (event is BacklogFetched) {
+      yield* _mapFetchedToState(event.backlogId);
     } else if (event is BacklogAdded) {
       yield* _mapAddedToState(event.backlog);
     } else if (event is BacklogEdited) {
@@ -29,23 +32,31 @@ class BacklogBloc extends Bloc<BacklogEvent, BacklogState> {
     }
   }
 
-  Stream<BacklogState> _mapLoadedAllToState() async* {
+  Stream<BacklogState> _mapListFetchedToState() async* {
     final backlogs = await repository.fetchBacklogs();
+    yield BacklogLoadSuccess(backlogs);
+  }
+
+  Stream<BacklogState> _mapFetchedToState(int backlogId) async* {
+    yield BacklogLoadInProgress();
+    final backlog = await repository.fetchBacklog(backlogId);
+    final backlogs = List<Backlog>();
+    backlogs.add(backlog);
     yield BacklogLoadSuccess(backlogs);
   }
 
   Stream<BacklogState> _mapAddedToState(Backlog backlog) async* {
     await repository.addBacklog(backlog);
-    add(BacklogLoadedAll());
+    add(BacklogListFetched());
   }
 
   Stream<BacklogState> _mapEditedToState(Backlog backlog) async* {
     await repository.updateBacklog(backlog);
-    add(BacklogLoadedAll());
+    add(BacklogListFetched());
   }
 
   Stream<BacklogState> _mapDeletedToState(int backlogId) async* {
     await repository.deleteBacklog(backlogId);
-    add(BacklogLoadedAll());
+    add(BacklogListFetched());
   }
 }

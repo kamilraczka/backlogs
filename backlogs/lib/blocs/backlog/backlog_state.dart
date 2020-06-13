@@ -11,6 +11,5 @@ class BacklogLoadInProgress extends BacklogState {
 
 class BacklogLoadSuccess extends BacklogState {
   final List<Backlog> backlogs;
-
   const BacklogLoadSuccess(this.backlogs);
 }
