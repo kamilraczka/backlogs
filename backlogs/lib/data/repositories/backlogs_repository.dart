@@ -1,5 +1,6 @@
 import 'package:backlogs/models/models.dart';
 import 'package:backlogs/data/daos/backlogs_dao.dart';
+import 'package:flutter/widgets.dart';
 
 class BacklogsRepository {
   final BacklogsDao _backlogsDao;
@@ -14,24 +15,8 @@ class BacklogsRepository {
     return _backlogs;
   }
 
-  Future<List<Task>> fetchTasks(int backlogId) async {
-    if (_backlogs == null) {
-      _backlogs = await _backlogsDao.readAllByTitle();
-    }
-    return _backlogs
-        .where((backlog) {
-          return backlog.id == backlogId;
-        })
-        .first
-        .tasks;
-  }
-
-  Future addTaskToBacklog(Task task) {
-    var backlog = _backlogs.where((backlog) {
-      return backlog.id == task.backlogId;
-    }).first;
-    backlog.tasks.add(task);
-    return _backlogsDao.update(backlog);
+  Future<Backlog> fetchBacklog(int backlogId) async {
+    return _backlogs.where((element) => element.id == backlogId).first;
   }
 
   Future addBacklog(Backlog backlog) async {
@@ -42,14 +27,30 @@ class BacklogsRepository {
 
   Future updateBacklog(Backlog updatedBacklog) async {
     await _backlogsDao.update(updatedBacklog);
-    var oldBacklog =
-        _backlogs.firstWhere((backlog) => backlog.id == updatedBacklog.id);
-    oldBacklog.title = updatedBacklog.title;
-    oldBacklog.iconData = updatedBacklog.iconData;
+    _backlogs = _backlogs
+        .map((element) =>
+            element.id == updatedBacklog.id ? updatedBacklog : element)
+        .toList();
   }
 
   Future deleteBacklog(int backlogId) async {
     await _backlogsDao.delete(backlogId);
     _backlogs.removeWhere((backlog) => backlog.id == backlogId);
+  }
+
+  Future addTask(Task task) async {
+    var updatedBacklog =
+        _backlogs.where((element) => element.id == task.backlogId).first;
+    updatedBacklog.tasks.add(task);
+    await _backlogsDao.update(updatedBacklog);
+  }
+
+  Future updateTask(Task task) async {
+    var updatedBacklog =
+        _backlogs.where((element) => element.id == task.backlogId).first;
+    updatedBacklog.tasks = updatedBacklog.tasks
+        .map((element) => element.id == task.id ? task : element)
+        .toList();
+    await _backlogsDao.update(updatedBacklog);
   }
 }

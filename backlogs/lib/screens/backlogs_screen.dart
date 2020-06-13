@@ -33,13 +33,17 @@ class BacklogsScreenState extends State<BacklogsScreen> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: ColorsLibrary.accentColor0,
-        child: Icon(Icons.add),
-        onPressed: () {
-          _showAddEditBacklogWidget();
-        },
-      ),
+      floatingActionButton: _buildFab(),
+    );
+  }
+
+  FloatingActionButton _buildFab() {
+    return FloatingActionButton(
+      backgroundColor: ColorsLibrary.accentColor0,
+      child: Icon(Icons.add),
+      onPressed: () {
+        _showAddEditBacklogBottomSheet();
+      },
     );
   }
 
@@ -63,7 +67,7 @@ class BacklogsScreenState extends State<BacklogsScreen> {
                 child: Container(
                   margin: EdgeInsets.only(left: 40.0),
                   child: Text(
-                    'Lists',
+                    'Backlogs',
                     style: TextStyle(
                       color: ColorsLibrary.textColorBold,
                       fontSize: 32.0,
@@ -87,18 +91,13 @@ class BacklogsScreenState extends State<BacklogsScreen> {
               (context, index) {
                 return GestureDetector(
                   onTap: () {
-                    Navigator.pushNamed(
-                      context,
-                      ApplicationRoutes.backlogDetails,
-                      arguments: backlogs[index],
-                    );
+                    _goToBacklogDetails(backlogs[index].id);
                   },
                   onLongPress: () {
-                    _showAddEditBacklogWidget(backlog: backlogs[index]);
+                    _showAddEditBacklogBottomSheet(backlog: backlogs[index]);
                   },
                   child: Tile(
                     backlog: backlogs[index],
-                    colorId: backlogs[index].id,
                   ),
                 );
               },
@@ -110,20 +109,31 @@ class BacklogsScreenState extends State<BacklogsScreen> {
     );
   }
 
-  void _showAddEditBacklogWidget({Backlog backlog}) {
+  void _goToBacklogDetails(int backlogId) async {
+    final shouldRefresh = await Navigator.pushNamed(
+      context,
+      ApplicationRoutes.backlogDetails,
+      arguments: ScreenArguments(mainArg: backlogId),
+    );
+    if (shouldRefresh != null && shouldRefresh) {
+      BlocProvider.of<BacklogBloc>(context).add(BacklogListFetched());
+    }
+  }
+
+  void _showAddEditBacklogBottomSheet({Backlog backlog}) {
     showModalBottomSheet(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
-      ),
-      context: context,
-      isScrollControlled: true,
       builder: (context) {
-        return AddEditBacklog(
+        return AddEditBacklogBottomSheet(
           finishAction: backlog != null ? _editBacklog : _createBacklog,
           deleteAction: _deleteBacklog,
           editingBacklog: backlog,
         );
       },
+      context: context,
+      isScrollControlled: true,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
+      ),
     );
   }
 

@@ -1,5 +1,4 @@
-import 'package:backlogs/blocs/backlog/backlog_bloc.dart';
-import 'package:backlogs/blocs/task/task_bloc.dart';
+import 'package:backlogs/blocs/blocs.dart';
 import 'package:backlogs/data/data.dart';
 import 'package:get_it/get_it.dart';
 
@@ -13,4 +12,5 @@ void init() {
   // blocs
   sl.registerFactory<BacklogBloc>(() => BacklogBloc(sl()));
   sl.registerFactory<TaskBloc>(() => TaskBloc(sl()));
+  sl.registerFactory<ApplicationBlocDelegate>(() => ApplicationBlocDelegate());
 }

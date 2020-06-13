@@ -12,24 +12,26 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
   TaskBloc(this.repository) : assert(repository != null);
 
   @override
-  TaskState get initialState => TaskLoadInProgress();
+  TaskState get initialState => TaskInitial();
 
   @override
   Stream<TaskState> mapEventToState(TaskEvent event) async* {
-    if (event is TaskLoadedAll) {
-      yield* _mapGetAllToState(event);
-    } else if (event is TaskAdded) {
-      yield* _mapAddItemToState(event);
+    yield TaskLoadInProgress();
+
+    if (event is TaskAdded) {
+      yield* _mapAddedToState(event);
+    } else if (event is TaskUpdated) {
+      yield* _mapUpdatedToState(event);
     }
   }
 
-  Stream<TaskState> _mapGetAllToState(TaskLoadedAll event) async* {
-    final tasks = await repository.fetchTasks(event.backlogId);
-    yield TaskLoadSuccess(tasks);
+  Stream<TaskState> _mapAddedToState(TaskAdded event) async* {
+    await repository.addTask(event.task);
+    yield TaskSuccessfulChange();
   }
 
-  Stream<TaskState> _mapAddItemToState(TaskAdded event) async* {
-    await repository.addTaskToBacklog(event.task);
-    add(TaskLoadedAll(backlogId: event.task.backlogId));
+  Stream<TaskState> _mapUpdatedToState(TaskUpdated event) async* {
+    await repository.updateTask(event.task);
+    yield TaskSuccessfulChange();
   }
 }

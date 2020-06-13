@@ -5,12 +5,14 @@ abstract class TaskState {
   const TaskState();
 }
 
+class TaskInitial extends TaskState {
+  const TaskInitial();
+}
+
 class TaskLoadInProgress extends TaskState {
   const TaskLoadInProgress();
 }
 
-class TaskLoadSuccess extends TaskState {
-  final List<Task> tasks;
-
-  const TaskLoadSuccess(this.tasks);
+class TaskSuccessfulChange extends TaskState {
+  const TaskSuccessfulChange();
 }

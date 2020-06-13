@@ -1,25 +1,12 @@
-import 'package:backlogs/utils/utils.dart';
+import 'package:backlogs/application.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'utils/di/injection_container.dart' as di;
 import 'blocs/blocs.dart';
-import 'injection_container.dart' as di;
 
 void main() {
   di.init();
-  BlocSupervisor.delegate = TransitionBlocDelegate();
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Backlogs Application',
-      initialRoute: ApplicationRoutes.backlogs,
-      onGenerateRoute: (RouteSettings settings) {
-        return RouteGenerator.generateRoute(context, settings);
-      },
-    );
-  }
+  BlocSupervisor.delegate = di.sl<ApplicationBlocDelegate>();
+  runApp(Application());
 }

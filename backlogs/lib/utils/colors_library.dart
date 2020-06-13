@@ -3,7 +3,7 @@ import 'package:tinycolor/tinycolor.dart';
 
 class ColorsLibrary {
   static Color backgroundColor = TinyColor.fromString('##FCFCFC').color;
-  static Color shadowColors = TinyColor.fromString('#F3f3f3').color;
+  static Color shadowColors = TinyColor.fromString('#dddddd').color;
   static Color textColorBold = TinyColor.fromString('#333333').color;
   static Color textColorMedium = TinyColor.fromString('#7A7A7A').color;
   static Color textColorLight = TinyColor.fromString('##9A9A9A').color;
