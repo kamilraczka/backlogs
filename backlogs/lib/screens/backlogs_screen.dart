@@ -67,7 +67,7 @@ class BacklogsScreenState extends State<BacklogsScreen> {
                 child: Container(
                   margin: EdgeInsets.only(left: 40.0),
                   child: Text(
-                    'Lists',
+                    'Backlogs',
                     style: TextStyle(
                       color: ColorsLibrary.textColorBold,
                       fontSize: 32.0,
@@ -98,7 +98,6 @@ class BacklogsScreenState extends State<BacklogsScreen> {
                   },
                   child: Tile(
                     backlog: backlogs[index],
-                    colorId: backlogs[index].id,
                   ),
                 );
               },

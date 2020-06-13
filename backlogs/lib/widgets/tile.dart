@@ -4,11 +4,9 @@ import 'package:flutter/material.dart';
 
 class Tile extends StatelessWidget {
   final Backlog backlog;
-  final int colorId;
 
   Tile({
     this.backlog,
-    this.colorId,
   }) : super(key: ObjectKey(backlog));
 
   @override
@@ -21,7 +19,7 @@ class Tile extends StatelessWidget {
         children: <Widget>[
           Icon(
             backlog.iconData,
-            color: ColorsLibrary.idToColorConverter(colorId),
+            color: ColorsLibrary.idToColorConverter(backlog.id),
             size: 40.0,
           ),
           SizedBox(
