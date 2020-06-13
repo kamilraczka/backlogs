@@ -19,7 +19,7 @@ class AddEditTaskScreen extends StatefulWidget {
 class AddEditTaskScreenState extends State<AddEditTaskScreen> {
   final TextEditingController controller = TextEditingController();
   String hintText = Constants.backlogCreationHint;
-  bool canInvokeOnPressed = false;
+  bool canInvokeOnFinish = false;
 
   @override
   void initState() {
@@ -27,9 +27,9 @@ class AddEditTaskScreenState extends State<AddEditTaskScreen> {
 
     controller.addListener(() {
       if (controller.text.isEmpty) {
-        canInvokeOnPressed = false;
+        canInvokeOnFinish = false;
       } else {
-        canInvokeOnPressed = true;
+        canInvokeOnFinish = true;
       }
       setState(() {});
     });
@@ -80,6 +80,19 @@ class AddEditTaskScreenState extends State<AddEditTaskScreen> {
           fontSize: 20.0,
         ),
       ),
+      leading: widget.isEditing
+          ? IconButton(
+              icon: Icon(Icons.delete),
+              onPressed: null,
+            )
+          : Container(),
+      actions: <Widget>[
+        IconButton(
+            icon: Icon(Icons.clear),
+            onPressed: () {
+              Navigator.pop(context);
+            }),
+      ],
     );
   }
 
@@ -134,9 +147,9 @@ class AddEditTaskScreenState extends State<AddEditTaskScreen> {
                   fontSize: 16.0,
                 ),
               ),
-              onPressed: canInvokeOnPressed
+              onPressed: canInvokeOnFinish
                   ? () {
-                      _onPressedAction(controller.text);
+                      _onFinishAction(controller.text);
                     }
                   : null,
             ),
@@ -146,7 +159,7 @@ class AddEditTaskScreenState extends State<AddEditTaskScreen> {
     );
   }
 
-  void _onPressedAction(String description) {
+  void _onFinishAction(String description) {
     if (widget.isEditing) {
       widget.task.description = description;
       BlocProvider.of<TaskBloc>(context).add(TaskUpdated(widget.task));
