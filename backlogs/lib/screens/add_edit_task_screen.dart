@@ -1,6 +1,7 @@
 import 'package:backlogs/blocs/blocs.dart';
 import 'package:backlogs/models/models.dart';
 import 'package:backlogs/utils/utils.dart';
+import 'package:backlogs/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -84,8 +85,7 @@ class AddEditTaskScreenState extends State<AddEditTaskScreen> {
           ? IconButton(
               icon: Icon(Icons.delete),
               onPressed: () {
-                BlocProvider.of<TaskBloc>(context)
-                    .add(TaskDeleted(widget.task.id, widget.task.backlogId));
+                _showDeleteDialog(context);
               },
             )
           : Container(),
@@ -170,5 +170,26 @@ class AddEditTaskScreenState extends State<AddEditTaskScreen> {
       BlocProvider.of<TaskBloc>(context).add(TaskAdded(
         Task(backlogId: widget.parentBacklogId, description: description),
       ));
+  }
+
+  Future _showDeleteDialog(BuildContext screenContext) {
+    return showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return DestructionDialog(
+          title: 'Delete task',
+          content: 'Are you sure you want to delete this task?',
+          destructionAction: () {
+            BlocProvider.of<TaskBloc>(screenContext)
+                .add(TaskDeleted(widget.task.id, widget.task.backlogId));
+            Navigator.pop(context);
+          },
+          resignAction: () {
+            Navigator.pop(context);
+          },
+        );
+      },
+    );
   }
 }

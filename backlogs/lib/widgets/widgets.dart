@@ -3,3 +3,4 @@ export './task_row.dart';
 export './simple_sliver_persistent_header.dart';
 export './tile.dart';
 export './error_information.dart';
+export './destruction_dialog.dart';
