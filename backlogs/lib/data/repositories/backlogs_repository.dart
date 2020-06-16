@@ -53,4 +53,11 @@ class BacklogsRepository {
         .toList();
     await _backlogsDao.update(updatedBacklog);
   }
+
+  Future deleteTask(String taskId, int backlogId) async {
+    var updatedBacklog =
+        _backlogs.where((element) => element.id == backlogId).first;
+    updatedBacklog.tasks.removeWhere((element) => element.id == taskId);
+    await _backlogsDao.update(updatedBacklog);
+  }
 }

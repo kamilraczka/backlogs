@@ -1,6 +1,7 @@
 import 'package:backlogs/blocs/blocs.dart';
 import 'package:backlogs/models/models.dart';
 import 'package:backlogs/utils/utils.dart';
+import 'package:backlogs/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -19,7 +20,7 @@ class AddEditTaskScreen extends StatefulWidget {
 class AddEditTaskScreenState extends State<AddEditTaskScreen> {
   final TextEditingController controller = TextEditingController();
   String hintText = Constants.backlogCreationHint;
-  bool canInvokeOnPressed = false;
+  bool canInvokeOnFinish = false;
 
   @override
   void initState() {
@@ -27,9 +28,9 @@ class AddEditTaskScreenState extends State<AddEditTaskScreen> {
 
     controller.addListener(() {
       if (controller.text.isEmpty) {
-        canInvokeOnPressed = false;
+        canInvokeOnFinish = false;
       } else {
-        canInvokeOnPressed = true;
+        canInvokeOnFinish = true;
       }
       setState(() {});
     });
@@ -80,6 +81,21 @@ class AddEditTaskScreenState extends State<AddEditTaskScreen> {
           fontSize: 20.0,
         ),
       ),
+      leading: widget.isEditing
+          ? IconButton(
+              icon: Icon(Icons.delete),
+              onPressed: () {
+                _showDeleteDialog(context);
+              },
+            )
+          : Container(),
+      actions: <Widget>[
+        IconButton(
+            icon: Icon(Icons.clear),
+            onPressed: () {
+              Navigator.pop(context);
+            }),
+      ],
     );
   }
 
@@ -134,9 +150,9 @@ class AddEditTaskScreenState extends State<AddEditTaskScreen> {
                   fontSize: 16.0,
                 ),
               ),
-              onPressed: canInvokeOnPressed
+              onPressed: canInvokeOnFinish
                   ? () {
-                      _onPressedAction(controller.text);
+                      _onFinishAction(controller.text);
                     }
                   : null,
             ),
@@ -146,7 +162,7 @@ class AddEditTaskScreenState extends State<AddEditTaskScreen> {
     );
   }
 
-  void _onPressedAction(String description) {
+  void _onFinishAction(String description) {
     if (widget.isEditing) {
       widget.task.description = description;
       BlocProvider.of<TaskBloc>(context).add(TaskUpdated(widget.task));
@@ -154,5 +170,26 @@ class AddEditTaskScreenState extends State<AddEditTaskScreen> {
       BlocProvider.of<TaskBloc>(context).add(TaskAdded(
         Task(backlogId: widget.parentBacklogId, description: description),
       ));
+  }
+
+  Future _showDeleteDialog(BuildContext screenContext) {
+    return showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return DestructionDialog(
+          title: 'Delete task',
+          content: 'Are you sure you want to delete this task?',
+          destructionAction: () {
+            BlocProvider.of<TaskBloc>(screenContext)
+                .add(TaskDeleted(widget.task.id, widget.task.backlogId));
+            Navigator.pop(context);
+          },
+          resignAction: () {
+            Navigator.pop(context);
+          },
+        );
+      },
+    );
   }
 }

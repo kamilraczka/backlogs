@@ -1,6 +1,6 @@
 import 'package:backlogs/models/models.dart';
 import 'package:backlogs/utils/utils.dart';
-import 'package:backlogs/widgets/destruction_dialog.dart';
+import 'package:backlogs/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconpicker/flutter_iconpicker.dart';
 
@@ -189,7 +189,7 @@ class AddEditBacklogBottomSheetState extends State<AddEditBacklogBottomSheet> {
             size: 24.0,
           ),
           onTap: () {
-            _showErrorDialog();
+            _showDeleteDialog();
           },
         ),
       );
@@ -201,7 +201,7 @@ class AddEditBacklogBottomSheetState extends State<AddEditBacklogBottomSheet> {
         ),
       );
 
-  Future _showErrorDialog() {
+  Future _showDeleteDialog() {
     return showDialog(
       context: context,
       barrierDismissible: false,
