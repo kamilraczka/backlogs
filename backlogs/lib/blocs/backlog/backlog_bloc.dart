@@ -26,7 +26,7 @@ class BacklogBloc extends Bloc<BacklogEvent, BacklogState> {
     } else if (event is BacklogAdded) {
       yield* _mapAddedToState(event.backlog);
     } else if (event is BacklogEdited) {
-      yield* _mapEditedToState(event.backlog);
+      yield* _mapEditedToState(event.backlog, event.onMain);
     } else if (event is BacklogDeleted) {
       yield* _mapDeletedToState(event.backlogId);
     }
@@ -50,9 +50,12 @@ class BacklogBloc extends Bloc<BacklogEvent, BacklogState> {
     add(BacklogListFetched());
   }
 
-  Stream<BacklogState> _mapEditedToState(Backlog backlog) async* {
+  Stream<BacklogState> _mapEditedToState(
+      Backlog backlog, bool invokedOnMain) async* {
     await repository.updateBacklog(backlog);
-    add(BacklogListFetched());
+    if (invokedOnMain) {
+      add(BacklogListFetched());
+    }
   }
 
   Stream<BacklogState> _mapDeletedToState(int backlogId) async* {

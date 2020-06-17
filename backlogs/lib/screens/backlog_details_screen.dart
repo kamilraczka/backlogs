@@ -110,14 +110,12 @@ class _BacklogDetailsScreenState extends State<BacklogDetailsScreen> {
           sliver: SliverList(
             delegate: SliverChildBuilderDelegate(
               (context, index) {
-                return GestureDetector(
-                  onTap: () {
-                    _goToAddEditTaskScreen(task: backlog.tasks[index]);
-                  },
-                  child: TaskRow(
+                return TaskRow(
                     task: backlog.tasks[index],
-                  ),
-                );
+                    onTextTap: _goToAddEditTaskScreen,
+                    onCheckboxChanged: () {
+                      _toggleCheckbox(backlog, backlog.tasks[index]);
+                    });
               },
               childCount: backlog.tasks.length,
             ),
@@ -125,6 +123,22 @@ class _BacklogDetailsScreenState extends State<BacklogDetailsScreen> {
         ),
       ],
     );
+  }
+
+  void _toggleCheckbox(Backlog backlog, Task task) {
+    backlog.tasks = backlog.tasks.map(
+      (element) {
+        if (element.id == task.id) {
+          final newVal = !element.isArchived;
+          print(newVal);
+          element.isArchived = !element.isArchived;
+          return element;
+        } else
+          return element;
+      },
+    ).toList();
+    BlocProvider.of<BacklogBloc>(context).add(BacklogEdited(backlog, false));
+    BlocProvider.of<BacklogBloc>(context).add(BacklogFetched(widget.backlogId));
   }
 
   void _goToAddEditTaskScreen({Task task}) async {

@@ -3,9 +3,16 @@ import 'package:flutter/material.dart';
 
 class TaskRow extends StatelessWidget {
   final Task task;
+  final Function onCheckboxChanged;
+  final Function({Task task}) onTextTap;
 
-  TaskRow({@required this.task})
-      : assert(task != null),
+  TaskRow({
+    @required this.task,
+    @required this.onTextTap,
+    @required this.onCheckboxChanged,
+  })  : assert(task != null),
+        assert(onTextTap != null),
+        assert(onCheckboxChanged != null),
         super(key: ObjectKey(task));
 
   @override
@@ -15,9 +22,16 @@ class TaskRow extends StatelessWidget {
       child: Row(
         children: <Widget>[
           Expanded(
-            child: Text(
-              task.description,
+            child: GestureDetector(
+              child: Text(
+                task.description,
+              ),
+              onTap: () => onTextTap(task: task),
             ),
+          ),
+          Checkbox(
+            value: task.isArchived,
+            onChanged: (newVal) => onCheckboxChanged(),
           ),
         ],
       ),
