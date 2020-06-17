@@ -1,4 +1,5 @@
 import 'package:backlogs/models/models.dart';
+import 'package:backlogs/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 class TaskRow extends StatelessWidget {
@@ -17,21 +18,25 @@ class TaskRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
+    return Container(
+      margin: const EdgeInsets.all(8.0),
       child: Row(
         children: <Widget>[
           Expanded(
             child: GestureDetector(
-              child: Text(
-                task.description,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 16.0),
+                child: Text(
+                  task.description,
+                ),
               ),
               onTap: () => onTextTap(task: task),
             ),
           ),
           Checkbox(
             value: task.isArchived,
-            onChanged: (newVal) => onCheckboxChanged(),
+            activeColor: ColorsLibrary.accentColor0,
+            onChanged: (newValue) => onCheckboxChanged(),
           ),
         ],
       ),

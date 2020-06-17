@@ -95,7 +95,7 @@ class _BacklogDetailsScreenState extends State<BacklogDetailsScreen> {
                   style: TextStyle(fontSize: 22.0),
                 ),
                 Text(
-                  '${backlog.tasks.length} tasks',
+                  '${backlog.tasks.where((element) => !element.isArchived).length} active tasks',
                   style: TextStyle(
                     color: Colors.white70,
                     fontSize: 14.0,
@@ -106,7 +106,7 @@ class _BacklogDetailsScreenState extends State<BacklogDetailsScreen> {
           ),
         ),
         SliverPadding(
-          padding: const EdgeInsets.all(24.0),
+          padding: const EdgeInsets.all(8.0),
           sliver: SliverList(
             delegate: SliverChildBuilderDelegate(
               (context, index) {
@@ -114,7 +114,7 @@ class _BacklogDetailsScreenState extends State<BacklogDetailsScreen> {
                     task: backlog.tasks[index],
                     onTextTap: _goToAddEditTaskScreen,
                     onCheckboxChanged: () {
-                      _toggleCheckbox(backlog, backlog.tasks[index]);
+                      _toggleCheckbox(backlog, backlog.tasks[index].id);
                     });
               },
               childCount: backlog.tasks.length,
@@ -125,20 +125,20 @@ class _BacklogDetailsScreenState extends State<BacklogDetailsScreen> {
     );
   }
 
-  void _toggleCheckbox(Backlog backlog, Task task) {
+  void _toggleCheckbox(Backlog backlog, String taskId) {
     backlog.tasks = backlog.tasks.map(
       (element) {
-        if (element.id == task.id) {
-          final newVal = !element.isArchived;
-          print(newVal);
+        if (element.id == taskId) {
           element.isArchived = !element.isArchived;
           return element;
         } else
           return element;
       },
     ).toList();
+
     BlocProvider.of<BacklogBloc>(context).add(BacklogEdited(backlog, false));
     BlocProvider.of<BacklogBloc>(context).add(BacklogFetched(widget.backlogId));
+    shouldRefreshOnPop = true;
   }
 
   void _goToAddEditTaskScreen({Task task}) async {
