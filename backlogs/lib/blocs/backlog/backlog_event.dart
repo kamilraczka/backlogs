@@ -21,8 +21,7 @@ class BacklogAdded extends BacklogEvent {
 
 class BacklogEdited extends BacklogEvent {
   final Backlog backlog;
-  final bool onMain;
-  const BacklogEdited(this.backlog, [this.onMain = true]);
+  const BacklogEdited(this.backlog);
 }
 
 class BacklogDeleted extends BacklogEvent {

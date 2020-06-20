@@ -11,8 +11,18 @@ part 'backlog_state.dart';
 
 class BacklogBloc extends Bloc<BacklogEvent, BacklogState> {
   final BacklogsRepository repository;
+  final TaskBloc taskBloc;
+  StreamSubscription taskBlocSubscription;
 
-  BacklogBloc(this.repository) : assert(repository != null);
+  BacklogBloc(this.repository, [this.taskBloc]) : assert(repository != null) {
+    if (taskBloc != null) {
+      taskBlocSubscription = taskBloc.listen((taskBlocState) {
+        if (taskBlocState is TaskSuccessfulChange) {
+          add(BacklogFetched((state as BacklogLoadSuccess).backlogs.first.id));
+        }
+      });
+    }
+  }
 
   @override
   BacklogState get initialState => BacklogLoadInProgress();
@@ -26,10 +36,16 @@ class BacklogBloc extends Bloc<BacklogEvent, BacklogState> {
     } else if (event is BacklogAdded) {
       yield* _mapAddedToState(event.backlog);
     } else if (event is BacklogEdited) {
-      yield* _mapEditedToState(event.backlog, event.onMain);
+      yield* _mapEditedToState(event.backlog);
     } else if (event is BacklogDeleted) {
       yield* _mapDeletedToState(event.backlogId);
     }
+  }
+
+  @override
+  Future<void> close() {
+    if (taskBlocSubscription != null) taskBlocSubscription.cancel();
+    return super.close();
   }
 
   Stream<BacklogState> _mapListFetchedToState() async* {
@@ -50,12 +66,9 @@ class BacklogBloc extends Bloc<BacklogEvent, BacklogState> {
     add(BacklogListFetched());
   }
 
-  Stream<BacklogState> _mapEditedToState(
-      Backlog backlog, bool invokedOnMain) async* {
+  Stream<BacklogState> _mapEditedToState(Backlog backlog) async* {
     await repository.updateBacklog(backlog);
-    if (invokedOnMain) {
-      add(BacklogListFetched());
-    }
+    add(BacklogListFetched());
   }
 
   Stream<BacklogState> _mapDeletedToState(int backlogId) async* {

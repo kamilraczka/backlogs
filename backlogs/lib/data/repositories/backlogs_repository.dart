@@ -60,4 +60,21 @@ class BacklogsRepository {
     updatedBacklog.tasks.removeWhere((element) => element.id == taskId);
     await _backlogsDao.update(updatedBacklog);
   }
+
+  Future toggleTask(String taskId, int backlogId) async {
+    var updatedBacklog =
+        _backlogs.where((element) => element.id == backlogId).first;
+
+    updatedBacklog.tasks = updatedBacklog.tasks.map(
+      (element) {
+        if (element.id == taskId) {
+          element.isArchived = !element.isArchived;
+          return element;
+        } else
+          return element;
+      },
+    ).toList();
+
+    await _backlogsDao.update(updatedBacklog);
+  }
 }

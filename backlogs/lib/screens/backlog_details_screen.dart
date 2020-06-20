@@ -114,7 +114,8 @@ class _BacklogDetailsScreenState extends State<BacklogDetailsScreen> {
                     task: backlog.tasks[index],
                     onTextTap: _goToAddEditTaskScreen,
                     onCheckboxChanged: () {
-                      _toggleCheckbox(backlog, backlog.tasks[index].id);
+                      _toggleCheckbox(backlog.tasks[index].id,
+                          backlog.tasks[index].backlogId);
                     });
               },
               childCount: backlog.tasks.length,
@@ -125,19 +126,8 @@ class _BacklogDetailsScreenState extends State<BacklogDetailsScreen> {
     );
   }
 
-  void _toggleCheckbox(Backlog backlog, String taskId) {
-    backlog.tasks = backlog.tasks.map(
-      (element) {
-        if (element.id == taskId) {
-          element.isArchived = !element.isArchived;
-          return element;
-        } else
-          return element;
-      },
-    ).toList();
-
-    BlocProvider.of<BacklogBloc>(context).add(BacklogEdited(backlog, false));
-    BlocProvider.of<BacklogBloc>(context).add(BacklogFetched(widget.backlogId));
+  void _toggleCheckbox(String taskId, int backlogId) {
+    BlocProvider.of<TaskBloc>(context).add(TaskToggled(taskId, backlogId));
     shouldRefreshOnPop = true;
   }
 

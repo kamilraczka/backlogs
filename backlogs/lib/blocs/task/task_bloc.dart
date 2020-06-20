@@ -24,6 +24,8 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
       yield* _mapUpdatedToState(event);
     } else if (event is TaskDeleted) {
       yield* _mapDeletedToState(event);
+    } else if (event is TaskToggled) {
+      yield* _mapToggledToState(event);
     }
   }
 
@@ -39,6 +41,11 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
 
   Stream<TaskState> _mapDeletedToState(TaskDeleted event) async* {
     await repository.deleteTask(event.taskId, event.backlogId);
+    yield TaskSuccessfulChange();
+  }
+
+  Stream<TaskState> _mapToggledToState(TaskToggled event) async* {
+    await repository.toggleTask(event.taskId, event.backlogId);
     yield TaskSuccessfulChange();
   }
 }
