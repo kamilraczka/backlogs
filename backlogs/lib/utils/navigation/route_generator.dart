@@ -1,4 +1,5 @@
 import 'package:backlogs/blocs/blocs.dart';
+import 'package:backlogs/data/data.dart';
 import 'package:backlogs/models/models.dart';
 import 'package:backlogs/screens/screens.dart';
 import 'package:backlogs/utils/utils.dart';
@@ -21,8 +22,17 @@ class RouteGenerator {
       case ApplicationRoutes.backlogDetails:
         if (args is ScreenArguments) {
           return MaterialPageRoute(
-            builder: (context) => BlocProvider(
-              create: (context) => sl<BacklogBloc>(),
+            builder: (context) => MultiBlocProvider(
+              providers: [
+                BlocProvider<TaskBloc>(
+                  create: (BuildContext context) => sl<TaskBloc>(),
+                ),
+                BlocProvider<BacklogBloc>(
+                  create: (BuildContext context) => BacklogBloc(
+                      sl<BacklogsRepository>(),
+                      BlocProvider.of<TaskBloc>(context)),
+                ),
+              ],
               child: BacklogDetailsScreen(
                 backlogId: args.mainArg as int,
               ),
