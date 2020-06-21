@@ -75,7 +75,7 @@ class _BacklogDetailsScreenState extends State<BacklogDetailsScreen> {
         SliverAppBar(
           expandedHeight: 196.0,
           brightness: Brightness.dark,
-          backgroundColor: ColorsLibrary.idToColorConverter(widget.backlogId),
+          backgroundColor: ColorsLibrary.accentColor0,
           flexibleSpace: FlexibleSpaceBar(
             centerTitle: false,
             title: Column(
@@ -92,21 +92,19 @@ class _BacklogDetailsScreenState extends State<BacklogDetailsScreen> {
                 ),
                 Text(
                   '${backlog.title}',
-                  style: TextStyle(fontSize: 22.0),
+                  style: TextStyles.customAppBarHeader,
                 ),
                 Text(
                   '${backlog.tasks.where((element) => !element.isArchived).length} active tasks',
-                  style: TextStyle(
-                    color: Colors.white70,
-                    fontSize: 14.0,
-                  ),
+                  style: TextStyles.customAppBarSubheader,
                 ),
               ],
             ),
           ),
         ),
         SliverPadding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.only(
+              left: 8.0, top: 8.0, right: 8.0, bottom: 64.0),
           sliver: SliverList(
             delegate: SliverChildBuilderDelegate(
               (context, index) {

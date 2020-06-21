@@ -4,9 +4,9 @@ import 'package:tinycolor/tinycolor.dart';
 class ColorsLibrary {
   static Color backgroundColor = TinyColor.fromString('##FCFCFC').color;
   static Color shadowColors = TinyColor.fromString('#dddddd').color;
-  static Color textColorBold = TinyColor.fromString('#333333').color;
-  static Color textColorMedium = TinyColor.fromString('#7A7A7A').color;
-  static Color textColorLight = TinyColor.fromString('##9A9A9A').color;
+  static Color textColorBoldBlack = TinyColor.fromString('#333333').color;
+  static Color textColorUltraLightGray = TinyColor.fromString('#DFDFDF').color;
+  static Color textColorLightGray = TinyColor.fromString('##9A9A9A').color;
   static Color textColorBoldInversed = TinyColor.fromString('#FFFFFF').color;
   static Color accentColor0 = TinyColor.fromString('#5879FF').color;
   static Color accentColor1 = TinyColor.fromString('#FFBA67').color;

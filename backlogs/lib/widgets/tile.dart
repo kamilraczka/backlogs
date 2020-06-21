@@ -29,18 +29,11 @@ class Tile extends StatelessWidget {
             backlog.title,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-              color: ColorsLibrary.textColorBold,
-              fontSize: 24.0,
-              fontWeight: FontWeight.bold,
-            ),
+            style: TextStyles.tileHeader,
           ),
           Text(
             '${backlog.tasks.where((element) => !element.isArchived).length} Tasks',
-            style: TextStyle(
-              color: ColorsLibrary.textColorLight,
-              fontSize: 18.0,
-            ),
+            style: TextStyles.tileSubheader,
           ),
         ],
       ),

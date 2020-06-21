@@ -25,7 +25,7 @@ class DestructionDialog extends StatelessWidget {
         FlatButton(
           child: Text(
             'No',
-            style: TextStyle(color: ColorsLibrary.textColorBold),
+            style: TextStyle(color: ColorsLibrary.textColorBoldBlack),
           ),
           onPressed: resignAction,
         ),

@@ -72,14 +72,11 @@ class AddEditTaskScreenState extends State<AddEditTaskScreen> {
       elevation: 0.0,
       backgroundColor: ColorsLibrary.backgroundColor,
       brightness: Brightness.light,
-      iconTheme: IconThemeData(color: ColorsLibrary.textColorBold),
+      iconTheme: IconThemeData(color: ColorsLibrary.textColorBoldBlack),
       title: Text(
         widget.isEditing ? 'Edit task' : 'New Task',
         textAlign: TextAlign.center,
-        style: TextStyle(
-          color: ColorsLibrary.textColorBold,
-          fontSize: 20.0,
-        ),
+        style: TextStyles.customScaffoldHeader,
       ),
       leading: widget.isEditing
           ? IconButton(
@@ -139,9 +136,7 @@ class AddEditTaskScreenState extends State<AddEditTaskScreen> {
             disabledTextColor: Colors.white54,
             child: Text(
               'Finish',
-              style: TextStyle(
-                fontSize: 16.0,
-              ),
+              style: TextStyles.buttonText,
             ),
             onPressed: canInvokeOnFinish
                 ? () {
