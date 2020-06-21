@@ -106,59 +106,51 @@ class AddEditTaskScreenState extends State<AddEditTaskScreen> {
   }
 
   Widget _buildForm() {
-    return SizedBox(
-      height: 256.0,
-      child: Column(
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: <Widget>[
-                TextField(
-                  decoration: InputDecoration(
-                    hintText: 'What are you planning?',
-                    border: InputBorder.none,
-                  ),
-                  controller: controller,
-                  autofocus: true,
-                  maxLines: 3,
-                ),
-                Divider(),
-                SizedBox(
-                  height: 64.0,
-                  child: Text(
-                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam luctus velit dui, id mattis magna tincidunt vel. Donec vitae magna et mi euismod fermentum et ac nibh.',
-                    style: TextStyle(
-                      color: ColorsLibrary.textColorMedium,
+    return Column(
+      children: <Widget>[
+        Expanded(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                children: <Widget>[
+                  TextField(
+                    decoration: InputDecoration(
+                      hintText: 'What are you planning?',
+                      border: InputBorder.none,
                     ),
+                    controller: controller,
+                    autofocus: true,
+                    maxLines: 3,
                   ),
-                ),
-              ],
+                  Divider(),
+                ],
+              ),
             ),
           ),
-          SizedBox(
-            width: double.infinity,
-            height: 48.0,
-            child: FlatButton(
-              color: ColorsLibrary.accentColor0,
-              textColor: Colors.white,
-              disabledColor: ColorsLibrary.accentColor0Disabled,
-              disabledTextColor: Colors.white54,
-              child: Text(
-                'Finish',
-                style: TextStyle(
-                  fontSize: 16.0,
-                ),
+        ),
+        SizedBox(
+          width: double.infinity,
+          height: 48.0,
+          child: FlatButton(
+            color: ColorsLibrary.accentColor0,
+            textColor: Colors.white,
+            disabledColor: ColorsLibrary.accentColor0Disabled,
+            disabledTextColor: Colors.white54,
+            child: Text(
+              'Finish',
+              style: TextStyle(
+                fontSize: 16.0,
               ),
-              onPressed: canInvokeOnFinish
-                  ? () {
-                      _onFinishAction(controller.text);
-                    }
-                  : null,
             ),
-          )
-        ],
-      ),
+            onPressed: canInvokeOnFinish
+                ? () {
+                    _onFinishAction(controller.text);
+                  }
+                : null,
+          ),
+        )
+      ],
     );
   }
 
