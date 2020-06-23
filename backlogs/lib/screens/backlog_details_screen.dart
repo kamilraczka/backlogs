@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:backlogs/blocs/blocs.dart';
 import 'package:backlogs/models/models.dart';
 import 'package:backlogs/utils/utils.dart';
@@ -75,7 +76,7 @@ class _BacklogDetailsScreenState extends State<BacklogDetailsScreen> {
         SliverAppBar(
           expandedHeight: 196.0,
           brightness: Brightness.dark,
-          backgroundColor: ColorsLibrary.accentColor0,
+          backgroundColor: ColorsLibrary.idToColorConverter(backlog.id),
           flexibleSpace: FlexibleSpaceBar(
             centerTitle: false,
             title: Column(
@@ -90,8 +91,9 @@ class _BacklogDetailsScreenState extends State<BacklogDetailsScreen> {
                 SizedBox(
                   height: 4.0,
                 ),
-                Text(
+                AutoSizeText(
                   '${backlog.title}',
+                  maxLines: 2,
                   style: TextStyles.customAppBarHeader,
                 ),
                 Text(

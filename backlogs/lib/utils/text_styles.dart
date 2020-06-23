@@ -8,12 +8,12 @@ class TextStyles {
     color: ColorsLibrary.textColorBoldBlack,
   );
   static TextStyle tileHeader = TextStyle(
-    fontSize: 24.0,
+    fontSize: 20.0,
     fontWeight: FontWeight.w700,
     color: ColorsLibrary.textColorBoldBlack,
   );
   static TextStyle tileSubheader = TextStyle(
-    fontSize: 18.0,
+    fontSize: 16.0,
     fontWeight: FontWeight.w400,
     color: ColorsLibrary.textColorLightGray,
   );

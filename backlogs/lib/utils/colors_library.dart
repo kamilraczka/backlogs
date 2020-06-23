@@ -5,7 +5,8 @@ class ColorsLibrary {
   static Color backgroundColor = TinyColor.fromString('##FCFCFC').color;
   static Color shadowColors = TinyColor.fromString('#dddddd').color;
   static Color textColorBoldBlack = TinyColor.fromString('#333333').color;
-  static Color textColorUltraLightGray = TinyColor.fromString('#DFDFDF').color;
+  static Color textColorUltraLightGray =
+      TinyColor.fromString('#FAFAFACC').color;
   static Color textColorLightGray = TinyColor.fromString('##9A9A9A').color;
   static Color textColorBoldInversed = TinyColor.fromString('#FFFFFF').color;
   static Color accentColor0 = TinyColor.fromString('#5879FF').color;
