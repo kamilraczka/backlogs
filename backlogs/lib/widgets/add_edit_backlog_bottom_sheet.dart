@@ -79,19 +79,18 @@ class AddEditBacklogBottomSheetState extends State<AddEditBacklogBottomSheet> {
                       ? _fillSpaceWithDeleteIcon()
                       : _fillSpaceWithNoting(),
                   Text(
-                    widget.isEditing ? 'Edit backlog' : 'New backlog',
+                    widget.isEditing
+                        ? Constants.editBacklogTitle
+                        : Constants.newBacklogTitle,
                     textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: ColorsLibrary.textColorBold,
-                      fontSize: 20.0,
-                    ),
+                    style: TextStyles.bottomSheetHeader,
                   ),
                   Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: GestureDetector(
                       child: Icon(
                         Icons.clear,
-                        color: ColorsLibrary.textColorBold,
+                        color: ColorsLibrary.textColorBoldBlack,
                         size: 24.0,
                       ),
                       onTap: () {
@@ -110,7 +109,7 @@ class AddEditBacklogBottomSheetState extends State<AddEditBacklogBottomSheet> {
                 focusNode: focusNode,
                 decoration: InputDecoration(
                   hintText: hintText,
-                  hintStyle: TextStyle(color: ColorsLibrary.textColorLight),
+                  hintStyle: TextStyles.hintText,
                   border: InputBorder.none,
                 ),
               ),
@@ -123,16 +122,13 @@ class AddEditBacklogBottomSheetState extends State<AddEditBacklogBottomSheet> {
                       padding: const EdgeInsets.all(16.0),
                       child: Icon(
                         pickedIconData,
-                        color: ColorsLibrary.textColorBold,
+                        color: ColorsLibrary.textColorBoldBlack,
                         size: 28.0,
                       ),
                     ),
                     Text(
-                      'Pick icon',
-                      style: TextStyle(
-                        color: ColorsLibrary.textColorBold,
-                        fontSize: 16.0,
-                      ),
+                      Constants.iconPickerTitle,
+                      style: TextStyles.normalText,
                     )
                   ],
                 ),
@@ -148,10 +144,8 @@ class AddEditBacklogBottomSheetState extends State<AddEditBacklogBottomSheet> {
                     disabledColor: ColorsLibrary.accentColor0Disabled,
                     disabledTextColor: Colors.white54,
                     child: Text(
-                      'Finish',
-                      style: TextStyle(
-                        fontSize: 16.0,
-                      ),
+                      Constants.buttonFinishAction,
+                      style: TextStyles.buttonText,
                     ),
                     onPressed: isEnabled ? _finishWidgetAction : null,
                   ),
@@ -185,7 +179,7 @@ class AddEditBacklogBottomSheetState extends State<AddEditBacklogBottomSheet> {
         child: GestureDetector(
           child: Icon(
             Icons.delete,
-            color: ColorsLibrary.textColorBold,
+            color: ColorsLibrary.textColorBoldBlack,
             size: 24.0,
           ),
           onTap: () {
@@ -207,8 +201,8 @@ class AddEditBacklogBottomSheetState extends State<AddEditBacklogBottomSheet> {
       barrierDismissible: false,
       builder: (context) {
         return DestructionDialog(
-          title: 'Delete backlog',
-          content: 'Are you sure you want to delete this backlog?',
+          title: Constants.deleteTaskTitle,
+          content: Constants.deleteBacklogContent,
           destructionAction: () {
             widget.deleteAction(widget.editingBacklog.id);
             Navigator.popUntil(context, (route) => route.isFirst);

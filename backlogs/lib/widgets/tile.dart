@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:backlogs/models/models.dart';
 import 'package:backlogs/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,7 @@ class Tile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(24),
+      padding: const EdgeInsets.all(16),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -27,20 +28,14 @@ class Tile extends StatelessWidget {
           ),
           Text(
             backlog.title,
-            maxLines: 2,
+            maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-              color: ColorsLibrary.textColorBold,
-              fontSize: 24.0,
-              fontWeight: FontWeight.bold,
-            ),
+            style: TextStyles.tileHeader,
           ),
           Text(
-            '${backlog.tasks.where((element) => !element.isArchived).length} Tasks',
-            style: TextStyle(
-              color: ColorsLibrary.textColorLight,
-              fontSize: 18.0,
-            ),
+            '${backlog.tasks.where((element) => !element.isArchived).length}' +
+                Constants.tileSubHeader,
+            style: TextStyles.tileSubheader,
           ),
         ],
       ),

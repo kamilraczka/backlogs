@@ -72,14 +72,11 @@ class AddEditTaskScreenState extends State<AddEditTaskScreen> {
       elevation: 0.0,
       backgroundColor: ColorsLibrary.backgroundColor,
       brightness: Brightness.light,
-      iconTheme: IconThemeData(color: ColorsLibrary.textColorBold),
+      iconTheme: IconThemeData(color: ColorsLibrary.textColorBoldBlack),
       title: Text(
-        widget.isEditing ? 'Edit task' : 'New Task',
+        widget.isEditing ? Constants.editTaskTitle : Constants.newTaskTitle,
         textAlign: TextAlign.center,
-        style: TextStyle(
-          color: ColorsLibrary.textColorBold,
-          fontSize: 20.0,
-        ),
+        style: TextStyles.customScaffoldHeader,
       ),
       leading: widget.isEditing
           ? IconButton(
@@ -106,59 +103,49 @@ class AddEditTaskScreenState extends State<AddEditTaskScreen> {
   }
 
   Widget _buildForm() {
-    return SizedBox(
-      height: 256.0,
-      child: Column(
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: <Widget>[
-                TextField(
-                  decoration: InputDecoration(
-                    hintText: 'What are you planning?',
-                    border: InputBorder.none,
-                  ),
-                  controller: controller,
-                  autofocus: true,
-                  maxLines: 3,
-                ),
-                Divider(),
-                SizedBox(
-                  height: 64.0,
-                  child: Text(
-                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam luctus velit dui, id mattis magna tincidunt vel. Donec vitae magna et mi euismod fermentum et ac nibh.',
-                    style: TextStyle(
-                      color: ColorsLibrary.textColorMedium,
+    return Column(
+      children: <Widget>[
+        Expanded(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                children: <Widget>[
+                  TextField(
+                    decoration: InputDecoration(
+                      hintText: Constants.newTaskDescription,
+                      border: InputBorder.none,
                     ),
+                    controller: controller,
+                    autofocus: true,
+                    maxLines: 3,
                   ),
-                ),
-              ],
+                  Divider(),
+                ],
+              ),
             ),
           ),
-          SizedBox(
-            width: double.infinity,
-            height: 48.0,
-            child: FlatButton(
-              color: ColorsLibrary.accentColor0,
-              textColor: Colors.white,
-              disabledColor: ColorsLibrary.accentColor0Disabled,
-              disabledTextColor: Colors.white54,
-              child: Text(
-                'Finish',
-                style: TextStyle(
-                  fontSize: 16.0,
-                ),
-              ),
-              onPressed: canInvokeOnFinish
-                  ? () {
-                      _onFinishAction(controller.text);
-                    }
-                  : null,
+        ),
+        SizedBox(
+          width: double.infinity,
+          height: 48.0,
+          child: FlatButton(
+            color: ColorsLibrary.accentColor0,
+            textColor: Colors.white,
+            disabledColor: ColorsLibrary.accentColor0Disabled,
+            disabledTextColor: Colors.white54,
+            child: Text(
+              Constants.buttonFinishAction,
+              style: TextStyles.buttonText,
             ),
-          )
-        ],
-      ),
+            onPressed: canInvokeOnFinish
+                ? () {
+                    _onFinishAction(controller.text);
+                  }
+                : null,
+          ),
+        )
+      ],
     );
   }
 
@@ -178,8 +165,8 @@ class AddEditTaskScreenState extends State<AddEditTaskScreen> {
       barrierDismissible: false,
       builder: (context) {
         return DestructionDialog(
-          title: 'Delete task',
-          content: 'Are you sure you want to delete this task?',
+          title: Constants.deleteTaskTitle,
+          content: Constants.deleteTaskContent,
           destructionAction: () {
             BlocProvider.of<TaskBloc>(screenContext)
                 .add(TaskDeleted(widget.task.id, widget.task.backlogId));

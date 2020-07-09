@@ -65,14 +65,10 @@ class BacklogsScreenState extends State<BacklogsScreen> {
               child: Align(
                 alignment: Alignment.bottomLeft,
                 child: Container(
-                  margin: EdgeInsets.only(left: 40.0),
+                  margin: EdgeInsets.only(left: 32.0),
                   child: Text(
-                    'Backlogs',
-                    style: TextStyle(
-                      color: ColorsLibrary.textColorBold,
-                      fontSize: 32.0,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    Constants.homeHeader,
+                    style: TextStyles.homeHeader,
                   ),
                 ),
               ),
