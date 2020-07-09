@@ -79,7 +79,9 @@ class AddEditBacklogBottomSheetState extends State<AddEditBacklogBottomSheet> {
                       ? _fillSpaceWithDeleteIcon()
                       : _fillSpaceWithNoting(),
                   Text(
-                    widget.isEditing ? 'Edit backlog' : 'New backlog',
+                    widget.isEditing
+                        ? Constants.editBacklogTitle
+                        : Constants.newBacklogTitle,
                     textAlign: TextAlign.center,
                     style: TextStyles.bottomSheetHeader,
                   ),
@@ -125,7 +127,7 @@ class AddEditBacklogBottomSheetState extends State<AddEditBacklogBottomSheet> {
                       ),
                     ),
                     Text(
-                      'Pick icon',
+                      Constants.iconPickerTitle,
                       style: TextStyles.normalText,
                     )
                   ],
@@ -142,7 +144,7 @@ class AddEditBacklogBottomSheetState extends State<AddEditBacklogBottomSheet> {
                     disabledColor: ColorsLibrary.accentColor0Disabled,
                     disabledTextColor: Colors.white54,
                     child: Text(
-                      'Finish',
+                      Constants.buttonFinishAction,
                       style: TextStyles.buttonText,
                     ),
                     onPressed: isEnabled ? _finishWidgetAction : null,
@@ -199,8 +201,8 @@ class AddEditBacklogBottomSheetState extends State<AddEditBacklogBottomSheet> {
       barrierDismissible: false,
       builder: (context) {
         return DestructionDialog(
-          title: 'Delete backlog',
-          content: 'Are you sure you want to delete this backlog?',
+          title: Constants.deleteTaskTitle,
+          content: Constants.deleteBacklogContent,
           destructionAction: () {
             widget.deleteAction(widget.editingBacklog.id);
             Navigator.popUntil(context, (route) => route.isFirst);

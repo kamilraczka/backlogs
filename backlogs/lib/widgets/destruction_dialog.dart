@@ -24,14 +24,14 @@ class DestructionDialog extends StatelessWidget {
       actions: <Widget>[
         FlatButton(
           child: Text(
-            'No',
+            Constants.dialogRejection,
             style: TextStyle(color: ColorsLibrary.textColorBoldBlack),
           ),
           onPressed: resignAction,
         ),
         FlatButton(
           child: Text(
-            'Yes',
+            Constants.dialogConfirmation,
             style: TextStyle(color: Colors.red),
           ),
           onPressed: destructionAction,

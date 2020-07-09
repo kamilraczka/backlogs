@@ -74,7 +74,7 @@ class AddEditTaskScreenState extends State<AddEditTaskScreen> {
       brightness: Brightness.light,
       iconTheme: IconThemeData(color: ColorsLibrary.textColorBoldBlack),
       title: Text(
-        widget.isEditing ? 'Edit task' : 'New Task',
+        widget.isEditing ? Constants.editTaskTitle : Constants.newTaskTitle,
         textAlign: TextAlign.center,
         style: TextStyles.customScaffoldHeader,
       ),
@@ -113,7 +113,7 @@ class AddEditTaskScreenState extends State<AddEditTaskScreen> {
                 children: <Widget>[
                   TextField(
                     decoration: InputDecoration(
-                      hintText: 'What are you planning?',
+                      hintText: Constants.newTaskDescription,
                       border: InputBorder.none,
                     ),
                     controller: controller,
@@ -135,7 +135,7 @@ class AddEditTaskScreenState extends State<AddEditTaskScreen> {
             disabledColor: ColorsLibrary.accentColor0Disabled,
             disabledTextColor: Colors.white54,
             child: Text(
-              'Finish',
+              Constants.buttonFinishAction,
               style: TextStyles.buttonText,
             ),
             onPressed: canInvokeOnFinish
@@ -165,8 +165,8 @@ class AddEditTaskScreenState extends State<AddEditTaskScreen> {
       barrierDismissible: false,
       builder: (context) {
         return DestructionDialog(
-          title: 'Delete task',
-          content: 'Are you sure you want to delete this task?',
+          title: Constants.deleteTaskTitle,
+          content: Constants.deleteTaskContent,
           destructionAction: () {
             BlocProvider.of<TaskBloc>(screenContext)
                 .add(TaskDeleted(widget.task.id, widget.task.backlogId));

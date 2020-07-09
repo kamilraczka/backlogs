@@ -18,12 +18,12 @@ class TextStyles {
     color: ColorsLibrary.textColorLightGray,
   );
   static TextStyle customAppBarHeader = TextStyle(
-    fontSize: 22.0,
+    fontSize: 28.0,
     fontWeight: FontWeight.w700,
     color: ColorsLibrary.textColorBoldInversed,
   );
   static TextStyle customAppBarSubheader = TextStyle(
-    fontSize: 14.0,
+    fontSize: 18.0,
     color: ColorsLibrary.textColorUltraLightGray,
     fontWeight: FontWeight.w400,
   );

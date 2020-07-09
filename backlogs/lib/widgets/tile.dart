@@ -33,7 +33,8 @@ class Tile extends StatelessWidget {
             style: TextStyles.tileHeader,
           ),
           Text(
-            '${backlog.tasks.where((element) => !element.isArchived).length} Tasks',
+            '${backlog.tasks.where((element) => !element.isArchived).length}' +
+                Constants.tileSubHeader,
             style: TextStyles.tileSubheader,
           ),
         ],

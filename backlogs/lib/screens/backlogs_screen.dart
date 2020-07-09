@@ -67,7 +67,7 @@ class BacklogsScreenState extends State<BacklogsScreen> {
                 child: Container(
                   margin: EdgeInsets.only(left: 32.0),
                   child: Text(
-                    'Backlogs',
+                    Constants.homeHeader,
                     style: TextStyles.homeHeader,
                   ),
                 ),

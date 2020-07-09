@@ -37,7 +37,7 @@ class _BacklogDetailsScreenState extends State<BacklogDetailsScreen> {
         body: BlocBuilder<BacklogBloc, BacklogState>(
           builder: (context, state) {
             if (state is BacklogLoadSuccess) {
-              return _buildList(state.backlogs.first);
+              return _buildView(state.backlogs.first);
             } else if (state is BacklogLoadInProgress) {
               return _buildLoading();
             } else {
@@ -70,22 +70,29 @@ class _BacklogDetailsScreenState extends State<BacklogDetailsScreen> {
     );
   }
 
-  CustomScrollView _buildList(Backlog backlog) {
-    return CustomScrollView(
-      slivers: <Widget>[
-        SliverAppBar(
-          expandedHeight: 196.0,
-          brightness: Brightness.dark,
-          backgroundColor: ColorsLibrary.idToColorConverter(backlog.id),
-          flexibleSpace: FlexibleSpaceBar(
+  Widget _buildView(Backlog backlog) {
+    return Scaffold(
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          AppBar(
+            elevation: 0.0,
             centerTitle: false,
-            title: Column(
-              mainAxisSize: MainAxisSize.min,
+            backgroundColor: ColorsLibrary.idToColorConverter(backlog.id),
+          ),
+          Container(
+            color: ColorsLibrary.idToColorConverter(backlog.id),
+            padding: const EdgeInsets.only(
+                top: 16.0, bottom: 16.0, right: 16.0, left: 32.0),
+            width: double.infinity,
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Icon(
                   backlog.iconData,
+                  size: 36.0,
                   color: Colors.white,
                 ),
                 SizedBox(
@@ -97,34 +104,45 @@ class _BacklogDetailsScreenState extends State<BacklogDetailsScreen> {
                   style: TextStyles.customAppBarHeader,
                 ),
                 Text(
-                  '${backlog.tasks.where((element) => !element.isArchived).length} active tasks',
+                  '${backlog.tasks.where((element) => !element.isArchived).length}' +
+                      Constants.customAppBarSubHeader,
                   style: TextStyles.customAppBarSubheader,
                 ),
               ],
             ),
           ),
-        ),
-        SliverPadding(
-          padding: const EdgeInsets.only(
-              left: 8.0, top: 8.0, right: 8.0, bottom: 64.0),
-          sliver: SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (context, index) {
-                return TaskRow(
-                    task: backlog.tasks[index],
-                    onTextTap: _goToAddEditTaskScreen,
-                    onCheckboxChanged: () {
-                      _toggleCheckbox(backlog.tasks[index].id,
-                          backlog.tasks[index].backlogId);
-                    });
-              },
-              childCount: backlog.tasks.length,
+          Expanded(
+            child: Container(
+              color: ColorsLibrary.idToColorConverter(backlog.id),
+              child: Container(
+                child: _buildList(backlog.tasks),
+                decoration: BoxDecoration(
+                  color: ColorsLibrary.backgroundColor,
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(20.0),
+                  ),
+                ),
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
+
+  Widget _buildList(List<Task> tasks) => ListView.builder(
+        itemCount: tasks.length,
+        padding: const EdgeInsets.only(bottom: 80.0, top: 8.0),
+        itemBuilder: (context, index) {
+          return TaskRow(
+            task: tasks[index],
+            onTextTap: _goToAddEditTaskScreen,
+            onCheckboxChanged: () {
+              _toggleCheckbox(tasks[index].id, tasks[index].backlogId);
+            },
+          );
+        },
+      );
 
   void _toggleCheckbox(String taskId, int backlogId) {
     BlocProvider.of<TaskBloc>(context).add(TaskToggled(taskId, backlogId));
