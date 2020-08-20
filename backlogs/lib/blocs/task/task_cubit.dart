@@ -3,7 +3,6 @@ import 'package:backlogs/data/data.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 
-part 'task_event.dart';
 part 'task_state.dart';
 
 class TaskCubit extends Cubit<TaskState> {
