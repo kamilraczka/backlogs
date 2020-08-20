@@ -145,7 +145,7 @@ class _BacklogDetailsScreenState extends State<BacklogDetailsScreen> {
       );
 
   void _toggleCheckbox(String taskId, int backlogId) {
-    BlocProvider.of<TaskBloc>(context).add(TaskToggled(taskId, backlogId));
+    BlocProvider.of<TaskCubit>(context).toggleTask(taskId, backlogId);
     shouldRefreshOnPop = true;
   }
 

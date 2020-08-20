@@ -7,6 +7,6 @@ import 'blocs/blocs.dart';
 
 void main() {
   di.init();
-  BlocSupervisor.delegate = di.sl<ApplicationBlocDelegate>();
+  Bloc.observer = di.sl<ApplicationBlocObserver>();
   runApp(Application());
 }

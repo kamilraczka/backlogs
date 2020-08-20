@@ -11,10 +11,12 @@ part 'backlog_state.dart';
 
 class BacklogBloc extends Bloc<BacklogEvent, BacklogState> {
   final BacklogsRepository repository;
-  final TaskBloc taskBloc;
+  final TaskCubit taskBloc;
   StreamSubscription taskBlocSubscription;
 
-  BacklogBloc(this.repository, [this.taskBloc]) : assert(repository != null) {
+  BacklogBloc(this.repository, [this.taskBloc])
+      : assert(repository != null),
+        super(BacklogLoadInProgress()) {
     if (taskBloc != null) {
       taskBlocSubscription = taskBloc.listen((taskBlocState) {
         if (taskBlocState is TaskSuccessfulChange) {
@@ -23,9 +25,6 @@ class BacklogBloc extends Bloc<BacklogEvent, BacklogState> {
       });
     }
   }
-
-  @override
-  BacklogState get initialState => BacklogLoadInProgress();
 
   @override
   Stream<BacklogState> mapEventToState(BacklogEvent event) async* {

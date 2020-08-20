@@ -11,6 +11,6 @@ void init() {
   sl.registerSingleton<BacklogsRepository>(BacklogsRepository(sl()));
   // blocs
   sl.registerFactory<BacklogBloc>(() => BacklogBloc(sl()));
-  sl.registerFactory<TaskBloc>(() => TaskBloc(sl()));
-  sl.registerFactory<ApplicationBlocDelegate>(() => ApplicationBlocDelegate());
+  sl.registerFactory<TaskCubit>(() => TaskCubit(sl()));
+  sl.registerFactory<ApplicationBlocObserver>(() => ApplicationBlocObserver());
 }

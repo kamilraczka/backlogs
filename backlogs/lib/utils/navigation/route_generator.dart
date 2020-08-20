@@ -24,13 +24,13 @@ class RouteGenerator {
           return MaterialPageRoute(
             builder: (context) => MultiBlocProvider(
               providers: [
-                BlocProvider<TaskBloc>(
-                  create: (BuildContext context) => sl<TaskBloc>(),
+                BlocProvider<TaskCubit>(
+                  create: (BuildContext context) => sl<TaskCubit>(),
                 ),
                 BlocProvider<BacklogBloc>(
                   create: (BuildContext context) => BacklogBloc(
                       sl<BacklogsRepository>(),
-                      BlocProvider.of<TaskBloc>(context)),
+                      BlocProvider.of<TaskCubit>(context)),
                 ),
               ],
               child: BacklogDetailsScreen(
@@ -45,7 +45,7 @@ class RouteGenerator {
           return MaterialPageRoute(
             fullscreenDialog: true,
             builder: (context) => BlocProvider(
-              create: (context) => sl<TaskBloc>(),
+              create: (context) => sl<TaskCubit>(),
               child: AddEditTaskScreen(
                 parentBacklogId: args.mainArg as int,
                 task: args.additionalArg as Task ?? null,

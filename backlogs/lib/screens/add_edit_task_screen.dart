@@ -48,13 +48,13 @@ class AddEditTaskScreenState extends State<AddEditTaskScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildAppBar(),
-      body: BlocListener<TaskBloc, TaskState>(
+      body: BlocListener<TaskCubit, TaskState>(
         listener: (context, state) {
           if (state is TaskSuccessfulChange) {
             Navigator.pop(context, true);
           }
         },
-        child: BlocBuilder<TaskBloc, TaskState>(
+        child: BlocBuilder<TaskCubit, TaskState>(
           builder: (context, state) {
             if (state is TaskLoadInProgress) {
               return _buildLoading();
@@ -152,11 +152,11 @@ class AddEditTaskScreenState extends State<AddEditTaskScreen> {
   void _onFinishAction(String description) {
     if (widget.isEditing) {
       widget.task.description = description;
-      BlocProvider.of<TaskBloc>(context).add(TaskUpdated(widget.task));
+      BlocProvider.of<TaskCubit>(context).updateTask(widget.task);
     } else
-      BlocProvider.of<TaskBloc>(context).add(TaskAdded(
+      BlocProvider.of<TaskCubit>(context).addTask(
         Task(backlogId: widget.parentBacklogId, description: description),
-      ));
+      );
   }
 
   Future _showDeleteDialog(BuildContext screenContext) {
@@ -168,8 +168,8 @@ class AddEditTaskScreenState extends State<AddEditTaskScreen> {
           title: Constants.deleteTaskTitle,
           content: Constants.deleteTaskContent,
           destructionAction: () {
-            BlocProvider.of<TaskBloc>(screenContext)
-                .add(TaskDeleted(widget.task.id, widget.task.backlogId));
+            BlocProvider.of<TaskCubit>(screenContext)
+                .deleteTask(widget.task.id, widget.task.backlogId);
             Navigator.pop(context);
           },
           resignAction: () {

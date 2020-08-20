@@ -1,4 +1,4 @@
-part of 'task_bloc.dart';
+part of 'task_cubit.dart';
 
 @immutable
 abstract class TaskState {
